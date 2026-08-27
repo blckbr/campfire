@@ -1,0 +1,12 @@
+.cfVoiceChannelManager { margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,.10); display:grid; gap:12px; }
+.cfVoiceChannelManager header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.cfVoiceChannelManager header > div { display:grid; gap:4px; }
+.cfVoiceChannelManager strong, .cfVoiceChannelManager button { font-size:15px; }
+.cfVoiceChannelManager small, .cfVoiceChannelManager p { font-size:13px; color:rgba(255,255,255,.68); }
+.cfVoiceChannelManager button { min-height:34px; padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:inherit; cursor:pointer; }
+.cfVoiceChannelManager button:disabled { opacity:.45; cursor:not-allowed; }
+.cfVoiceChannelList { display:grid; gap:7px; }
+.cfVoiceChannelList > div { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:9px 10px; border:1px solid rgba(255,255,255,.08); border-radius:9px; }
+.cfVoiceChannelList span { display:flex; align-items:center; gap:8px; }
+.cfVoiceChannelList div > div { display:flex; gap:6px; }
+.cfVoiceChannelList .danger { color:#ff9d9d; }

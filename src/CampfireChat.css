@@ -1,0 +1,2103 @@
+/* ============================================================
+   ROOM
+   ============================================================ */
+
+.campfireRoomShell {
+  width: 100%;
+  height: 100%;
+
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #f4f8fa;
+}
+
+
+.campfireRoomHeader {
+  min-height: 75px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 12px 18px;
+
+  border-bottom:
+    1px solid #cfdee4;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #edf5f8
+    );
+}
+
+
+.campfireRoomIdentity {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.campfireRoomFlame {
+  width: 45px;
+  height: 45px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid #e5bb94;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      #fff6ec,
+      #f9e1ca
+    );
+
+  font-size: 26px;
+
+  box-shadow:
+    0 2px 6px
+    rgba(
+      83,
+      55,
+      34,
+      0.08
+    );
+}
+
+
+.campfireRoomIdentityText {
+  min-width: 0;
+}
+
+
+.campfireRoomIdentityText h2 {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: #3a525d;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+
+.campfireRoomIdentityText div {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-top: 4px;
+
+  color: #80929a;
+
+  font-size: 10px;
+}
+
+
+.campfireRoomIdentityText b {
+  color: #4f9363;
+
+  font-weight: 600;
+}
+
+
+.campfireRoomHeaderActions {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+
+.campfireLeaveButton {
+  height: 32px;
+
+  padding: 0 11px;
+
+  border:
+    1px solid #d5b2a7;
+
+  border-radius: 6px;
+
+  background: #fff8f5;
+
+  color: #9d5d4a;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+
+.campfireLeaveButton:hover:not(:disabled) {
+  background: #fff0ea;
+}
+
+
+.campfireLeaveButton:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+.campfireRoomNotice {
+  padding: 7px 15px;
+
+  border-bottom:
+    1px solid #d9e4e8;
+
+  background: #fff9e9;
+
+  color: #8a713c;
+
+  font-size: 10px;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   CHAT
+   ============================================================ */
+
+.campfireChat {
+  position: relative;
+
+  min-height: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #f4f8fa;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+
+.campfireChatStatus {
+  height: 33px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  border-bottom:
+    1px solid #dbe5e9;
+
+  background: #f8fbfc;
+
+  color: #70858e;
+
+  font-size: 10px;
+}
+
+
+.chatRealtime {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 9px;
+}
+
+
+.chatRealtime i {
+  width: 7px;
+  height: 7px;
+
+  display: block;
+
+  border-radius: 50%;
+}
+
+
+.chatRealtime.online {
+  color: #4e8760;
+}
+
+
+.chatRealtime.online i {
+  background: #59a66c;
+
+  box-shadow:
+    0 0 5px
+    rgba(
+      89,
+      166,
+      108,
+      0.45
+    );
+}
+
+
+.chatRealtime.reconnecting {
+  color: #ad7c42;
+}
+
+
+.chatRealtime.reconnecting i {
+  background: #d69b51;
+}
+
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+
+.campfireMessages {
+  min-height: 0;
+
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 14px 17px 20px;
+
+  scroll-behavior: smooth;
+}
+
+
+.campfireMessages::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+.campfireMessages::-webkit-scrollbar-thumb {
+  border:
+    2px solid transparent;
+
+  border-radius: 10px;
+
+  background: #c4d2d8;
+
+  background-clip: padding-box;
+}
+
+
+.chatCenterMessage {
+  padding: 30px;
+
+  color: #899ba3;
+
+  font-size: 10px;
+
+  text-align: center;
+}
+
+
+.chatEmpty {
+  min-height: 210px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #8b9ca3;
+
+  text-align: center;
+}
+
+
+.chatEmpty > div {
+  margin-bottom: 7px;
+
+  font-size: 35px;
+
+  opacity: 0.75;
+}
+
+
+.chatEmpty strong {
+  color: #657b85;
+
+  font-size: 12px;
+}
+
+
+.chatEmpty small {
+  margin-top: 5px;
+
+  font-size: 9px;
+}
+
+
+.chatDateDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 11px 0 16px;
+}
+
+
+.chatDateDivider::before,
+.chatDateDivider::after {
+  height: 1px;
+
+  flex: 1;
+
+  content: "";
+
+  background: #dae4e8;
+}
+
+
+.chatDateDivider span {
+  margin: 0 10px;
+
+  color: #93a2a8;
+
+  font-size: 8px;
+}
+
+
+.chatMessageRow {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-bottom: 12px;
+}
+
+
+.chatMessageRow.mine {
+  justify-content: flex-end;
+}
+
+
+.chatAvatar {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid #c4d3d9;
+
+  border-radius: 8px;
+
+  background-color: #dbe9ee;
+
+  background-size: cover;
+
+  background-position: center;
+
+  box-shadow:
+    0 1px 3px
+    rgba(
+      0,
+      0,
+      0,
+      0.1
+    );
+}
+
+
+.chatAvatar.fallback {
+  display: grid;
+  place-items: center;
+
+  border-color: #93bbc9;
+
+  background:
+    linear-gradient(
+      #72b3ca,
+      #4c92aa
+    );
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+.chatMessageBlock {
+  max-width: 76%;
+
+  min-width: 70px;
+}
+
+
+.chatMessageRow.mine
+.chatMessageBlock {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+}
+
+
+.chatMessageMeta {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin: 0 3px 4px;
+}
+
+
+.chatMessageMeta strong {
+  color: #4e6671;
+
+  font-size: 10px;
+}
+
+
+.chatMessageRow.mine
+.chatMessageMeta strong {
+  color: #aa5b29;
+}
+
+
+.chatMessageMeta small {
+  color: #95a4aa;
+
+  font-size: 8px;
+}
+
+
+.chatMessageMeta time {
+  color: #a1adb2;
+
+  font-size: 8px;
+}
+
+
+.chatBubble {
+  width: fit-content;
+
+  max-width: 100%;
+
+  padding: 8px 10px;
+
+  border:
+    1px solid #cedde3;
+
+  border-radius:
+    4px 10px 10px 10px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 2px
+    rgba(
+      0,
+      0,
+      0,
+      0.04
+    );
+
+  line-height: 1.45;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+}
+
+
+.chatMessageRow.mine
+.chatBubble {
+  border-color: #e5c4a7;
+
+  border-radius:
+    10px 4px 10px 10px;
+
+  background:
+    linear-gradient(
+      #fff9f2,
+      #fff2e5
+    );
+}
+
+
+/* ============================================================
+   WINK / SYSTEM LOG
+   ============================================================ */
+
+.chatEventMessage {
+  max-width: 430px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin: 10px auto;
+
+  padding: 8px 11px;
+
+  border:
+    1px solid #d7e2e6;
+
+  border-radius: 20px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.75
+    );
+
+  color: #74878f;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+
+.chatEventMessage > span {
+  font-size: 18px;
+}
+
+
+.chatEventMessage strong {
+  color: #536a74;
+}
+
+
+.chatEventMessage time {
+  margin-left: 8px;
+
+  color: #a1adb2;
+}
+
+
+.chatSystemMessage {
+  margin: 10px auto;
+
+  color: #8b9ca3;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.chatError {
+  flex-shrink: 0;
+
+  margin: 0 14px 8px;
+
+  padding: 8px 10px;
+
+  border:
+    1px solid #dfb2b2;
+
+  border-radius: 6px;
+
+  background: #fff2f2;
+
+  color: #984949;
+
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   COMPOSER
+   ============================================================ */
+
+.campfireComposer {
+  position: relative;
+
+  flex-shrink: 0;
+
+  padding: 8px 10px 10px;
+
+  border-top:
+    1px solid #cddde3;
+
+  background:
+    linear-gradient(
+      #f9fcfd,
+      #edf4f7
+    );
+}
+
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+
+.chatFormattingToolbar {
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 4px;
+
+  margin-bottom: 7px;
+}
+
+
+.chatFontSelect,
+.chatSizeSelect {
+  height: 29px;
+
+  border:
+    1px solid #b8c9d0;
+
+  border-radius: 5px;
+
+  outline: none;
+
+  background: white;
+
+  color: #465d67;
+
+  font-size: 10px;
+}
+
+
+.chatFontSelect {
+  width: 145px;
+
+  padding: 0 5px;
+}
+
+
+.chatSizeSelect {
+  width: 50px;
+
+  padding-left: 5px;
+}
+
+
+.chatFontSelect:focus,
+.chatSizeSelect:focus {
+  border-color: #ce7a3c;
+}
+
+
+.toolbarDivider {
+  width: 1px;
+  height: 21px;
+
+  margin: 0 2px;
+
+  background: #d2dde1;
+}
+
+
+.formatButton,
+.chatColorTool {
+  width: 29px;
+  height: 29px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #526a74;
+
+  font-family:
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+
+.formatButton:hover:not(:disabled),
+.chatColorTool:hover {
+  border-color: #ccdadd;
+
+  background: #f6fafb;
+}
+
+
+.formatButton.active {
+  border-color: #d7a87d;
+
+  background: #fff1e3;
+
+  color: #a75825;
+}
+
+
+.formatButton:disabled {
+  opacity: 0.38;
+
+  cursor: default;
+}
+
+
+.audioComing {
+  filter: grayscale(0.25);
+}
+
+
+.chatColorTool {
+  position: relative;
+
+  cursor: pointer;
+}
+
+
+.chatColorTool > span {
+  font-size: 16px;
+
+  font-weight: 700;
+
+  text-decoration:
+    underline 3px;
+}
+
+
+.chatColorTool input {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   PICKERS
+   ============================================================ */
+
+.chatToolMenuWrapper {
+  position: relative;
+}
+
+
+.emoticonPicker,
+.winkPicker {
+  position: absolute;
+
+  z-index: 80;
+
+  bottom: 36px;
+
+  left: 0;
+
+  padding: 9px;
+
+  border:
+    1px solid #aebfc7;
+
+  border-radius: 9px;
+
+  background: white;
+
+  box-shadow:
+    0 9px 30px
+    rgba(
+      28,
+      52,
+      62,
+      0.22
+    );
+}
+
+
+.emoticonPicker {
+  width: 245px;
+}
+
+
+.winkPicker {
+  width: 260px;
+}
+
+
+.pickerTitle {
+  padding: 2px 4px 8px;
+
+  border-bottom:
+    1px solid #e3eaed;
+
+  color: #536a74;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.emoticonGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      1fr
+    );
+
+  gap: 4px;
+
+  padding-top: 7px;
+}
+
+
+.emoticonGrid button {
+  min-height: 48px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 6px;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+
+.emoticonGrid button:hover {
+  border-color: #d3e0e5;
+
+  background: #f5f9fa;
+}
+
+
+.emoticonGrid span {
+  font-size: 21px;
+}
+
+
+.emoticonGrid small {
+  color: #89999f;
+
+  font-size: 8px;
+}
+
+
+.winkGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap: 5px;
+
+  padding-top: 8px;
+}
+
+
+.winkGrid button {
+  min-height: 69px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border:
+    1px solid #dde6e9;
+
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #f5f9fa
+    );
+
+  cursor: pointer;
+}
+
+
+.winkGrid button:hover {
+  border-color: #e0b58f;
+
+  background: #fff5e9;
+
+  transform:
+    translateY(-1px);
+}
+
+
+.winkGrid span {
+  font-size: 29px;
+}
+
+
+.winkGrid small {
+  color: #617680;
+
+  font-size: 8px;
+
+  text-align: center;
+}
+
+
+.pickerHint {
+  margin-top: 7px;
+
+  padding-top: 7px;
+
+  border-top:
+    1px solid #e7edef;
+
+  color: #8c9ba1;
+
+  font-size: 8px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   TEXTAREA
+   ============================================================ */
+
+.campfireComposer textarea {
+  width: 100%;
+
+  min-height: 50px;
+  max-height: 120px;
+
+  resize: vertical;
+
+  padding: 9px 10px;
+
+  border:
+    1px solid #afc3cc;
+
+  border-radius: 7px;
+
+  outline: none;
+
+  background: white;
+
+  line-height: 1.4;
+}
+
+
+.campfireComposer textarea:focus {
+  border-color: #d17b3d;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      209,
+      123,
+      61,
+      0.12
+    );
+}
+
+
+/* ============================================================
+   COMPOSER FOOTER
+   ============================================================ */
+
+.composerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 6px;
+}
+
+
+.composerInfo {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.composerBottom small {
+  color: #9aa7ac;
+
+  font-size: 8px;
+}
+
+
+.composerStylePreview {
+  padding: 2px 5px;
+
+  border:
+    1px solid #dae4e8;
+
+  border-radius: 4px;
+
+  background: white;
+}
+
+
+.composerBottom > button {
+  min-width: 78px;
+
+  height: 31px;
+
+  padding: 0 13px;
+
+  border:
+    1px solid #c66527;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      #f19b4d,
+      #d66b28
+    );
+
+  color: white;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.composerBottom > button:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      #f5aa60,
+      #de7836
+    );
+}
+
+
+.composerBottom > button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   WINK OVERLAY
+   ============================================================ */
+
+.winkOverlay {
+  position: absolute;
+
+  inset: 33px 0 0;
+
+  z-index: 60;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  background:
+    rgba(
+      239,
+      247,
+      250,
+      0.84
+    );
+
+  backdrop-filter:
+    blur(3px);
+
+  animation:
+    winkOverlayIn
+    0.18s ease-out;
+}
+
+
+.winkStage {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+}
+
+
+.winkPrimary {
+  position: relative;
+
+  z-index: 4;
+
+  font-size: 105px;
+
+  filter:
+    drop-shadow(
+      0 8px 10px
+      rgba(
+        0,
+        0,
+        0,
+        0.18
+      )
+    );
+
+  animation:
+    winkMainPop
+    1.2s
+    cubic-bezier(
+      0.2,
+      1.6,
+      0.4,
+      1
+    )
+    both;
+}
+
+
+.winkCaption {
+  position: absolute;
+
+  z-index: 5;
+
+  bottom: 36px;
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  min-width: 190px;
+
+  padding: 8px 15px;
+
+  border:
+    1px solid
+    rgba(
+      130,
+      150,
+      160,
+      0.3
+    );
+
+  border-radius: 20px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.86
+    );
+
+  box-shadow:
+    0 4px 14px
+    rgba(
+      30,
+      55,
+      65,
+      0.12
+    );
+
+  color: #607680;
+
+  font-size: 10px;
+
+  text-align: center;
+
+  animation:
+    winkCaptionIn
+    0.4s
+    0.25s
+    both;
+}
+
+
+.winkCaption strong {
+  margin-right: 5px;
+
+  color: #aa5d2c;
+}
+
+
+.winkParticles {
+  position: absolute;
+
+  inset: 0;
+}
+
+
+.winkParticles span {
+  position: absolute;
+
+  z-index: 2;
+
+  font-size: 35px;
+
+  opacity: 0;
+
+  animation:
+    winkParticle
+    1.8s
+    ease-out
+    both;
+}
+
+
+.winkParticles span:nth-child(1) {
+  left: 12%;
+  top: 16%;
+
+  animation-delay: 0.08s;
+}
+
+
+.winkParticles span:nth-child(2) {
+  left: 28%;
+  top: 7%;
+
+  animation-delay: 0.23s;
+}
+
+
+.winkParticles span:nth-child(3) {
+  right: 25%;
+  top: 10%;
+
+  animation-delay: 0.13s;
+}
+
+
+.winkParticles span:nth-child(4) {
+  right: 9%;
+  top: 27%;
+
+  animation-delay: 0.31s;
+}
+
+
+.winkParticles span:nth-child(5) {
+  left: 8%;
+  bottom: 25%;
+
+  animation-delay: 0.34s;
+}
+
+
+.winkParticles span:nth-child(6) {
+  left: 29%;
+  bottom: 9%;
+
+  animation-delay: 0.16s;
+}
+
+
+.winkParticles span:nth-child(7) {
+  right: 28%;
+  bottom: 11%;
+
+  animation-delay: 0.27s;
+}
+
+
+.winkParticles span:nth-child(8) {
+  right: 8%;
+  bottom: 24%;
+
+  animation-delay: 0.11s;
+}
+
+
+/* ============================================================
+   WINK ESPECÍFICAS
+   ============================================================ */
+
+.wink-fire_burst
+.winkPrimary {
+  animation:
+    winkFire
+    1.5s
+    ease-in-out
+    both;
+}
+
+
+.wink-boom
+.winkStage {
+  animation:
+    winkShake
+    0.5s
+    0.35s
+    both;
+}
+
+
+.wink-boom
+.winkPrimary {
+  animation:
+    winkBoom
+    1.25s
+    ease-out
+    both;
+}
+
+
+.wink-laugh
+.winkPrimary {
+  animation:
+    winkLaugh
+    1.6s
+    ease-in-out
+    both;
+}
+
+
+.wink-boo
+.winkPrimary {
+  animation:
+    winkBoo
+    1.7s
+    ease-in-out
+    both;
+}
+
+
+.wink-heart_storm
+.winkPrimary {
+  animation:
+    winkHeart
+    1.5s
+    ease-in-out
+    both;
+}
+
+
+.wink-fireworks {
+  background:
+    radial-gradient(
+      circle,
+      rgba(
+        35,
+        43,
+        65,
+        0.87
+      ),
+      rgba(
+        15,
+        23,
+        39,
+        0.94
+      )
+    );
+}
+
+
+.wink-fireworks
+.winkCaption {
+  border-color:
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.92
+    );
+}
+
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes winkOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes winkMainPop {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.05)
+      rotate(-20deg);
+  }
+
+  55% {
+    opacity: 1;
+
+    transform:
+      scale(1.25)
+      rotate(7deg);
+  }
+
+  75% {
+    transform:
+      scale(0.92)
+      rotate(-3deg);
+  }
+
+  100% {
+    transform:
+      scale(1)
+      rotate(0);
+  }
+}
+
+
+@keyframes winkParticle {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(0.3)
+      rotate(0);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateY(-55px)
+      scale(1.4)
+      rotate(35deg);
+  }
+}
+
+
+@keyframes winkCaptionIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+
+@keyframes winkFire {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(70px)
+      scale(0.2);
+  }
+
+  40% {
+    opacity: 1;
+
+    transform:
+      translateY(-15px)
+      scale(1.25);
+  }
+
+  65% {
+    transform:
+      translateY(4px)
+      scale(0.95);
+  }
+
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes winkBoom {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.05);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      scale(1.65);
+  }
+
+  50% {
+    transform:
+      scale(0.75);
+  }
+
+  70% {
+    transform:
+      scale(1.2);
+  }
+
+  100% {
+    transform:
+      scale(1);
+  }
+}
+
+
+@keyframes winkShake {
+  0%,
+  100% {
+    transform:
+      translate(0, 0);
+  }
+
+  20% {
+    transform:
+      translate(-8px, 3px);
+  }
+
+  40% {
+    transform:
+      translate(8px, -3px);
+  }
+
+  60% {
+    transform:
+      translate(-5px, -2px);
+  }
+
+  80% {
+    transform:
+      translate(5px, 2px);
+  }
+}
+
+
+@keyframes winkLaugh {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.2);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      scale(1.15)
+      rotate(-9deg);
+  }
+
+  50% {
+    transform:
+      scale(1.05)
+      rotate(9deg);
+  }
+
+  65% {
+    transform:
+      scale(1.1)
+      rotate(-9deg);
+  }
+
+  80% {
+    transform:
+      scale(1.05)
+      rotate(9deg);
+  }
+
+  100% {
+    transform:
+      scale(1)
+      rotate(0);
+  }
+}
+
+
+@keyframes winkBoo {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(100px)
+      scale(0.3);
+  }
+
+  45% {
+    opacity: 1;
+
+    transform:
+      translateY(-18px)
+      scale(1.2);
+  }
+
+  65% {
+    transform:
+      translateY(5px)
+      scale(0.95);
+  }
+
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes winkHeart {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.1);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      scale(1.35);
+  }
+
+  50% {
+    transform:
+      scale(0.9);
+  }
+
+  65% {
+    transform:
+      scale(1.2);
+  }
+
+  82% {
+    transform:
+      scale(0.95);
+  }
+
+  100% {
+    transform:
+      scale(1);
+  }
+}
+
+
+/* ============================================================
+   TELAS INATIVAS
+   ============================================================ */
+
+.campfireInactiveCard {
+  width: 440px;
+
+  max-width: 90%;
+
+  margin: auto;
+
+  padding: 35px;
+
+  border:
+    1px solid #cfdee4;
+
+  border-radius: 13px;
+
+  background: white;
+
+  box-shadow:
+    0 12px 35px
+    rgba(
+      38,
+      63,
+      75,
+      0.1
+    );
+
+  text-align: center;
+}
+
+
+.campfireInactiveFlame {
+  font-size: 52px;
+}
+
+
+.campfireInactiveCard h2 {
+  margin: 7px 0;
+
+  color: #b75b24;
+
+  font-size: 22px;
+  font-weight: 500;
+}
+
+
+.campfireInactiveCard p {
+  color: #778b94;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+.campfireInactiveActions {
+  display: flex;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+/* ============================================================
+   MENSAGENS DE ÁUDIO
+   ============================================================ */
+
+.audioRecordButton.active {
+  border-color: #d16f6f;
+  background: #fff0f0;
+  color: #a64b4b;
+}
+
+.chatAudioComposer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-top: 1px solid #d4e0e4;
+  border-bottom: 1px solid #d4e0e4;
+  background: #f8fbfc;
+}
+
+.chatAudioRecordingState,
+.chatAudioPreview {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chatAudioRecordingState strong {
+  color: #8f4a4a;
+  font-size: 10px;
+}
+
+.chatAudioRecordingState time,
+.chatAudioPreview small {
+  color: #7b8d95;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chatAudioRecordingDot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d65353;
+  box-shadow: 0 0 0 4px rgba(214, 83, 83, 0.1);
+  animation: campfireAudioPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes campfireAudioPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.chatAudioPreview audio {
+  width: min(360px, 100%);
+  height: 32px;
+}
+
+.chatAudioComposerActions {
+  display: flex;
+  gap: 6px;
+}
+
+.chatAudioComposerActions button {
+  min-height: 31px;
+  padding: 0 10px;
+  border: 1px solid #cbd8dc;
+  border-radius: 6px;
+  background: white;
+  color: #617780;
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.chatAudioComposerActions button.stop {
+  border-color: #d29595;
+  color: #9b4f4f;
+}
+
+.chatAudioComposerActions button.send {
+  border-color: #8fbea0;
+  background: #f4fff6;
+  color: #3f7950;
+  font-weight: 700;
+}
+
+.chatAudioComposerActions button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.chatAudioMessage {
+  width: min(430px, 80%);
+  margin: 6px 0;
+  padding: 8px 10px;
+  border: 1px solid #d0dde1;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 7px rgba(37, 61, 70, 0.06);
+}
+
+.chatAudioMessage.mine {
+  margin-left: auto;
+  border-color: #e0c2a6;
+  background: #fffaf4;
+}
+
+.chatAudioMessageHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.chatAudioMessageHeader strong {
+  color: #526a74;
+  font-size: 10px;
+}
+
+.chatAudioMessageHeader small {
+  color: #899aa1;
+  font-size: 8px;
+}
+
+.chatAudioMessageHeader time {
+  margin-left: auto;
+  color: #9aa7ac;
+  font-size: 8px;
+}
+
+.chatAudioMessage audio {
+  width: 100%;
+  height: 34px;
+}
+
+.chatAudioUnavailable {
+  padding: 7px;
+  border-radius: 6px;
+  background: #f4f7f8;
+  color: #8a999f;
+  font-size: 9px;
+}
+
+@media (max-width: 680px) {
+  .chatAudioComposer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .chatAudioComposerActions {
+    justify-content: flex-end;
+  }
+
+  .chatAudioMessage {
+    width: 92%;
+  }
+}
+
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .campfireRoomShell,
+.blackPianoTheme .campfireChat {
+  background: linear-gradient(180deg, rgba(23,26,32,.96), rgba(9,10,13,.98));
+  color: #eef2f6;
+}
+.blackPianoTheme .campfireRoomHeader,
+.blackPianoTheme .campfireChatStatus,
+.blackPianoTheme .campfireRoomNotice,
+.blackPianoTheme .campfireComposer {
+  border-color: rgba(255,255,255,.08);
+}
+.blackPianoTheme .campfireRoomHeader,
+.blackPianoTheme .campfireChatStatus {
+  background: linear-gradient(180deg, rgba(56,61,71,.84), rgba(20,23,28,.96));
+}
+.blackPianoTheme .campfireRoomNotice {
+  background: rgba(255,165,95,.08);
+  color: #efd6b8;
+}
+.blackPianoTheme .campfireMessages { background: transparent; }
+.blackPianoTheme .chatDateDivider span,
+.blackPianoTheme .chatCenterMessage,
+.blackPianoTheme .chatSystemMessage,
+.blackPianoTheme .chatEventMessage,
+.blackPianoTheme .composerInfo,
+.blackPianoTheme .chatRealtime,
+.blackPianoTheme .chatMessageMeta,
+.blackPianoTheme .campfireRoomIdentityText small { color: #a8b3be; }
+.blackPianoTheme .chatBubble {
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(45,50,59,.95), rgba(18,20,25,.98));
+  color: #eff3f8;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 20px rgba(0,0,0,.18);
+}
+.blackPianoTheme .chatMessageRow.mine .chatBubble,
+.blackPianoTheme .mine .chatBubble {
+  background: linear-gradient(180deg, rgba(255,168,100,.18), rgba(32,25,21,.96));
+  border-color: rgba(255,168,100,.24);
+}
+.blackPianoTheme .chatAvatar {
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 4px 12px rgba(0,0,0,.28);
+}
+.blackPianoTheme .campfireComposer,
+.blackPianoTheme .chatAudioComposer,
+.blackPianoTheme .chatFormattingToolbar,
+.blackPianoTheme .chatAudioPreview,
+.blackPianoTheme .emoticonPicker,
+.blackPianoTheme .winkPicker {
+  background: linear-gradient(180deg, rgba(39,43,51,.96), rgba(14,16,20,.98));
+  border-color: rgba(255,255,255,.08);
+  color: #ecf1f6;
+}
+.blackPianoTheme .campfireComposer textarea,
+.blackPianoTheme .campfireComposer input,
+.blackPianoTheme .chatFontSelect,
+.blackPianoTheme .chatSizeSelect,
+.blackPianoTheme .audioRecordButton,
+.blackPianoTheme .formatButton,
+.blackPianoTheme .send,
+.blackPianoTheme .stop {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #303640, #151920);
+  color: #edf2f7;
+}
+.blackPianoTheme .send,
+.blackPianoTheme .audioRecordButton.active,
+.blackPianoTheme .winkPrimary {
+  border-color: rgba(255,165,95,.34);
+  background: linear-gradient(180deg, rgba(255,168,100,.2), rgba(34,29,23,.98));
+}
+.blackPianoTheme .campfireInactiveCard,
+.blackPianoTheme .chatAudioMessage,
+.blackPianoTheme .chatAudioUnavailable {
+  border-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(40,44,52,.95), rgba(14,16,19,.98));
+  color: #edf2f6;
+}

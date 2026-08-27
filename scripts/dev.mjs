@@ -1,0 +1,15 @@
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import net from 'node:net';
+import path from 'node:path';
+
+const root=process.cwd(), isWin=process.platform==='win32', host='127.0.0.1';
+function exe(){ if(isWin)return path.join(root,'node_modules','electron','dist','electron.exe'); if(process.platform==='darwin')return path.join(root,'node_modules','electron','dist','Electron.app','Contents','MacOS','Electron'); return path.join(root,'node_modules','electron','dist','electron'); }
+function npmRun(name,env={}){ if(isWin){const c=process.env.ComSpec||'C:\\Windows\\System32\\cmd.exe';return spawn(c,['/d','/s','/c',`npm run ${name}`],{cwd:root,stdio:'inherit',env:{...process.env,...env}})} return spawn('npm',['run',name],{cwd:root,stdio:'inherit',env:{...process.env,...env}}); }
+function portFree(port){return new Promise(r=>{const s=net.createServer();s.unref();s.once('error',()=>r(false));s.listen({host,port,exclusive:true},()=>s.close(()=>r(true)));});}
+async function port(){for(let p=1420;p<=1440;p++)if(await portFree(p))return p;throw new Error('Nenhuma porta livre entre 1420 e 1440.');}
+async function wait(url,child){const end=Date.now()+60000;while(Date.now()<end){if(child.exitCode!=null)throw new Error('Vite encerrou antes de iniciar.');try{if((await fetch(url)).ok)return;}catch{}await new Promise(r=>setTimeout(r,250));}throw new Error(`Vite não respondeu em ${url}.`);}
+function stop(child){if(!child||child.killed)return;try{if(isWin&&child.pid)spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c',`taskkill /pid ${child.pid} /t /f >nul 2>nul`],{stdio:'ignore',windowsHide:true});else child.kill('SIGTERM');}catch{}}
+let vite=null,electron=null,closing=false;async function shutdown(code=0){if(closing)return;closing=true;stop(electron);stop(vite);setTimeout(()=>process.exit(code),100);}
+try{const electronExe=exe();if(!fs.existsSync(electronExe))throw new Error('Electron não está instalado. Execute npm install ou INICIAR_CAMPFIRE.bat.');const p=await port(),url=`http://${host}:${p}`;vite=npmRun('dev:web',{CAMPFIRE_VITE_PORT:String(p)});await wait(url,vite);electron=spawn(electronExe,['.'],{cwd:root,stdio:'inherit',env:{...process.env,CAMPFIRE_DEV_URL:url}});electron.on('exit',c=>void shutdown(c??0));electron.on('error',e=>{console.error(e);void shutdown(1)});}catch(e){console.error(e);void shutdown(1)}
+process.on('SIGINT',()=>void shutdown());process.on('SIGTERM',()=>void shutdown());

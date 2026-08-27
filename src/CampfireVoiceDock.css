@@ -1,0 +1,416 @@
+.campfireVoiceDock {
+  flex-shrink: 0;
+  border-top: 1px solid #cfd9dd;
+  background: linear-gradient(180deg, #fbfdfd, #edf3f5);
+  color: #4d6570;
+  box-shadow: 0 -6px 18px rgba(39, 62, 71, 0.08);
+}
+
+.campfireVoiceDock.joined {
+  border-top-color: #d4b28c;
+  box-shadow: 0 -8px 24px rgba(112, 74, 43, 0.09);
+}
+
+.campfireVoiceMainRow {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+}
+
+.campfireVoiceIdentity {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.campfireVoiceIcon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c8d6db;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 18px;
+}
+
+.campfireVoiceIdentity > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.campfireVoiceIdentity strong {
+  color: #405b66;
+  font-size: 15px;
+}
+
+.campfireVoiceIdentity small {
+  margin-top: 2px;
+  color: #758991;
+  font-size: 13px;
+}
+
+.campfireVoiceJoin,
+.campfireVoiceActions button,
+.campfireVoiceAudioProfile select {
+  border: 1px solid #bfcfd4;
+  border-radius: 8px;
+  background: #fff;
+  color: #4f6872;
+  font: inherit;
+  font-size: 14px;
+}
+
+.campfireVoiceJoin {
+  min-height: 38px;
+  padding: 0 14px;
+  border-color: #9abda4;
+  background: #f4fff6;
+  color: #3f7950;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.campfireVoiceJoin:disabled,
+.campfireVoiceActions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.campfireVoiceActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.campfireVoiceActions button {
+  min-height: 38px;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.campfireVoiceActions button:hover:not(:disabled) {
+  border-color: #d59b6a;
+  background: #fff3e7;
+}
+
+.campfireVoiceActions button.active {
+  border-color: #d28d57;
+  background: #ffead7;
+  font-weight: 700;
+}
+
+.campfireVoiceActions button.isMuted,
+.campfireVoiceActions button.isDeafened {
+  border-color: #d4886f;
+  background: #fff0ea;
+  color: #8a4c3b;
+}
+
+.campfireVoiceActions button.danger:hover {
+  border-color: #d18d8d;
+  background: #fff0f0;
+}
+
+.campfireVoiceMixer {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 1.25fr)
+    minmax(170px, 0.9fr)
+    minmax(210px, 1fr)
+    auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 12px;
+  border-top: 1px solid rgba(188, 198, 202, 0.72);
+}
+
+.campfireVoiceMixer label:not(.campfireVoiceMonitorToggle) {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.campfireVoiceMixer label > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #667b84;
+  font-size: 13px;
+}
+
+.campfireVoiceMixer label > span b {
+  color: #405b66;
+}
+
+.campfireVoiceMixer input[type="range"] {
+  width: 100%;
+}
+
+.campfireVoiceMonitorToggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #667b84;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.campfireVoiceAudioProfile {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.campfireVoiceAudioProfile > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.campfireVoiceAudioProfile strong {
+  font-size: 15px;
+}
+
+.campfireVoiceAudioProfile small {
+  color: #74878f;
+  font-size: 13px;
+}
+
+.campfireVoiceAudioProfile select {
+  min-height: 38px;
+  max-width: 170px;
+  padding: 6px 28px 6px 10px;
+}
+
+.campfireVoiceMeterGroup {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  color: #667b84;
+  font-size: 13px;
+}
+
+.campfireVoiceMeterGroup > span {
+  font-weight: 700;
+}
+
+.campfireVoiceMeterGroup small {
+  color: #7b8d94;
+  font-size: 13px;
+}
+
+.campfireVoiceMeter {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dce6e9;
+}
+
+.campfireVoiceMeter > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #72af80, #d0a45b, #cb6b58);
+  transition: width 80ms linear;
+}
+
+.campfireVoicePeople {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0 14px 11px;
+}
+
+.campfireVoicePeople span {
+  padding: 5px 8px;
+  border: 1px solid #cfdbdf;
+  border-radius: 12px;
+  background: #fff;
+  color: #5f747d;
+  font-size: 13px;
+  cursor: context-menu;
+}
+
+.campfireVoicePeople span.self {
+  border-color: #d7b591;
+  background: #fff8ef;
+}
+
+.campfireVoiceVideoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 8px;
+  padding: 0 14px 11px;
+}
+
+.campfireVoiceVideoCard {
+  position: relative;
+  min-height: 110px;
+  overflow: hidden;
+  border: 1px solid #bfd0d5;
+  border-radius: 9px;
+  background: #172126;
+}
+
+.campfireVoiceVideoCard video {
+  width: 100%;
+  height: 100%;
+  min-height: 110px;
+  display: block;
+  object-fit: cover;
+}
+
+.campfireVoiceVideoCard span {
+  position: absolute;
+  left: 7px;
+  bottom: 7px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: rgba(9, 16, 19, 0.78);
+  color: #fff;
+  font-size: 13px;
+}
+
+.campfireVoiceMessage {
+  padding: 6px 14px 10px;
+  color: #875f42;
+  font-size: 13px;
+}
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .campfireVoiceDock {
+  border-top-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(39, 43, 50, 0.98), rgba(12, 14, 18, 0.995));
+  color: #ecf1f6;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 -12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.blackPianoTheme .campfireVoiceDock.joined {
+  border-top-color: rgba(255, 168, 100, 0.30);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 191, 133, 0.08),
+    0 -12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.blackPianoTheme .campfireVoiceIcon,
+.blackPianoTheme .campfireVoiceJoin,
+.blackPianoTheme .campfireVoiceActions button,
+.blackPianoTheme .campfireVoicePeople span,
+.blackPianoTheme .campfireVoiceAudioProfile select {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #30353d, #15191e);
+  color: #edf2f7;
+}
+
+.blackPianoTheme .campfireVoiceAudioProfile select option {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.blackPianoTheme .campfireVoiceJoin,
+.blackPianoTheme .campfireVoiceActions button.active {
+  border-color: rgba(255, 165, 95, 0.38);
+  background: linear-gradient(180deg, rgba(255, 168, 100, 0.17), rgba(34, 29, 22, 0.96));
+  color: #fff2e3;
+}
+
+.blackPianoTheme .campfireVoiceActions button.isMuted,
+.blackPianoTheme .campfireVoiceActions button.isDeafened {
+  border-color: rgba(255, 126, 100, 0.48);
+  background: linear-gradient(180deg, rgba(156, 60, 43, 0.30), rgba(55, 23, 19, 0.92));
+  color: #ffd9cf;
+}
+
+.blackPianoTheme .campfireVoiceIdentity strong,
+.blackPianoTheme .campfireVoiceAudioProfile strong,
+.blackPianoTheme .campfireVoiceMixer label > span b {
+  color: #f3f6f9;
+}
+
+.blackPianoTheme .campfireVoiceIdentity small,
+.blackPianoTheme .campfireVoiceAudioProfile small,
+.blackPianoTheme .campfireVoiceMixer label > span,
+.blackPianoTheme .campfireVoiceMonitorToggle,
+.blackPianoTheme .campfireVoiceMessage,
+.blackPianoTheme .campfireVoicePeople span,
+.blackPianoTheme .campfireVoiceMeterGroup,
+.blackPianoTheme .campfireVoiceMeterGroup small {
+  color: #aeb8c2;
+}
+
+.blackPianoTheme .campfireVoiceMixer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.blackPianoTheme .campfireVoiceMeter {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.blackPianoTheme .campfireVoicePeople span.self {
+  border-color: rgba(255, 173, 102, 0.36);
+  background: rgba(255, 173, 102, 0.11);
+  color: #f7dcc2;
+}
+
+.blackPianoTheme .campfireVoiceVideoCard {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.blackPianoTheme .campfireVoiceVideoCard span {
+  background: rgba(6, 8, 10, 0.82);
+}
+
+@media (max-width: 980px) {
+  .campfireVoiceMainRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .campfireVoiceActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .campfireVoiceMixer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .campfireVoiceMixer {
+    grid-template-columns: 1fr;
+  }
+
+  .campfireVoiceActions button {
+    flex: 1 1 130px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campfireVoiceActions button,
+  .campfireVoiceMeter > i {
+    transition: none;
+  }
+}

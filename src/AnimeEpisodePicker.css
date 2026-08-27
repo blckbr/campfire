@@ -1,0 +1,565 @@
+/* ============================================================
+   EPISODES
+   ============================================================ */
+
+.animeEpisodesSection {
+  margin: 18px 0 14px;
+
+  padding: 14px;
+
+  border: 1px solid #d5e0e4;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      #fbfdfd,
+      #f4f8f9
+    );
+}
+
+
+.animeEpisodesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 11px;
+}
+
+
+.animeEpisodesHeader > div {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.animeEpisodesHeader strong {
+  color: #4f6771;
+
+  font-size: 13px;
+}
+
+
+.animeEpisodesHeader small {
+  margin-top: 3px;
+
+  color: #91a0a6;
+
+  font-size: 9px;
+}
+
+
+.animeEpisodesHeader > span {
+  flex-shrink: 0;
+
+  padding: 5px 8px;
+
+  border: 1px solid #e2b187;
+  border-radius: 12px;
+
+  background: #fff4eb;
+
+  color: #a36132;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.animeEpisodesLoading {
+  min-height: 80px;
+
+  display: grid;
+  place-items: center;
+
+  color: #83959c;
+
+  font-size: 10px;
+}
+
+
+.animeEpisodesWarning {
+  margin-bottom: 10px;
+  padding: 8px;
+
+  border: 1px solid #c8dce3;
+  border-radius: 7px;
+
+  background: #f0f8fb;
+
+  color: #66828d;
+
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   EPISODE GRID
+   ============================================================ */
+
+.animeEpisodeGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(
+        72px,
+        1fr
+      )
+    );
+
+  gap: 7px;
+
+  max-height: 230px;
+
+  overflow-y: auto;
+
+  padding: 2px 3px 7px;
+}
+
+
+.animeEpisodeGrid::-webkit-scrollbar {
+  width: 7px;
+}
+
+
+.animeEpisodeGrid::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+
+  background: #bdccd2;
+}
+
+
+.animeEpisodeButton {
+  position: relative;
+
+  min-height: 68px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  border: 1px solid #ccdadd;
+  border-radius: 8px;
+
+  background: white;
+
+  color: #61767f;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.14s ease,
+    border-color 0.14s ease,
+    background 0.14s ease,
+    box-shadow 0.14s ease;
+}
+
+
+.animeEpisodeButton:hover {
+  border-color: #da9b69;
+
+  background: #fff9f4;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px
+    rgba(
+      62,
+      72,
+      78,
+      0.09
+    );
+}
+
+
+.animeEpisodeButton.selected {
+  border-color: #d47a38;
+
+  background:
+    linear-gradient(
+      #fff4e9,
+      #ffe7d4
+    );
+
+  color: #9b552a;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      215,
+      121,
+      56,
+      0.12
+    );
+}
+
+
+.animeEpisodeButton strong {
+  font-size: 14px;
+}
+
+
+.animeEpisodeButton small {
+  color: #94a1a6;
+
+  font-size: 7px;
+}
+
+
+.animeEpisodePlayIcon {
+  position: absolute;
+
+  top: 5px;
+  right: 6px;
+
+  color: #d97838;
+
+  font-size: 8px;
+
+  opacity: 0;
+}
+
+
+.animeEpisodeButton:hover
+.animeEpisodePlayIcon,
+.animeEpisodeButton.selected
+.animeEpisodePlayIcon {
+  opacity: 1;
+}
+
+
+/* ============================================================
+   SELECTED EPISODE
+   ============================================================ */
+
+.animeSelectedEpisode {
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 11px;
+
+  padding: 8px;
+
+  border: 1px solid #d8e1e4;
+  border-radius: 8px;
+
+  background: white;
+}
+
+
+.animeSelectedEpisode img {
+  width: 92px;
+  height: 54px;
+
+  flex-shrink: 0;
+
+  border-radius: 6px;
+
+  object-fit: cover;
+
+  background: #d5e1e5;
+}
+
+
+.animeSelectedEpisode > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.animeSelectedEpisode small {
+  color: #d0783b;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+.animeSelectedEpisode strong {
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color: #4e6670;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.animeSelectedEpisode span {
+  margin-top: 3px;
+
+  color: #95a2a7;
+
+  font-size: 8px;
+}
+
+
+/* ============================================================
+   WATCH TOGETHER BOX
+   ============================================================ */
+
+.animeWatchDirectBox {
+  margin-top: 15px;
+
+  padding: 13px;
+
+  border: 1px solid #d6e0e3;
+  border-radius: 10px;
+
+  background: #f7fafb;
+}
+
+
+.animeWatchDirectBox.leader {
+  border-color: #e0ba76;
+
+  background:
+    linear-gradient(
+      #fffdf7,
+      #fff8e9
+    );
+}
+
+
+.animeWatchDirectHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+
+.animeWatchDirectHeader > div {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.animeWatchDirectHeader > div > span {
+  font-size: 25px;
+}
+
+
+.animeWatchDirectHeader div div {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.animeWatchDirectHeader strong {
+  color: #4c6570;
+
+  font-size: 12px;
+}
+
+
+.animeWatchDirectHeader small {
+  margin-top: 2px;
+
+  color: #8b9ba1;
+
+  font-size: 8px;
+}
+
+
+.animeWatchLeaderBadge {
+  padding: 4px 7px;
+
+  border: 1px solid #dbb35f;
+  border-radius: 12px;
+
+  background: #fff0bd;
+
+  color: #866316;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   PROVIDER
+   ============================================================ */
+
+.animeWatchProviderChoice {
+  display: flex;
+
+  gap: 7px;
+
+  margin-top: 12px;
+}
+
+
+.animeWatchProviderChoice button {
+  min-height: 34px;
+
+  flex: 1;
+
+  border: 1px solid #ccd8dc;
+  border-radius: 7px;
+
+  background: white;
+
+  color: #6e8189;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+
+.animeWatchProviderChoice button:hover {
+  background: #f6fafb;
+}
+
+
+.animeWatchProviderChoice button.selected {
+  border-color: #d98548;
+
+  background: #fff0e5;
+
+  color: #a45b2d;
+
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   START BUTTON
+   ============================================================ */
+
+.animeStartWatchButton {
+  width: 100%;
+  min-height: 43px;
+
+  margin-top: 2px;
+
+  border: 1px solid #bd642b;
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #f39a51,
+      #d86d2e
+    );
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px
+    rgba(
+      177,
+      91,
+      35,
+      0.18
+    );
+}
+
+
+.animeStartWatchButton:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      #f7a761,
+      #e27939
+    );
+}
+
+
+.animeStartWatchButton:disabled {
+  opacity: 0.42;
+
+  cursor: default;
+
+  box-shadow: none;
+}
+
+
+.animeWatchLocked {
+  margin-top: 11px;
+  padding: 9px;
+
+  border-radius: 7px;
+
+  background: #edf2f4;
+
+  color: #89979d;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   SESSION LOADING
+   ============================================================ */
+
+.animeWatchLoadingSession {
+  flex-shrink: 0;
+
+  margin: 8px 18px 0;
+  padding: 8px 10px;
+
+  border: 1px solid #d2dfe3;
+  border-radius: 7px;
+
+  background: #f7fafb;
+
+  color: #83969e;
+
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 760px) {
+  .animeEpisodeGrid {
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(
+          0,
+          1fr
+        )
+      );
+  }
+
+
+  .animeWatchProviderChoice {
+    flex-direction: column;
+  }
+}

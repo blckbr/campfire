@@ -1,0 +1,130 @@
+.campfireUserProfileBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 13400;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(2,2,3,.78);
+  backdrop-filter: blur(5px);
+}
+
+.campfireUserProfileModal {
+  position: relative;
+  width: min(360px, calc(100vw - 40px));
+  display: grid;
+  justify-items: center;
+  gap: 13px;
+  padding: 28px 22px 22px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 17px;
+  background: #08080a;
+  color: #f0f0f3;
+  box-shadow: 0 28px 88px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.04);
+}
+
+.campfireUserProfileClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 9px;
+  background: #121216;
+  color: #85858f;
+}
+
+.campfireUserProfileClose:hover,
+.campfireUserProfileClose:focus-visible {
+  border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.08);
+  color: #f0f0f3;
+  outline: none;
+}
+
+.campfireUserProfileAvatar {
+  position: relative;
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  border: 2px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  background: #121216;
+  color: #f0f0f3;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.campfireUserProfileAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.campfireUserProfilePresence {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid #08080a;
+  border-radius: 50%;
+  background: #85858f;
+}
+
+.campfireUserProfilePresence.online {
+  background: #8ed0a2;
+}
+
+.campfireUserProfilePresence.away {
+  background: #d6b66d;
+}
+
+.campfireUserProfilePresence.busy {
+  background: #f47d86;
+}
+
+.campfireUserProfileNick {
+  font-size: 19px;
+  line-height: 1.3;
+}
+
+.campfireUserProfileSocial {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  background: #121216;
+}
+
+.campfireUserProfileSocial span {
+  color: #85858f;
+  font-size: 13px;
+}
+
+.campfireUserProfileSocial strong {
+  color: #f0f0f3;
+  font-size: 15px;
+}
+
+.campfireUserProfileMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.campfireUserProfileMeta span {
+  padding: 4px 8px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 999px;
+  background: #121216;
+  color: #85858f;
+  font-size: 13px;
+}

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Campfire - Login concluído</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+
+      padding: 24px;
+
+      font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background:
+        linear-gradient(
+          145deg,
+          #edf7fb 0%,
+          #dceef5 45%,
+          #f7e9dc 100%
+        );
+
+      color: #334b57;
+    }
+
+    .card {
+      width: 390px;
+      max-width: 100%;
+
+      padding: 36px 32px;
+
+      text-align: center;
+
+      border: 1px solid #b8cbd4;
+      border-radius: 16px;
+
+      background:
+        rgba(255, 255, 255, 0.94);
+
+      box-shadow:
+        0 20px 60px
+        rgba(31, 61, 74, 0.18);
+    }
+
+    .fire {
+      font-size: 72px;
+
+      filter:
+        drop-shadow(
+          0 5px 6px
+          rgba(190, 90, 30, 0.2)
+        );
+    }
+
+    h1 {
+      margin: 7px 0;
+
+      color: #b95a20;
+
+      font-size: 34px;
+      font-weight: 500;
+    }
+
+    p {
+      margin: 10px 0 25px;
+
+      color: #687e89;
+
+      line-height: 1.5;
+    }
+
+    .openButton {
+      width: 100%;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-decoration: none;
+
+      border: 1px solid #c66527;
+      border-radius: 8px;
+
+      background:
+        linear-gradient(
+          #f29d50,
+          #d76c28
+        );
+
+      color: white;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      user-select: none;
+    }
+
+    .openButton:hover {
+      background:
+        linear-gradient(
+          #f7aa60,
+          #df7936
+        );
+    }
+
+    .openButton:active {
+      transform: translateY(1px);
+    }
+
+    .error {
+      display: none;
+
+      margin-top: 16px;
+      padding: 11px;
+
+      border: 1px solid #e4b7b7;
+      border-radius: 7px;
+
+      background: #fff1f1;
+
+      color: #9b4242;
+
+      font-size: 12px;
+    }
+
+    .status {
+      margin-top: 16px;
+
+      padding: 9px;
+
+      border-radius: 6px;
+
+      background: #edf7f1;
+
+      color: #527160;
+
+      font-size: 11px;
+    }
+
+    .hint {
+      margin-top: 18px;
+
+      color: #94a3aa;
+
+      font-size: 11px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+
+    <div class="fire">
+      🔥
+    </div>
+
+    <h1>
+      Campfire
+    </h1>
+
+    <p id="message">
+      Login autorizado com sucesso.
+      Clique abaixo para voltar ao Campfire.
+    </p>
+
+    <!--
+      IMPORTANTE:
+
+      Este agora é um LINK REAL.
+
+      O JavaScript apenas coloca o callback
+      correto dentro do atributo href.
+
+      O navegador é quem chama campfire://
+      diretamente através do clique do usuário.
+    -->
+
+    <a
+      id="openCampfire"
+      class="openButton"
+      href="campfire://auth/callback"
+    >
+      🔥 Abrir Campfire
+    </a>
+
+    <div
+      id="status"
+      class="status"
+    >
+      ✓ Autorização recebida.
+    </div>
+
+    <div
+      id="error"
+      class="error"
+    ></div>
+
+    <div class="hint">
+      Se o navegador perguntar se deseja abrir
+      o Campfire, escolha <strong>Abrir</strong>.
+    </div>
+
+  </main>
+
+  <script>
+    /*
+     * =========================================================
+     * PARÂMETROS RECEBIDOS DO SUPABASE
+     * =========================================================
+     */
+
+    const params =
+      window.location.search;
+
+    const searchParams =
+      new URLSearchParams(params);
+
+    const code =
+      searchParams.get("code");
+
+    const error =
+      searchParams.get("error");
+
+    const errorDescription =
+      searchParams.get(
+        "error_description"
+      );
+
+    /*
+     * =========================================================
+     * ELEMENTOS
+     * =========================================================
+     */
+
+    const openButton =
+      document.getElementById(
+        "openCampfire"
+      );
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+    const status =
+      document.getElementById(
+        "status"
+      );
+
+    const errorBox =
+      document.getElementById(
+        "error"
+      );
+
+    /*
+     * =========================================================
+     * ERRO DO GOOGLE / SUPABASE
+     * =========================================================
+     */
+
+    if (
+      error ||
+      errorDescription
+    ) {
+      openButton.style.display =
+        "none";
+
+      status.style.display =
+        "none";
+
+      message.textContent =
+        "Não foi possível concluir o login.";
+
+      errorBox.style.display =
+        "block";
+
+      errorBox.textContent =
+        errorDescription ||
+        error ||
+        "Erro desconhecido.";
+    }
+
+    /*
+     * =========================================================
+     * CALLBACK SEM CODE
+     * =========================================================
+     */
+
+    else if (!code) {
+      openButton.style.display =
+        "none";
+
+      status.style.display =
+        "none";
+
+      message.textContent =
+        "O retorno do Google não contém um código de autenticação.";
+
+      errorBox.style.display =
+        "block";
+
+      errorBox.textContent =
+        "Callback recebido sem código OAuth.";
+    }
+
+    /*
+     * =========================================================
+     * CALLBACK VÁLIDO
+     * =========================================================
+     */
+
+    else {
+      /*
+       * Não alteramos nem reconstruímos
+       * os parâmetros.
+       *
+       * Passamos exatamente o query string
+       * que o Supabase nos forneceu.
+       */
+
+      const campfireUrl =
+        "campfire://auth/callback" +
+        params;
+
+      /*
+       * Agora o botão é literalmente:
+       *
+       * <a href="campfire://auth/callback?code=...">
+       *
+       * Não usamos mais window.location.href.
+       */
+
+      openButton.setAttribute(
+        "href",
+        campfireUrl
+      );
+
+      status.textContent =
+        "✓ Código de autenticação recebido. Campfire pronto para abrir.";
+    }
+  </script>
+</body>
+</html>

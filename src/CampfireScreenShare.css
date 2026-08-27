@@ -1,0 +1,1081 @@
+.screenSharePage {
+  width: 100%;
+  height: 100%;
+
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #ffffff,
+      #eaf2f5
+    );
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+
+/* ============================================================
+   IDLE / SETUP
+   ============================================================ */
+
+.screenShareIdle,
+.screenViewerLanding {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 28px;
+
+  overflow-y: auto;
+
+  color: #70858e;
+
+  text-align: center;
+}
+
+
+.screenShareSetup {
+  justify-content: flex-start;
+
+  padding-top: 24px;
+}
+
+
+.screenShareIdleIcon {
+  width: 86px;
+  height: 86px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 13px;
+
+  border:
+    1px solid #b8d0db;
+
+  border-radius: 23px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #dcecf2
+    );
+
+  box-shadow:
+    0 12px 30px
+    rgba(
+      38,
+      70,
+      84,
+      0.12
+    );
+
+  font-size: 43px;
+}
+
+
+.screenShareIdle h2,
+.screenViewerLanding h2 {
+  margin:
+    0 0 7px;
+
+  color: #435d68;
+
+  font-size: 21px;
+
+  font-weight: 500;
+}
+
+
+.screenShareIdle p,
+.screenViewerLanding p {
+  max-width: 480px;
+
+  margin: 0;
+
+  color: #82959d;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   CAPTURE MODE
+   ============================================================ */
+
+.screenCaptureModeGrid {
+  width: 100%;
+  max-width: 530px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap: 10px;
+
+  margin-top: 19px;
+}
+
+
+.screenCaptureMode {
+  min-height: 108px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 13px;
+
+  border:
+    1px solid #c5d5db;
+
+  border-radius: 11px;
+
+  outline: none;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #f0f6f8
+    );
+
+  color: #617781;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+
+.screenCaptureMode:hover {
+  border-color: #96bccb;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #e8f3f7
+    );
+
+  transform:
+    translateY(-1px);
+}
+
+
+.screenCaptureMode.active {
+  border-color: #d47a3a;
+
+  background:
+    linear-gradient(
+      #fffaf5,
+      #ffecdd
+    );
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      212,
+      122,
+      58,
+      0.12
+    );
+}
+
+
+.screenCaptureModeIcon {
+  margin-bottom: 2px;
+
+  font-size: 27px;
+}
+
+
+.screenCaptureMode strong {
+  color: #49626d;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+.screenCaptureMode.active strong {
+  color: #a95a27;
+}
+
+
+.screenCaptureMode small {
+  max-width: 185px;
+
+  color: #8a9ba2;
+
+  font-size: 8px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+
+.screenCaptureSettings {
+  width: 100%;
+  max-width: 530px;
+
+  min-height: 59px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 11px;
+
+  padding: 9px 12px;
+
+  border:
+    1px solid #d4e0e4;
+
+  border-radius: 9px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.75
+    );
+}
+
+
+.screenCaptureSettings label {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+.screenCaptureSettings label > span {
+  color: #758991;
+
+  font-size: 9px;
+}
+
+
+.screenCaptureSettings select {
+  height: 29px;
+
+  padding: 0 7px;
+
+  border:
+    1px solid #bccdd4;
+
+  border-radius: 5px;
+
+  outline: none;
+
+  background: white;
+
+  color: #526a74;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  font-size: 9px;
+}
+
+
+.screenCaptureSettings select:focus {
+  border-color: #d08047;
+}
+
+
+.screenCaptureAudioOption {
+  min-height: 29px;
+
+  padding:
+    0 5px;
+}
+
+
+.screenCaptureAudioOption input {
+  accent-color: #d47739;
+}
+
+
+.screenWindowCaptureTip {
+  max-width: 530px;
+
+  margin-top: 10px;
+
+  padding:
+    8px 11px;
+
+  border:
+    1px solid #cbdce3;
+
+  border-radius: 7px;
+
+  background: #f4fafc;
+
+  color: #70858e;
+
+  font-size: 9px;
+
+  line-height: 1.45;
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+.screenShareStartButton {
+  min-width: 220px;
+  height: 39px;
+
+  margin-top: 16px;
+
+  padding:
+    0 18px;
+
+  border:
+    1px solid #477e96;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #76b7ce,
+      #4e91aa
+    );
+
+  box-shadow:
+    0 3px 9px
+    rgba(
+      49,
+      105,
+      129,
+      0.18
+    );
+
+  color: white;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.screenShareStartButton:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      #83c4db,
+      #599db6
+    );
+}
+
+
+.screenShareStartButton:disabled {
+  opacity: 0.5;
+
+  cursor: default;
+}
+
+
+.screenSharePrivacyNotice {
+  margin-top: 11px;
+
+  color: #899aa1;
+
+  font-size: 8px;
+}
+
+
+.screenNoPermission {
+  max-width: 420px;
+
+  margin-top: 22px;
+
+  padding:
+    10px 14px;
+
+  border:
+    1px solid #d5dfe3;
+
+  border-radius: 7px;
+
+  background: white;
+
+  color: #778b94;
+
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.screenShareError {
+  max-width: 530px;
+
+  margin-top: 13px;
+
+  padding:
+    9px 13px;
+
+  border:
+    1px solid #dfb5b5;
+
+  border-radius: 7px;
+
+  background: #fff2f2;
+
+  color: #924949;
+
+  font-size: 10px;
+
+  line-height: 1.45;
+}
+
+
+.screenShareErrorLive {
+  max-width: none;
+
+  margin: 0;
+
+  border-radius: 0;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   LIVE
+   ============================================================ */
+
+.screenShareLive {
+  min-height: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #172126;
+}
+
+
+.screenShareLiveHeader {
+  min-height: 53px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    8px 13px;
+
+  border-bottom:
+    1px solid #35444a;
+
+  background:
+    linear-gradient(
+      #26343a,
+      #202c31
+    );
+}
+
+
+.screenShareLiveIdentity {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.screenShareLiveDot {
+  width: 10px;
+  height: 10px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #ef4b43;
+
+  box-shadow:
+    0 0 8px
+    rgba(
+      239,
+      75,
+      67,
+      0.7
+    );
+
+  animation:
+    screenLivePulse
+    1.2s
+    infinite;
+}
+
+
+.screenShareLiveIdentity div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.screenShareLiveIdentity strong {
+  color: #f0f5f7;
+
+  font-size: 11px;
+}
+
+
+.screenShareLiveIdentity small {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  color: #91a1a7;
+
+  font-size: 8px;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+
+.screenShareLiveActions {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+
+.screenShareLiveActions button {
+  height: 31px;
+
+  padding:
+    0 11px;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+
+.screenPreviewFullscreen {
+  border:
+    1px solid #53686f;
+
+  background: #2d3c42;
+
+  color: #d4dfe3;
+}
+
+
+.screenPreviewFullscreen:hover {
+  background: #394a51;
+}
+
+
+.screenShareStopButton {
+  border:
+    1px solid #a44742;
+
+  background:
+    linear-gradient(
+      #ca5c55,
+      #a9423d
+    );
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+.screenShareStopButton:hover {
+  background:
+    linear-gradient(
+      #d96861,
+      #b64a45
+    );
+}
+
+
+.screenLargeAction {
+  min-width: 210px;
+  height: 38px;
+
+  margin-top: 20px;
+
+  border-radius: 7px;
+}
+
+
+/* ============================================================
+   VIDEO
+   ============================================================ */
+
+.screenShareVideoArea {
+  position: relative;
+
+  min-height: 0;
+
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #0c1114;
+}
+
+
+.screenShareVideo {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  background: black;
+}
+
+
+.screenSharePreparing {
+  position: absolute;
+
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  background: #11191c;
+
+  color: #9dafb6;
+
+  font-size: 10px;
+
+  pointer-events: none;
+}
+
+
+.screenSharePreviewBadge {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  padding:
+    4px 7px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius: 5px;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.58
+    );
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing:
+    0.7px;
+}
+
+
+/* ============================================================
+   INFORMATION
+   ============================================================ */
+
+.screenShareInformation {
+  min-height: 54px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      1fr
+    );
+
+  border-top:
+    1px solid #344349;
+
+  background: #202b30;
+}
+
+
+.screenShareInformation > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  border-right:
+    1px solid #344349;
+}
+
+
+.screenShareInformation > div:last-child {
+  border-right: 0;
+}
+
+
+.screenShareInformation span {
+  color: #71858d;
+
+  font-size: 7px;
+
+  font-weight: 700;
+
+  letter-spacing:
+    0.5px;
+}
+
+
+.screenShareInformation strong {
+  max-width: 95%;
+
+  overflow: hidden;
+
+  color: #ccd8dc;
+
+  font-size: 9px;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+
+.screenShareInformation
+.screenAudioYes {
+  color: #6ec481;
+}
+
+
+.screenShareViewerState {
+  flex-shrink: 0;
+
+  padding: 8px;
+
+  border-top:
+    1px solid #344349;
+
+  background: #202b30;
+
+  color: #95a8af;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+
+.screenShareViewerState strong {
+  color: #72c486;
+}
+
+
+/* ============================================================
+   VIEWER
+   ============================================================ */
+
+.screenViewerLiveIcon {
+  margin-bottom: 10px;
+
+  font-size: 34px;
+}
+
+
+.screenViewerAvatar {
+  width: 76px;
+  height: 76px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 17px;
+
+  overflow: hidden;
+
+  border:
+    3px solid #e5574d;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      #71b5cd,
+      #4b91aa
+    );
+
+  box-shadow:
+    0 0 0 5px
+    rgba(
+      229,
+      87,
+      77,
+      0.1
+    );
+
+  color: white;
+
+  font-size: 27px;
+
+  font-weight: 600;
+}
+
+
+.screenViewerAvatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.screenViewerSignalStatus {
+  margin-top: 16px;
+
+  color: #5f9870;
+
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   UNSUPPORTED
+   ============================================================ */
+
+.screenShareUnsupported {
+  width: 420px;
+
+  max-width: 90%;
+
+  margin: auto;
+
+  padding: 28px;
+
+  border:
+    1px solid #dfb4b4;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #8a4b4b;
+
+  text-align: center;
+}
+
+
+.screenShareUnsupported > div {
+  font-size: 45px;
+}
+
+
+.screenShareUnsupported strong {
+  display: block;
+
+  margin-top: 9px;
+
+  font-size: 14px;
+}
+
+
+.screenShareUnsupported p {
+  color: #8c7777;
+
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   ANIMATION
+   ============================================================ */
+
+@keyframes screenLivePulse {
+  0%,
+  100% {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+
+    transform:
+      scale(0.8);
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (
+  max-width: 760px
+) {
+  .screenCaptureModeGrid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .screenCaptureMode {
+    min-height: 90px;
+  }
+
+
+  .screenShareInformation {
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+
+  .screenShareInformation > div {
+    min-height: 42px;
+  }
+
+
+  .screenShareLiveHeader {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+}
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .screenSharePage,
+.blackPianoTheme .screenShareSetup,
+.blackPianoTheme .screenShareLive,
+.blackPianoTheme .screenShareIdle,
+.blackPianoTheme .screenViewerLanding {
+  background: linear-gradient(180deg, rgba(31,35,42,.97), rgba(11,13,17,.99));
+  color: #edf2f7;
+}
+.blackPianoTheme .screenCaptureMode,
+.blackPianoTheme .screenCaptureSettings,
+.blackPianoTheme .screenShareInformation,
+.blackPianoTheme .screenSharePrivacyNotice,
+.blackPianoTheme .screenViewerSignalStatus,
+.blackPianoTheme .screenShareVideoArea {
+  border-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(43,48,56,.92), rgba(15,17,22,.98));
+}
+.blackPianoTheme .screenShareStartButton,
+.blackPianoTheme .screenShareStopButton,
+.blackPianoTheme .screenLargeAction {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #313741, #14181d);
+  color: #edf2f7;
+}
+.blackPianoTheme .screenShareStartButton { border-color: rgba(255,165,95,.34); }

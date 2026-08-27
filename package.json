@@ -1,0 +1,77 @@
+{
+  "name": "campfire-black-piano",
+  "productName": "Campfire Black Piano",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Campfire Black Piano — Electron Core, chat, voice, video, screen share and Watch Together",
+  "type": "module",
+  "main": "electron/main.mjs",
+  "scripts": {
+    "dev:web": "vite --host 127.0.0.1",
+    "dev": "npm run electron:dev",
+    "typecheck": "tsc --noEmit",
+    "build:web": "npm run typecheck && vite build",
+    "build": "npm run build:web",
+    "test:unit": "node --test tests/*.test.mjs",
+    "verify:source": "npm run test:unit && node --check electron/main.mjs && node --check electron/preload.cjs && node --check electron/screen-picker-preload.cjs && node --check scripts/dev.mjs",
+    "verify": "npm run verify:source && npm run build:web",
+    "dist": "npm run verify && electron-builder --win nsis",
+    "dist:portable": "npm run verify && electron-builder --win portable",
+    "electron:dev": "node scripts/dev.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
+    "hls.js": "^1.6.19",
+    "livekit-client": "2.22.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "simple-rnnoise-wasm": "1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "electron": "43.4.1",
+    "electron-builder": "26.15.3",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  },
+  "build": {
+    "appId": "com.devsaex.campfire",
+    "productName": "Campfire Black Piano",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "Campfire-Black-Piano-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Campfire Black Piano",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "extraResources": [
+      {
+        "from": "public/campfire-icon.png",
+        "to": "campfire-icon.png"
+      }
+    ]
+  },
+  "author": "Deivison Santos (@devsaex)"
+}

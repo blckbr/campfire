@@ -1,0 +1,470 @@
+* {
+  box-sizing: border-box;
+}
+
+.profileSetupPage {
+  position: fixed;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  padding: 25px;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  background:
+    linear-gradient(
+      145deg,
+      #edf7fb 0%,
+      #dceef5 45%,
+      #f8eadc 100%
+    );
+}
+
+.profileSetupGlow {
+  position: absolute;
+
+  width: 450px;
+  height: 450px;
+
+  border-radius: 50%;
+
+  filter: blur(90px);
+
+  opacity: 0.38;
+}
+
+.profileGlowOne {
+  top: -200px;
+  left: -150px;
+
+  background: #8bd8f2;
+}
+
+.profileGlowTwo {
+  right: -170px;
+  bottom: -210px;
+
+  background: #f2a05a;
+}
+
+.profileSetupCard {
+  position: relative;
+  z-index: 1;
+
+  width: 430px;
+  max-width: 100%;
+
+  padding: 30px 34px 25px;
+
+  border: 1px solid #b7cad3;
+  border-radius: 16px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.94
+    );
+
+  box-shadow:
+    0 22px 65px
+    rgba(
+      35,
+      66,
+      79,
+      0.2
+    );
+
+  backdrop-filter:
+    blur(15px);
+
+  text-align: center;
+}
+
+.profileSetupLogo {
+  font-size: 55px;
+
+  filter:
+    drop-shadow(
+      0 4px 6px
+      rgba(
+        190,
+        89,
+        27,
+        0.2
+      )
+    );
+}
+
+.profileSetupCard h1 {
+  margin: 4px 0 5px;
+
+  color: #b95a20;
+
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.profileIntro {
+  max-width: 325px;
+
+  margin:
+    0 auto
+    21px;
+
+  color: #6e818b;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   PREVIEW
+   ========================================== */
+
+.profilePreview {
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 22px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d7e3e8;
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      #f9fcfd,
+      #edf5f8
+    );
+
+  text-align: left;
+}
+
+.profileAvatar,
+.profileAvatarFallback {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  border: 2px solid white;
+
+  box-shadow:
+    0 1px 5px
+    rgba(
+      0,
+      0,
+      0,
+      0.18
+    );
+}
+
+.profileAvatar {
+  object-fit: cover;
+}
+
+.profileAvatarFallback {
+  display: grid;
+  place-items: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f19b4c,
+      #c95d20
+    );
+
+  color: white;
+
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.profilePreview > div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.profilePreview strong {
+  overflow: hidden;
+
+  color: #344d59;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.profilePreview small {
+  margin-top: 3px;
+
+  color: #7a8e98;
+}
+
+/* ==========================================
+   CAMPOS
+   ========================================== */
+
+.profileField {
+  margin-bottom: 17px;
+
+  text-align: left;
+}
+
+.profileField label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #4d6571;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.usernameInputWrapper {
+  width: 100%;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid #adc2cc;
+  border-radius: 7px;
+
+  background: white;
+}
+
+.usernameInputWrapper:focus-within {
+  border-color: #d47734;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      212,
+      119,
+      52,
+      0.12
+    );
+}
+
+.usernameInputWrapper span {
+  padding-left: 11px;
+
+  color: #8798a0;
+
+  font-weight: 600;
+}
+
+.usernameInputWrapper input {
+  flex: 1;
+
+  height: 100%;
+
+  padding: 0 10px 0 3px;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #324954;
+
+  font-weight: 600;
+}
+
+.displayNameInput {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 11px;
+
+  border: 1px solid #adc2cc;
+  border-radius: 7px;
+
+  outline: 0;
+
+  background: white;
+
+  color: #324954;
+}
+
+.displayNameInput:focus {
+  border-color: #d47734;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      212,
+      119,
+      52,
+      0.12
+    );
+}
+
+.usernameStatus {
+  min-height: 20px;
+
+  padding-top: 5px;
+
+  font-size: 11px;
+}
+
+.usernameHint,
+.usernameChecking,
+.fieldDescription {
+  color: #87979f;
+}
+
+.usernameAvailable {
+  color: #3c8b56;
+}
+
+.usernameTaken,
+.usernameInvalid {
+  color: #ba4f4f;
+}
+
+.fieldDescription {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 10px;
+}
+
+/* ==========================================
+   BOTÃO
+   ========================================== */
+
+.profileContinueButton {
+  width: 100%;
+  height: 44px;
+
+  margin-top: 3px;
+
+  border: 1px solid #c66323;
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      #f29b4e,
+      #d66b27
+    );
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.profileContinueButton:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      #f5aa60,
+      #df7936
+    );
+}
+
+.profileContinueButton:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.48;
+}
+
+.profileError {
+  margin-top: 13px;
+
+  padding: 10px;
+
+  border: 1px solid #e1abab;
+  border-radius: 7px;
+
+  background: #fff1f1;
+
+  color: #9c4141;
+
+  font-size: 11px;
+}
+
+.profileEmail {
+  margin-top: 20px;
+
+  padding-top: 14px;
+
+  border-top: 1px solid #e2e9ec;
+
+  color: #9aa7ad;
+
+  font-size: 9px;
+}
+
+/* ============================================================
+   BLACK PIANO BRAND
+   ============================================================ */
+.profileSetupPage {
+  background:
+    radial-gradient(circle at top left, rgba(255, 150, 52, 0.12), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(91, 124, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, #262a31 0%, #121418 34%, #08090c 100%);
+  color: #eef2f6;
+}
+.profileGlowOne { background: #ff9f52; opacity: .18; }
+.profileGlowTwo { background: #627cff; opacity: .14; }
+.profileSetupCard {
+  border-color: rgba(174, 184, 196, 0.34);
+  background: linear-gradient(180deg, rgba(52,56,64,.94), rgba(16,18,22,.98));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 28px 75px rgba(0,0,0,.48);
+}
+.profileSetupBrandLogo {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 22px rgba(255, 138, 45, 0.22));
+}
+.profileSetupCard h1,
+.profilePreview strong,
+.profileField label { color: #edf3f8; }
+.profileIntro,
+.profilePreview small,
+.profileField small,
+.profileStatusNote,
+.profileAvailabilityNote { color: #aeb8c3; }
+.profilePreview {
+  border-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(58,63,72,.9), rgba(25,28,33,.95));
+}
+.usernameInputWrapper,
+.profileField input,
+.profileField textarea,
+.profileField select {
+  border-color: #58616e;
+  background: linear-gradient(180deg, #22262d, #111419);
+  color: #eff3f8;
+}
+.usernameInputWrapper:focus-within,
+.profileField input:focus,
+.profileField textarea:focus,
+.profileField select:focus { border-color: #ff9c53; }

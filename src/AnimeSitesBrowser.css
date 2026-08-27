@@ -1,0 +1,1295 @@
+.animeSitesBrowser {
+  height:
+    100%;
+
+  min-height:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  overflow:
+    hidden;
+
+  background:
+    #f7fbfc;
+
+  color:
+    #3d5660;
+}
+
+
+/* ============================================================
+   TRUE APP FULLSCREEN MODE
+   ============================================================ */
+
+.animeSitesBrowserFullscreen {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    9990;
+
+  width:
+    100vw;
+
+  height:
+    100vh;
+
+  background:
+    #000;
+}
+
+
+.animeSitesFullscreenBar {
+  flex:
+    0 0 38px;
+
+  height:
+    38px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  padding:
+    0 9px;
+
+  background:
+    #12191d;
+
+  color:
+    #e6edef;
+
+  border-bottom:
+    1px solid
+    #27353b;
+}
+
+
+.animeSitesFullscreenBar
+> div {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+}
+
+
+.animeSitesFullscreenBar
+strong {
+  overflow:
+    hidden;
+
+  font-size:
+    10px;
+
+  white-space:
+    nowrap;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+.animeSitesFullscreenBar
+button {
+  min-height:
+    28px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid
+    #43535a;
+
+  border-radius:
+    6px;
+
+  background:
+    #202c31;
+
+  color:
+    #e5ecef;
+
+  font:
+    inherit;
+
+  font-size:
+    8px;
+
+  cursor:
+    pointer;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.animeSitesHeader {
+  flex:
+    0 0 auto;
+
+  min-height:
+    62px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  padding:
+    9px 16px;
+
+  border-bottom:
+    1px solid
+    #ccdbe1;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #f3f8fa
+    );
+}
+
+
+.animeSitesHeader
+h2 {
+  margin:
+    0;
+
+  font-size:
+    20px;
+
+  font-weight:
+    500;
+
+  color:
+    #3b5662;
+}
+
+
+.animeSitesHeader
+p {
+  margin:
+    3px 0 0;
+
+  color:
+    #82949c;
+
+  font-size:
+    9px;
+}
+
+
+.animeSitesBack {
+  min-height:
+    32px;
+
+  padding:
+    0 12px;
+
+  border:
+    1px solid
+    #c3d4db;
+
+  border-radius:
+    7px;
+
+  background:
+    white;
+
+  color:
+    #566f79;
+
+  font:
+    inherit;
+
+  font-size:
+    9px;
+
+  cursor:
+    pointer;
+}
+
+
+/* ============================================================
+   WATCH INVITE
+   ============================================================ */
+
+.animeWatchInvite {
+  flex:
+    0 0 auto;
+
+  min-height:
+    54px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  padding:
+    7px 12px;
+
+  border-bottom:
+    1px solid
+    #e6c890;
+
+  background:
+    linear-gradient(
+      #fff9e9,
+      #fff3d8
+    );
+}
+
+
+.animeWatchInvite
+> div {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+}
+
+
+.animeWatchInvite
+> div:first-child
+> span {
+  font-size:
+    21px;
+}
+
+
+.animeWatchInvite
+strong {
+  display:
+    block;
+
+  color:
+    #765a2d;
+
+  font-size:
+    10px;
+}
+
+
+.animeWatchInvite
+small {
+  display:
+    block;
+
+  margin-top:
+    2px;
+
+  color:
+    #97815d;
+
+  font-size:
+    8px;
+}
+
+
+.animeWatchInvite
+button {
+  min-height:
+    30px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid
+    #d3c1a1;
+
+  border-radius:
+    6px;
+
+  background:
+    white;
+
+  color:
+    #755f3d;
+
+  font:
+    inherit;
+
+  font-size:
+    8px;
+
+  cursor:
+    pointer;
+}
+
+
+.animeWatchInvite
+button.join {
+  border-color:
+    #d67838;
+
+  background:
+    linear-gradient(
+      #f7a45f,
+      #dc7635
+    );
+
+  color:
+    white;
+
+  font-weight:
+    700;
+}
+
+
+/* ============================================================
+   SOURCES
+   ============================================================ */
+
+.animeSitesSourceBar {
+  flex:
+    0 0 auto;
+
+  display:
+    flex;
+
+  align-items:
+    stretch;
+
+  gap:
+    7px;
+
+  padding:
+    8px 12px;
+
+  overflow-x:
+    auto;
+
+  border-bottom:
+    1px solid
+    #cfdee4;
+
+  background:
+    #edf5f8;
+}
+
+
+.animeSitesSource {
+  min-width:
+    126px;
+
+  min-height:
+    49px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    7px;
+
+  padding:
+    5px 9px;
+
+  border:
+    1px solid
+    #c4d5dc;
+
+  border-radius:
+    8px;
+
+  background:
+    white;
+
+  color:
+    #506a75;
+
+  text-align:
+    left;
+
+  cursor:
+    pointer;
+}
+
+
+.animeSitesSource:hover {
+  border-color:
+    #df9a69;
+
+  background:
+    #fffaf5;
+}
+
+
+.animeSitesSource.active {
+  border-color:
+    #dc7c3c;
+
+  background:
+    #fff0e4;
+}
+
+
+.animeSitesSourceEmoji {
+  flex:
+    0 0 auto;
+
+  font-size:
+    18px;
+}
+
+
+.animeSitesSource
+> span:last-child {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+}
+
+
+.animeSitesSource
+strong {
+  overflow:
+    hidden;
+
+  font-size:
+    9px;
+
+  white-space:
+    nowrap;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+.animeSitesSource
+small {
+  margin-top:
+    2px;
+
+  overflow:
+    hidden;
+
+  color:
+    #94a3aa;
+
+  font-size:
+    7px;
+
+  white-space:
+    nowrap;
+
+  text-overflow:
+    ellipsis;
+}
+
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+
+.animeSitesToolbar {
+  flex:
+    0 0 auto;
+
+  min-height:
+    40px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+  padding:
+    5px 12px;
+
+  border-bottom:
+    1px solid
+    #d3e0e5;
+
+  background:
+    white;
+}
+
+
+.animeSitesStatus {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    7px;
+
+  color:
+    #71868f;
+
+  font-size:
+    8px;
+}
+
+
+.animeSitesStatus
+> span:first-child {
+  width:
+    7px;
+
+  height:
+    7px;
+
+  flex:
+    0 0 auto;
+
+  border-radius:
+    50%;
+
+  background:
+    #aab7bc;
+}
+
+
+.animeSitesStatus
+> span:first-child.ready {
+  background:
+    #4ab56b;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      74,
+      181,
+      107,
+      0.12
+    );
+}
+
+
+.animeSitesStatus
+> span:first-child.error {
+  background:
+    #e05a5a;
+}
+
+
+.animeSitesToolbarActions {
+  flex:
+    0 0 auto;
+
+  display:
+    flex;
+
+  gap:
+    6px;
+}
+
+
+.animeSitesToolbarActions
+button {
+  min-height:
+    29px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid
+    #c6d6dc;
+
+  border-radius:
+    6px;
+
+  background:
+    #f9fcfd;
+
+  color:
+    #5a727c;
+
+  font:
+    inherit;
+
+  font-size:
+    8px;
+
+  cursor:
+    pointer;
+}
+
+
+.animeSitesToolbarActions
+.animeSitesTransmit,
+.animeSitesBroadcast {
+  border-color:
+    #d66565;
+
+  background:
+    linear-gradient(
+      #ef6969,
+      #cf4f4f
+    );
+
+  color:
+    white;
+}
+
+
+.animeSitesStopBroadcast {
+  border-color:
+    #c94d4d !important;
+
+  background:
+    #8f3434 !important;
+
+  color:
+    white !important;
+}
+
+
+.animeSitesToolbarActions
+button:disabled,
+.animeSitesFullscreenBar
+button:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ============================================================
+   LIVE BADGE
+   ============================================================ */
+
+.animeSitesLiveBadge {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  padding:
+    3px 7px;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(
+      211,
+      65,
+      65,
+      0.15
+    );
+
+  color:
+    #ef7777;
+
+  font-size:
+    8px;
+
+  font-weight:
+    700;
+}
+
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.animeSitesError {
+  flex:
+    0 0 auto;
+
+  margin:
+    7px 12px 0;
+
+  padding:
+    7px 9px;
+
+  border:
+    1px solid
+    #e2baba;
+
+  border-radius:
+    7px;
+
+  background:
+    #fff2f2;
+
+  color:
+    #985858;
+
+  font-size:
+    8px;
+}
+
+
+/* ============================================================
+   WELCOME
+   ============================================================ */
+
+.animeSitesWelcome {
+  flex:
+    1;
+
+  min-height:
+    260px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    30px;
+
+  text-align:
+    center;
+
+  color:
+    #70868f;
+}
+
+
+.animeSitesWelcomeIcon {
+  font-size:
+    38px;
+}
+
+
+.animeSitesWelcome
+h3 {
+  margin:
+    10px 0 5px;
+
+  color:
+    #4f6974;
+
+  font-size:
+    16px;
+}
+
+
+.animeSitesWelcome
+p {
+  max-width:
+    620px;
+
+  margin:
+    0;
+
+  font-size:
+    10px;
+
+  line-height:
+    1.6;
+}
+
+
+.animeSitesWelcome
+small {
+  max-width:
+    600px;
+
+  margin-top:
+    10px;
+
+  color:
+    #9aa8ae;
+
+  font-size:
+    8px;
+}
+
+
+/* ============================================================
+   SOURCE WEBVIEW SLOT
+   ============================================================ */
+
+.animeSitesViewport {
+  position:
+    relative;
+
+  flex:
+    1 1 auto;
+
+  min-height:
+    0;
+
+  display:
+    none;
+
+  overflow:
+    hidden;
+
+  background:
+    #ffffff;
+}
+
+
+.animeSitesViewport.visible {
+  display:
+    block;
+}
+
+
+.animeSitesBrowserFullscreen
+.animeSitesViewport {
+  flex:
+    1 1 auto;
+
+  width:
+    100vw;
+
+  min-height:
+    0;
+}
+
+
+.animeSitesLoading,
+.animeSitesBehindWebview {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  background:
+    #f7fafb;
+
+  color:
+    #7d9199;
+
+  text-align:
+    center;
+}
+
+
+.animeSitesLoading
+span {
+  font-size:
+    30px;
+}
+
+
+.animeSitesLoading
+strong {
+  font-size:
+    11px;
+}
+
+
+.animeSitesBehindWebview {
+  background:
+    #202a2f;
+
+  color:
+    #71838a;
+
+  font-size:
+    10px;
+}
+
+
+/* ============================================================
+   REMOTE WATCH TOGETHER
+   ============================================================ */
+
+.animeRemoteViewer {
+  flex:
+    1 1 auto;
+
+  min-height:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  background:
+    #090d0f;
+}
+
+
+.animeRemoteViewer:fullscreen {
+  width:
+    100vw;
+
+  height:
+    100vh;
+
+  background:
+    #000;
+}
+
+
+.animeRemoteViewerTop {
+  flex:
+    0 0 40px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+  padding:
+    0 10px;
+
+  background:
+    #151f23;
+
+  color:
+    #e4ecef;
+}
+
+
+.animeRemoteViewerTop
+> div {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+}
+
+
+.animeRemoteViewerTop
+strong {
+  font-size:
+    10px;
+}
+
+
+.animeRemoteViewerTop
+button {
+  min-height:
+    28px;
+
+  padding:
+    0 8px;
+
+  border:
+    1px solid
+    #44535a;
+
+  border-radius:
+    6px;
+
+  background:
+    #222d32;
+
+  color:
+    #e2eaed;
+
+  font:
+    inherit;
+
+  font-size:
+    8px;
+
+  cursor:
+    pointer;
+}
+
+
+.animeRemoteViewerTop
+button.leave {
+  border-color:
+    #785050;
+
+  color:
+    #efb5b5;
+}
+
+
+.animeRemoteVideoArea {
+  position:
+    relative;
+
+  flex:
+    1 1 auto;
+
+  min-height:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  overflow:
+    hidden;
+
+  background:
+    #000;
+}
+
+
+.animeRemoteVideoArea
+video {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    contain;
+
+  background:
+    #000;
+}
+
+
+.animeRemoteWaiting {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  color:
+    #a9b8be;
+}
+
+
+.animeRemoteWaiting
+span {
+  font-size:
+    32px;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.animeSitesFooter {
+  flex:
+    0 0 auto;
+
+  min-height:
+    30px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+  padding:
+    4px 12px;
+
+  border-top:
+    1px solid
+    #d2dfe4;
+
+  background:
+    #f0f6f8;
+
+  color:
+    #899aa1;
+
+  font-size:
+    7px;
+}
+
+
+.animeSitesFooterLive {
+  color:
+    #cf5555;
+
+  font-weight:
+    700;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (
+  max-width:
+    900px
+) {
+  .animeSitesFooter
+  span:last-child {
+    display:
+      none;
+  }
+
+
+  .animeSitesSource {
+    min-width:
+      110px;
+  }
+
+
+  .animeWatchInvite {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+}
+
+
+@media (
+  max-height:
+    650px
+) {
+  .animeSitesHeader {
+    min-height:
+      50px;
+  }
+
+
+  .animeSitesHeader
+  p {
+    display:
+      none;
+  }
+
+
+  .animeSitesFooter {
+    display:
+      none;
+  }
+}
+
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .animeSitesBrowser,
+.blackPianoTheme .animeSitesFooter,
+.blackPianoTheme .animeSitesHeader,
+.blackPianoTheme .animeSitesSourceBar,
+.blackPianoTheme .animeSitesToolbar,
+.blackPianoTheme .animeSitesWelcome,
+.blackPianoTheme .animeRemoteWaiting {
+  background: linear-gradient(180deg, rgba(42,46,54,.97), rgba(12,14,17,.99));
+  color: #edf2f7;
+}
+.blackPianoTheme .animeSitesToolbar,
+.blackPianoTheme .animeSitesFooter,
+.blackPianoTheme .animeSitesSourceBar { border-color: rgba(255,255,255,.08); }
+.blackPianoTheme .animeSitesSource,
+.blackPianoTheme .animeSitesBack,
+.blackPianoTheme .animeSitesTransmit,
+.blackPianoTheme .animeSitesStopBroadcast,
+.blackPianoTheme .animeWatchInvite {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #313741, #14181d);
+  color: #edf2f7;
+}
+.blackPianoTheme .animeSitesTransmit,
+.blackPianoTheme .animeWatchInvite { border-color: rgba(255,165,95,.34); }

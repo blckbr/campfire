@@ -1,0 +1,850 @@
+/* ============================================================
+   CAMPFIRE — MARSHMALLOW BROWSER PALETTE
+   Keeps Campfire layout/identity, mirrors MarshMallow colors.
+   ============================================================ */
+
+:root {
+  --mm-bg-0: #020203;
+  --mm-bg-1: #08080a;
+  --mm-bg-2: #121216;
+  --mm-panel: rgba(17,17,20,.95);
+  --mm-panel-2: rgba(255,255,255,.035);
+  --mm-border: rgba(255,255,255,.10);
+  --mm-border-strong: rgba(255,255,255,.22);
+  --mm-text: #f0f0f3;
+  --mm-muted: #85858f;
+  --mm-accent: #ededf1;
+  --mm-accent-text: #09090b;
+  --mm-accent-soft: rgba(255,255,255,.08);
+  --mm-danger: #f47d86;
+  --mm-ok: #8ed0a2;
+}
+
+html,
+body,
+#root {
+  background: var(--mm-bg-0);
+  color: var(--mm-text);
+}
+
+body {
+  color: var(--mm-text);
+  background: var(--mm-bg-0);
+}
+
+.blackPianoTheme {
+  --bp-bg: var(--mm-bg-0);
+  --bp-panel: var(--mm-bg-1);
+  --bp-panel-2: var(--mm-bg-2);
+  --bp-panel-3: #17171b;
+  --bp-border: var(--mm-border);
+  --bp-text: var(--mm-text);
+  --bp-muted: var(--mm-muted);
+  --bp-accent: var(--mm-accent);
+  --bp-accent-2: #b7b7bf;
+  --bg-0: var(--mm-bg-0);
+  --bg-1: var(--mm-bg-1);
+  --bg-2: var(--mm-bg-2);
+  --panel: var(--mm-panel);
+  --panel-2: var(--mm-panel-2);
+  --border: var(--mm-border);
+  --border-strong: var(--mm-border-strong);
+  --text: var(--mm-text);
+  --muted: var(--mm-muted);
+  --accent: var(--mm-accent);
+  --accent-text: var(--mm-accent-text);
+  --accent-soft: var(--mm-accent-soft);
+  --danger: var(--mm-danger);
+  --ok: var(--mm-ok);
+
+  background:
+    radial-gradient(circle at 50% -20%, rgba(255,255,255,.055), transparent 34rem),
+    linear-gradient(180deg, var(--mm-bg-1), var(--mm-bg-0) 34%);
+  color: var(--mm-text);
+}
+
+/* Main shell */
+.blackPianoTheme .blackPianoMenuBar,
+.blackPianoTheme .topbar,
+.blackPianoTheme .sidebar,
+.blackPianoTheme footer {
+  border-color: var(--mm-border);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .blackPianoMenuBar {
+  background: linear-gradient(180deg, #17171b, #0b0b0d);
+  box-shadow: inset 0 1px rgba(255,255,255,.055);
+}
+
+.blackPianoTheme .blackPianoMenuBar strong,
+.blackPianoTheme .blackPianoMenuBar span:hover,
+.blackPianoTheme .blackPianoMenuBar strong:hover {
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .topbar {
+  background: linear-gradient(180deg, #17171b 0%, #0d0d10 48%, var(--mm-bg-0) 100%);
+  border-bottom-color: var(--mm-border);
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.42);
+}
+
+.blackPianoTheme .topbar::after {
+  background: linear-gradient(180deg, rgba(255,255,255,.07), transparent);
+}
+
+.blackPianoTheme .sidebar {
+  background: linear-gradient(180deg, var(--mm-bg-2), var(--mm-bg-1) 24%, var(--mm-bg-0));
+  border-right-color: var(--mm-border);
+}
+
+.blackPianoTheme .content,
+.blackPianoTheme .main {
+  background: var(--mm-bg-0);
+}
+
+.blackPianoTheme .username,
+.blackPianoTheme .friendText strong,
+.blackPianoTheme .campfire strong,
+.blackPianoTheme .welcome h1,
+.blackPianoTheme .features strong {
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .status,
+.blackPianoTheme .friendText small,
+.blackPianoTheme .campfire small,
+.blackPianoTheme .welcome p,
+.blackPianoTheme .features small,
+.blackPianoTheme footer {
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .avatar,
+.blackPianoTheme .campfireBrandBadge,
+.blackPianoTheme .friendAvatar,
+.blackPianoTheme .miniAvatar {
+  border-color: var(--mm-border-strong);
+  background: linear-gradient(145deg, #202025, #0b0b0e);
+  color: var(--mm-text);
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 6px 16px rgba(0,0,0,.44);
+}
+
+.blackPianoTheme .friendAvatar.online,
+.blackPianoTheme .miniAvatar.online {
+  background: linear-gradient(145deg, #315840, #14251b);
+}
+
+.blackPianoTheme .friendAvatar.away,
+.blackPianoTheme .miniAvatar.away {
+  background: linear-gradient(145deg, #5a4c2f, #261f12);
+}
+
+.blackPianoTheme .friendAvatar.offline,
+.blackPianoTheme .miniAvatar.offline {
+  background: linear-gradient(145deg, #35353a, #17171b);
+}
+
+.blackPianoTheme .sectionTitle {
+  background: linear-gradient(180deg, #17171b, #0b0b0d);
+  border-color: var(--mm-border);
+  color: #bdbdc5;
+}
+
+.blackPianoTheme .friend,
+.blackPianoTheme .campfire {
+  border-color: rgba(255,255,255,.055);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .friend:hover,
+.blackPianoTheme .campfire:hover,
+.blackPianoTheme .campfire.selected {
+  background: var(--mm-accent-soft);
+}
+
+/* Inputs and generic controls */
+.blackPianoTheme input,
+.blackPianoTheme textarea,
+.blackPianoTheme select,
+.blackPianoTheme .search,
+.blackPianoTheme .roomNameInput {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+
+.blackPianoTheme input:focus,
+.blackPianoTheme textarea:focus,
+.blackPianoTheme select:focus,
+.blackPianoTheme .search:focus,
+.blackPianoTheme .roomNameInput:focus {
+  border-color: var(--mm-border-strong);
+  box-shadow: 0 0 0 2px var(--mm-accent-soft);
+  outline: none;
+}
+
+.blackPianoTheme input::placeholder,
+.blackPianoTheme textarea::placeholder {
+  color: #686872;
+}
+
+.blackPianoTheme .topButtons button,
+.blackPianoTheme .startCampfire,
+.blackPianoTheme .sectionTitle button,
+.blackPianoTheme .cancelButton,
+.blackPianoTheme .secondary,
+.blackPianoTheme .modalFooter button,
+.blackPianoTheme .campfireFeaturePageButton {
+  border-color: var(--mm-border);
+  background: linear-gradient(180deg, #17171b, #0b0b0d);
+  color: var(--mm-text);
+  box-shadow: inset 0 1px rgba(255,255,255,.055);
+}
+
+.blackPianoTheme .topButtons button:hover,
+.blackPianoTheme .startCampfire:hover,
+.blackPianoTheme .sectionTitle button:hover,
+.blackPianoTheme .cancelButton:hover,
+.blackPianoTheme .secondary:hover,
+.blackPianoTheme .modalFooter button:hover,
+.blackPianoTheme .campfireFeaturePageButton:hover {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-accent-soft);
+  color: var(--mm-text);
+  box-shadow: inset 0 1px rgba(255,255,255,.07);
+}
+
+.blackPianoTheme .primary,
+.blackPianoTheme .createButton,
+.blackPianoTheme .campfireTransferConfirmButton,
+.blackPianoTheme .campfireVoiceJoin,
+.blackPianoTheme .screenShareStartButton,
+.blackPianoTheme .animeWatchButton,
+.blackPianoTheme .animeContinueWatch {
+  border-color: #ededf1;
+  background: #ededf1;
+  color: #09090b;
+  box-shadow: none;
+}
+
+.blackPianoTheme .primary:hover,
+.blackPianoTheme .createButton:hover,
+.blackPianoTheme .campfireTransferConfirmButton:hover,
+.blackPianoTheme .campfireVoiceJoin:hover,
+.blackPianoTheme .screenShareStartButton:hover,
+.blackPianoTheme .animeWatchButton:hover,
+.blackPianoTheme .animeContinueWatch:hover {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #09090b;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.08);
+}
+
+/* Welcome / create room */
+.blackPianoTheme .welcome,
+.blackPianoTheme .createModal,
+.blackPianoTheme .modalBody,
+.blackPianoTheme .modalHeader,
+.blackPianoTheme .modalFooter,
+.blackPianoTheme .privacyOptions label,
+.blackPianoTheme .inviteFriends,
+.blackPianoTheme .inviteFriend {
+  border-color: var(--mm-border);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .welcome,
+.blackPianoTheme .createModal {
+  background: linear-gradient(180deg, var(--mm-bg-2), var(--mm-bg-1));
+  box-shadow: 0 26px 80px rgba(0,0,0,.62), inset 0 1px rgba(255,255,255,.045);
+}
+
+.blackPianoTheme .modalOverlay,
+.blackPianoTheme .friendsModalOverlay,
+.blackPianoTheme .campfireSettingsOverlay,
+.blackPianoTheme .campfireMembersOverlay,
+.cfDmBackdrop,
+.cfDirectCallOverlay,
+.cfVerificationBackdrop,
+.cfModeratorBackdrop {
+  background: rgba(2,2,3,.76);
+  backdrop-filter: blur(5px);
+}
+
+.blackPianoTheme .modalHeader,
+.blackPianoTheme .modalFooter {
+  background: var(--mm-bg-1);
+}
+
+.blackPianoTheme .privacyOptions label,
+.blackPianoTheme .inviteFriends,
+.blackPianoTheme .inviteFriend {
+  background: var(--mm-bg-1);
+}
+
+.blackPianoTheme .privacyOptions label:hover,
+.blackPianoTheme .inviteFriend:hover {
+  background: var(--mm-accent-soft);
+  border-color: var(--mm-border-strong);
+}
+
+.blackPianoTheme .temporaryNotice,
+.blackPianoTheme .vipHint {
+  border-color: var(--mm-border);
+  background: var(--mm-panel-2);
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .temporaryNotice strong,
+.blackPianoTheme .temporaryNotice span,
+.blackPianoTheme .vipHint strong {
+  color: var(--mm-text);
+}
+
+/* Campfire room chrome */
+.blackPianoTheme .campfireRoomShell,
+.blackPianoTheme .campfireChat,
+.blackPianoTheme .campfireTabPanels,
+.blackPianoTheme .campfireTabPanel,
+.blackPianoTheme .campfireFeaturePage,
+.blackPianoTheme .animeBrowser,
+.blackPianoTheme .screenSharePage {
+  background: var(--mm-bg-0);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireRoomHeader,
+.blackPianoTheme .campfireChatStatus,
+.blackPianoTheme .campfireRoomNotice,
+.blackPianoTheme .campfireComposer,
+.blackPianoTheme .campfireTabs,
+.blackPianoTheme .campfireVoiceDock {
+  border-color: var(--mm-border);
+  background: linear-gradient(180deg, var(--mm-bg-2), var(--mm-bg-1));
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireRoomIdentityText h2,
+.blackPianoTheme .campfireRoomIdentityText b,
+.blackPianoTheme .campfireRoomHeaderActions button,
+.blackPianoTheme .campfireChatStatus strong {
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireRoomIdentityText span,
+.blackPianoTheme .campfireRoomIdentityText small,
+.blackPianoTheme .campfireChatStatus small,
+.blackPianoTheme .composerInfo,
+.blackPianoTheme .chatMessageMeta,
+.blackPianoTheme .chatCenterMessage,
+.blackPianoTheme .chatSystemMessage,
+.blackPianoTheme .chatEventMessage,
+.blackPianoTheme .chatRealtime {
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .campfireRoomHeaderActions button,
+.blackPianoTheme .campfireLeaveButton,
+.blackPianoTheme .campfireMembersButton {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireRoomHeaderActions button:hover,
+.blackPianoTheme .campfireLeaveButton:hover,
+.blackPianoTheme .campfireMembersButton:hover {
+  background: var(--mm-accent-soft);
+  border-color: var(--mm-border-strong);
+}
+
+/* Tabs */
+.blackPianoTheme .campfireTabs {
+  background: var(--mm-bg-1);
+  border-bottom-color: var(--mm-border);
+}
+
+.blackPianoTheme .campfireTab {
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .campfireTab:hover {
+  background: var(--mm-accent-soft);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireTab.active {
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+  border-color: var(--mm-border);
+}
+
+.blackPianoTheme .campfireTab.active::after {
+  background: var(--mm-accent);
+}
+
+.blackPianoTheme .campfireTabBadge,
+.blackPianoTheme .campfireTabLive {
+  background: var(--mm-accent);
+  color: var(--mm-accent-text);
+}
+
+/* Chat */
+.blackPianoTheme .campfireMessages {
+  background: var(--mm-bg-0);
+}
+
+.blackPianoTheme .chatBubble,
+.blackPianoTheme .chatMessageRow.mine .chatBubble,
+.blackPianoTheme .mine .chatBubble,
+.blackPianoTheme .chatAudioPreview,
+.blackPianoTheme .chatFormattingToolbar,
+.blackPianoTheme .emoticonPicker,
+.blackPianoTheme .winkPicker,
+.blackPianoTheme .chatAudioComposer {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .chatMessageRow.mine .chatBubble,
+.blackPianoTheme .mine .chatBubble {
+  background: #16161a;
+}
+
+.blackPianoTheme .campfireComposer textarea,
+.blackPianoTheme .campfireComposer input {
+  background: var(--mm-bg-0);
+}
+
+/* Members */
+.blackPianoTheme .campfireMembersPanel {
+  border-left-color: var(--mm-border);
+  background: linear-gradient(180deg, var(--mm-bg-2), var(--mm-bg-1) 18%, var(--mm-bg-0));
+  color: var(--mm-text);
+  box-shadow: -20px 0 65px rgba(0,0,0,.55);
+}
+
+.blackPianoTheme .campfireMembersHeader,
+.blackPianoTheme .campfireMembersFooter,
+.blackPianoTheme .campfireLeadershipInfo,
+.blackPianoTheme .campfireSelectedMember,
+.blackPianoTheme .campfirePresenceEditor,
+.blackPianoTheme .campfireLocalVolume,
+.blackPianoTheme .campfireTransferConfirm,
+.blackPianoTheme .campfireLeaderCard {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireLeaderCard {
+  border-color: var(--mm-border-strong);
+  background: linear-gradient(180deg, #17171b, var(--mm-bg-1));
+}
+
+.blackPianoTheme .campfireMemberRow {
+  border-color: rgba(255,255,255,.055);
+  background: transparent;
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireMemberRow:hover,
+.blackPianoTheme .campfireMemberRow.selected {
+  background: var(--mm-accent-soft);
+}
+
+.blackPianoTheme .campfireMemberName strong,
+.blackPianoTheme .campfireLeaderCard strong,
+.blackPianoTheme .campfireSelectedMemberTitle strong,
+.blackPianoTheme .campfirePresenceEditor strong {
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireMemberIdentity small,
+.blackPianoTheme .campfireLeadershipInfo small,
+.blackPianoTheme .campfireLeaderCard span,
+.blackPianoTheme .campfireMembersHeader p,
+.blackPianoTheme .campfireSelectedMemberTitle small,
+.blackPianoTheme .campfireLocalVolume small {
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .campfireMemberGroupHeader,
+.blackPianoTheme .campfireMemberGroupHeader b {
+  border-color: var(--mm-border);
+  background: transparent;
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .campfireMemberStatus.online,
+.blackPianoTheme .campfireStatusPickerButton > span:first-child,
+.blackPianoTheme .campfireStatusPickerCheck {
+  color: var(--mm-ok);
+}
+
+.blackPianoTheme .campfireMemberStatus.busy,
+.blackPianoTheme .campfireMembersError {
+  color: var(--mm-danger);
+}
+
+.blackPianoTheme .campfireMembersClose,
+.blackPianoTheme .campfireTransferButton,
+.blackPianoTheme .campfireTransferCancel {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+/* Status custom picker */
+.blackPianoTheme .campfireStatusPickerButton,
+.blackPianoTheme .campfireStatusPickerMenu {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireStatusPickerMenu button {
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireStatusPickerMenu button:hover,
+.blackPianoTheme .campfireStatusPickerMenu button:focus-visible,
+.blackPianoTheme .campfireStatusPickerMenu button.selected {
+  background: var(--mm-accent-soft);
+}
+
+/* Right-click menu */
+.cfUserContextMenu {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+  box-shadow: 0 22px 70px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.04);
+}
+
+.cfUserContextHeader small,
+.cfUserContextMenu button small,
+.cfUserContextMessage,
+.cfUserVolume {
+  color: var(--mm-muted);
+}
+
+.cfUserContextMenu button {
+  color: var(--mm-text);
+}
+
+.cfUserContextMenu button:hover,
+.cfUserContextMenu button:focus-visible {
+  background: var(--mm-accent-soft);
+  outline-color: var(--mm-border-strong);
+}
+
+.cfUserContextMenu button.danger,
+.cfUserContextMenu button.adminDanger {
+  color: var(--mm-danger);
+}
+
+.cfUserContextSeparator,
+.cfUserContextSubmenu {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-0);
+}
+
+.cfUserContextSubmenu button {
+  background: var(--mm-bg-2);
+}
+
+/* Profile opened from right-click → Perfil */
+.blackPianoTheme .campfireUserProfileBackdrop {
+  background: rgba(2,2,3,.78);
+}
+
+.blackPianoTheme .campfireUserProfileModal,
+.blackPianoTheme .campfireUserProfileClose,
+.blackPianoTheme .campfireUserProfileAvatar {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireUserProfileSocial,
+.blackPianoTheme .campfireUserProfileMeta span {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+}
+
+.blackPianoTheme .campfireUserProfileSocial span,
+.blackPianoTheme .campfireUserProfileMeta span {
+  color: var(--mm-muted);
+}
+
+.blackPianoTheme .campfireUserProfileSocial strong,
+.blackPianoTheme .campfireUserProfileNick {
+  color: var(--mm-text);
+}
+
+/* Voice dock */
+.blackPianoTheme .campfireVoiceDock,
+.blackPianoTheme .campfireVoiceDock.joined,
+.blackPianoTheme .campfireVoiceMixer,
+.blackPianoTheme .campfireVoiceVideoCard {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireVoiceIcon,
+.blackPianoTheme .campfireVoiceActions button,
+.blackPianoTheme .campfireVoicePeople span {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireVoiceActions button:hover,
+.blackPianoTheme .campfireVoiceActions button.active {
+  background: var(--mm-accent-soft);
+  border-color: var(--mm-border-strong);
+}
+
+/* Friends */
+.blackPianoTheme .friendsModal {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .friendsModalHeader,
+.blackPianoTheme .friendsTabs,
+.blackPianoTheme .friendsTabs button,
+.blackPianoTheme .friendManageRow,
+.blackPianoTheme .friendsResult,
+.blackPianoTheme .friendsEmpty,
+.blackPianoTheme .friendTip {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .friendsTabs button.active,
+.blackPianoTheme .friendsTabs button:hover,
+.blackPianoTheme .friendManageRow:hover,
+.blackPianoTheme .friendsResult:hover {
+  background: var(--mm-accent-soft);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .friendsModalHeader small,
+.blackPianoTheme .friendsSectionIntro p,
+.blackPianoTheme .friendManageIdentity small,
+.blackPianoTheme .pendingText {
+  color: var(--mm-muted);
+}
+
+/* Settings */
+.blackPianoTheme .campfireSettingsModal {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireSettingsModal > header,
+.blackPianoTheme .campfireSettingsBody,
+.blackPianoTheme .campfireSettingsBody > aside,
+.blackPianoTheme .campfireDevicePreview,
+.blackPianoTheme .campfireMicTest,
+.blackPianoTheme .campfireSettingsMessage {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireSettingsBody > aside button,
+.blackPianoTheme .campfireSettingsActions button,
+.blackPianoTheme .campfireSettingsModal header button,
+.blackPianoTheme .campfireSettingsBody select {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .campfireSettingsBody > aside button.active,
+.blackPianoTheme .campfireSettingsActions button.primary {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-accent);
+  color: var(--mm-accent-text);
+}
+
+.blackPianoTheme .campfireSettingsModal header p,
+.blackPianoTheme .campfireSettingsBody main > label > span,
+.blackPianoTheme .campfireSettingsBody label small,
+.blackPianoTheme .campfireMicTest > span {
+  color: var(--mm-muted);
+}
+
+/* Anime chrome — remote website keeps its own colors */
+.blackPianoTheme .animeBrowser,
+.blackPianoTheme .animeCatalog,
+.blackPianoTheme .animeDetailsModal,
+.blackPianoTheme .animeWatchSetupModal {
+  background: var(--mm-bg-0);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .animeBrowserHeader,
+.blackPianoTheme .animeSearchArea,
+.blackPianoTheme .animeSelectedSource,
+.blackPianoTheme .animeSourceCard,
+.blackPianoTheme .animeCard,
+.blackPianoTheme .animeDetailsContent,
+.blackPianoTheme .animeWatchDirectBox,
+.blackPianoTheme .animeSelectedEpisode,
+.blackPianoTheme .animeSourceChoice {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .animeSourceCard:hover,
+.blackPianoTheme .animeSourceCard.selected,
+.blackPianoTheme .animeCard:hover,
+.blackPianoTheme .animeSourceChoice button:hover,
+.blackPianoTheme .animeSourceChoice button.selected {
+  background: var(--mm-accent-soft);
+  border-color: var(--mm-border-strong);
+}
+
+.blackPianoTheme .animeBrowserHeader p,
+.blackPianoTheme .animeSectionHeading small,
+.blackPianoTheme .animeSourceCard small,
+.blackPianoTheme .animeSelectedEpisode small,
+.blackPianoTheme .animeSelectedEpisode span,
+.blackPianoTheme .campfireWatchSetupHelp {
+  color: var(--mm-muted);
+}
+
+/* Screen share chrome */
+.blackPianoTheme .screenSharePage,
+.blackPianoTheme .screenShareSetup,
+.blackPianoTheme .screenShareLive,
+.blackPianoTheme .screenShareIdle,
+.blackPianoTheme .screenViewerLanding {
+  background: var(--mm-bg-0);
+  color: var(--mm-text);
+}
+
+.blackPianoTheme .screenCaptureMode,
+.blackPianoTheme .screenCaptureSettings,
+.blackPianoTheme .screenShareInformation,
+.blackPianoTheme .screenSharePrivacyNotice,
+.blackPianoTheme .screenViewerSignalStatus,
+.blackPianoTheme .screenShareVideoArea,
+.blackPianoTheme .screenShareIdleIcon {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+}
+
+/* Direct messages / calls / verification / moderation */
+.cfDmModal,
+.cfDirectCallCard,
+.cfVerificationModal,
+.cfModeratorView {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-bg-1);
+  color: var(--mm-text);
+  box-shadow: 0 26px 84px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.035);
+}
+
+.cfDmModal header,
+.cfDirectCallCard header,
+.cfVerificationModal header,
+.cfModeratorView header,
+.cfDmComposer,
+.cfDirectCallActions,
+.cfModeratorStatus,
+.cfModeratorMove,
+.cfModeratorMetadata > div,
+.cfModeratorControls label,
+.cfVerificationInfo,
+.cfVerificationBody details {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+.cfDmMessages,
+.cfDirectCallVideo,
+.cfDirectCallNoVideo,
+.cfVerificationCode,
+.cfModeratorControls,
+.cfModeratorHistory {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-0);
+  color: var(--mm-text);
+}
+
+.cfDmModal header p,
+.cfDmModal header small,
+.cfDirectCallCard p,
+.cfDirectCallCard small,
+.cfVerificationModal header p,
+.cfVerificationModal header small,
+.cfModeratorView header p,
+.cfModeratorView header small,
+.cfModeratorMetadata span,
+.cfModeratorControls small,
+.cfVerificationWarning span {
+  color: var(--mm-muted);
+}
+
+.cfDmModal header button,
+.cfVerificationModal header button,
+.cfModeratorView header button,
+.cfDirectCallActions button {
+  border-color: var(--mm-border);
+  background: var(--mm-bg-2);
+  color: var(--mm-text);
+}
+
+.cfDirectCallActions .accept {
+  border-color: rgba(142,208,162,.38);
+  background: rgba(142,208,162,.12);
+  color: #cce8d5;
+}
+
+.cfDirectCallActions .decline,
+.cfVerificationError,
+.cfModeratorDisconnect,
+.cfModeratorDangerZone {
+  border-color: rgba(244,125,134,.38);
+  background: rgba(244,125,134,.10);
+  color: #ffb9bf;
+}
+
+.cfVerificationWarning {
+  border-color: var(--mm-border-strong);
+  background: var(--mm-panel-2);
+}
+
+/* Scrollbars */
+.blackPianoTheme *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.blackPianoTheme *::-webkit-scrollbar-track {
+  background: var(--mm-bg-0);
+}
+
+.blackPianoTheme *::-webkit-scrollbar-thumb {
+  border: 2px solid var(--mm-bg-0);
+  border-radius: 999px;
+  background: #2f2f35;
+}
+
+.blackPianoTheme *::-webkit-scrollbar-thumb:hover {
+  background: #46464d;
+}

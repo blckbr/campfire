@@ -1,0 +1,1428 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #29333d;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #eef5f9;
+}
+
+/* TOP */
+
+.topbar {
+  height: 84px;
+  padding: 12px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      180deg,
+      #daf3ff,
+      #a9dcef
+    );
+
+  border-bottom: 1px solid #8dbfd1;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffac45,
+      #d55b1b
+    );
+
+  border: 3px solid white;
+
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+}
+
+.username {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #34824b;
+}
+
+.topButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.topButtons button {
+  width: 38px;
+  height: 34px;
+
+  border: 1px solid #91b8c8;
+  border-radius: 6px;
+
+  background: linear-gradient(#fff, #dceef5);
+}
+
+/* MAIN */
+
+.main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.sidebar {
+  width: 290px;
+  flex-shrink: 0;
+
+  overflow-y: auto;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f8fcfe,
+      #e9f4f9
+    );
+
+  border-right: 1px solid #bccfd8;
+}
+
+.search {
+  margin: 12px;
+  width: calc(100% - 24px);
+  height: 34px;
+
+  padding: 0 10px;
+
+  border: 1px solid #afc5d0;
+  border-radius: 6px;
+
+  outline: none;
+}
+
+.search:focus {
+  border-color: #5daacb;
+}
+
+.sectionTitle {
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 12px;
+
+  background:
+    linear-gradient(
+      #edf8fc,
+      #dcecf3
+    );
+
+  border-top: 1px solid #d3e1e6;
+  border-bottom: 1px solid #cadae1;
+
+  color: #55707d;
+
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.sectionTitle button {
+  border: 0;
+  background: transparent;
+
+  font-size: 18px;
+  color: #45829d;
+}
+
+.friend {
+  width: 100%;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 7px 11px;
+
+  border: 0;
+  border-bottom: 1px solid #d9e5ea;
+
+  background: transparent;
+
+  text-align: left;
+}
+
+.friend:hover,
+.campfire:hover {
+  background: #dff2fa;
+}
+
+.friendAvatar {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  color: white;
+  font-weight: 600;
+
+  border: 2px solid white;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.friendAvatar.online {
+  background: #49a665;
+}
+
+.friendAvatar.away {
+  background: #dfaa36;
+}
+
+.friendAvatar.offline {
+  background: #88939a;
+}
+
+.friendText {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.friendText strong {
+  font-size: 13px;
+}
+
+.friendText small {
+  margin-top: 3px;
+
+  color: #768b95;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.invite {
+  opacity: 0;
+}
+
+.friend:hover .invite {
+  opacity: 1;
+}
+
+.campfireTitle {
+  margin-top: 7px;
+}
+
+.campfire {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #d9e5ea;
+  background: transparent;
+  text-align: left;
+}
+
+.campfireMain {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.campfire .fire {
+  font-size: 24px;
+  flex: 0 0 auto;
+}
+
+.campfireMainCopy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.campfire strong {
+  font-size: 12px;
+}
+
+.campfire small {
+  margin-top: 2px;
+  color: #788d97;
+}
+
+.campfireRoster {
+  max-height: 126px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 8px 7px 44px;
+  padding: 3px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 1px solid rgba(120,141,151,.22);
+  scrollbar-width: thin;
+}
+
+.campfireRosterUser,
+.campfireRosterEmpty {
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  color: #6f858f;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.campfireRosterUser {
+  cursor: context-menu;
+}
+
+.campfireRosterUser:hover {
+  background: rgba(255,255,255,.06);
+}
+
+.campfireRosterUser b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 12px;
+}
+
+.startCampfire {
+  margin: 13px;
+
+  width: calc(100% - 26px);
+  height: 38px;
+
+  border: 1px solid #d67b35;
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      #fff6e9,
+      #ffd7a4
+    );
+
+  color: #92450e;
+  font-weight: 600;
+}
+
+/* CONTENT */
+
+.content {
+  flex: 1;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #ffffff,
+      #f5fafc 55%,
+      #e6f1f6
+    );
+}
+
+.welcome {
+  width: min(600px, 90%);
+
+  text-align: center;
+}
+
+.logo {
+  font-size: 80px;
+
+  filter:
+    drop-shadow(
+      0 3px 5px rgba(0,0,0,.18)
+    );
+}
+
+.welcome h1 {
+  margin: 7px 0;
+
+  font-size: 36px;
+  font-weight: 400;
+
+  color: #bd591d;
+}
+
+.welcome p {
+  max-width: 470px;
+
+  margin: 0 auto 26px;
+
+  color: #637985;
+
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.actions button {
+  min-width: 165px;
+  height: 43px;
+
+  padding: 0 18px;
+
+  border-radius: 6px;
+
+  font-weight: 600;
+}
+
+.primary {
+  color: white;
+
+  border: 1px solid #c66323;
+
+  background:
+    linear-gradient(
+      #f19a4e,
+      #d66b27
+    );
+}
+
+.secondary {
+  color: #446272;
+
+  border: 1px solid #a8bec9;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #e7f0f4
+    );
+}
+
+.features {
+  margin: 40px auto 0;
+
+  max-width: 420px;
+
+  display: flex;
+  justify-content: space-around;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #d1dfe5;
+}
+
+.features div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.features span {
+  font-size: 26px;
+}
+
+.features small {
+  color: #738791;
+}
+
+/* FOOTER */
+
+footer {
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  background:
+    linear-gradient(
+      #e6f3f8,
+      #cfe5ef
+    );
+
+  border-top: 1px solid #aec9d4;
+
+  color: #526b76;
+
+  font-size: 11px;
+}
+
+/* CREATE CAMPFIRE MODAL */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(24, 38, 48, 0.38);
+  backdrop-filter: blur(2px);
+}
+
+.createModal {
+  width: 510px;
+  max-height: 90vh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border: 1px solid #9db4c0;
+  border-radius: 9px;
+
+  background: #f7fbfd;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.28);
+}
+
+.modalHeader {
+  height: 55px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  background:
+    linear-gradient(
+      #e9f7fd,
+      #cceaf6
+    );
+
+  border-bottom: 1px solid #aecad6;
+}
+
+.modalHeader > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.modalHeader strong {
+  font-size: 16px;
+  color: #334e5d;
+}
+
+.modalFire {
+  font-size: 25px;
+}
+
+.modalHeader button {
+  width: 30px;
+  height: 30px;
+
+  border: 0;
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #637985;
+  font-size: 16px;
+}
+
+.modalHeader button:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.modalBody {
+  padding: 17px;
+
+  overflow-y: auto;
+}
+
+.fieldLabel {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #506b79;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.roomNameInput {
+  width: 100%;
+  height: 38px;
+
+  padding: 0 11px;
+
+  border: 1px solid #abc1cc;
+  border-radius: 6px;
+
+  outline: none;
+
+  background: white;
+}
+
+.roomNameInput:focus {
+  border-color: #d87a34;
+
+  box-shadow:
+    0 0 0 2px rgba(216, 122, 52, 0.12);
+}
+
+.temporaryNotice {
+  margin: 13px 0 18px;
+  padding: 11px;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 7px;
+
+  border: 1px solid #f1c28e;
+  border-radius: 6px;
+
+  background: #fff6e8;
+
+  color: #78502d;
+
+  font-size: 12px;
+}
+
+.temporaryNotice span {
+  grid-column: 2;
+
+  margin-top: 3px;
+
+  color: #84684e;
+}
+
+.privacyOptions {
+  display: grid;
+  gap: 6px;
+
+  margin-bottom: 20px;
+}
+
+.privacyOptions label {
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 10px;
+
+  border: 1px solid #d1dfe5;
+  border-radius: 6px;
+
+  background: white;
+
+  cursor: pointer;
+}
+
+.privacyOptions label:hover {
+  border-color: #9fc5d6;
+
+  background: #f5fbfe;
+}
+
+.privacyOptions span {
+  display: flex;
+  flex-direction: column;
+}
+
+.privacyOptions strong {
+  font-size: 12px;
+}
+
+.privacyOptions small {
+  margin-top: 3px;
+
+  color: #748894;
+}
+
+.inviteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inviteHeader small {
+  color: #758a95;
+}
+
+.inviteFriends {
+  max-height: 185px;
+
+  overflow-y: auto;
+
+  border: 1px solid #cfdee5;
+  border-radius: 6px;
+
+  background: white;
+}
+
+.inviteFriend {
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 6px 10px;
+
+  border-bottom: 1px solid #e4ecef;
+
+  cursor: pointer;
+}
+
+.inviteFriend:last-child {
+  border-bottom: 0;
+}
+
+.inviteFriend:hover {
+  background: #edf8fc;
+}
+
+.inviteFriend > div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.inviteFriend strong {
+  font-size: 12px;
+}
+
+.inviteFriend small {
+  margin-top: 2px;
+
+  color: #7a8e98;
+}
+
+.miniAvatar {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 6px;
+
+  color: white;
+  font-weight: bold;
+}
+
+.miniAvatar.online {
+  background: #4ca566;
+}
+
+.miniAvatar.away {
+  background: #d9a53b;
+}
+
+.miniAvatar.offline {
+  background: #8e999f;
+}
+
+.friendOffline {
+  opacity: 0.65;
+}
+
+.vipHint {
+  margin-top: 13px;
+
+  padding: 9px 11px;
+
+  border-radius: 6px;
+
+  background: #f3edf9;
+
+  color: #6a5284;
+
+  font-size: 11px;
+}
+
+.modalFooter {
+  height: 61px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  padding: 0 16px;
+
+  border-top: 1px solid #d1dfe5;
+
+  background: #edf5f8;
+}
+
+.modalFooter button {
+  min-width: 100px;
+  height: 36px;
+
+  border-radius: 6px;
+
+  font-weight: 600;
+}
+
+.cancelButton {
+  border: 1px solid #aebfc7;
+
+  background:
+    linear-gradient(
+      white,
+      #e8f0f3
+    );
+
+  color: #526b77;
+}
+
+.createButton {
+  border: 1px solid #c76322;
+
+  background:
+    linear-gradient(
+      #f29d50,
+      #d66b27
+    );
+
+  color: white;
+}
+
+.createButton:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.45;
+}
+
+/* ============================================================
+   BLACK PIANO THEME
+   ============================================================ */
+body {
+  background: #08090c;
+  color: #e7edf3;
+}
+.blackPianoTheme {
+  --bp-bg: #08090c;
+  --bp-panel: #111318;
+  --bp-panel-2: #1a1d24;
+  --bp-panel-3: #252a32;
+  --bp-border: rgba(255,255,255,.1);
+  --bp-text: #eef2f6;
+  --bp-muted: #a7b1bc;
+  --bp-accent: #ffa45b;
+  --bp-accent-2: #68a7ff;
+  background:
+    radial-gradient(circle at top left, rgba(255, 160, 76, 0.08), transparent 20%),
+    radial-gradient(circle at bottom right, rgba(104, 167, 255, 0.12), transparent 22%),
+    linear-gradient(180deg, #20242b 0%, #111318 18%, #08090c 100%);
+  color: var(--bp-text);
+}
+.blackPianoTheme .topbar {
+  position: relative;
+  background: linear-gradient(180deg, #313640 0%, #191c22 45%, #0c0e12 100%);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 24px rgba(0,0,0,.32);
+}
+.blackPianoTheme .topbar::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 46%;
+  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0));
+  pointer-events: none;
+}
+.blackPianoTheme .campfireBrandBadge {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, #2b3038, #111318);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 8px 18px rgba(0,0,0,.32);
+}
+.blackPianoTheme .campfireBrandBadge img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.blackPianoTheme .avatar {
+  border-color: rgba(255,255,255,.22);
+  background: linear-gradient(145deg, #f9a25a, #aa4613);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 6px 15px rgba(0,0,0,.35);
+}
+.blackPianoTheme .username { color: var(--bp-text); }
+.blackPianoTheme .status { color: #c1cad3; }
+.blackPianoTheme .topButtons button,
+.blackPianoTheme .startCampfire,
+.blackPianoTheme .sectionTitle button,
+.blackPianoTheme .createButton,
+.blackPianoTheme .cancelButton,
+.blackPianoTheme .secondary,
+.blackPianoTheme .primary,
+.blackPianoTheme .modalFooter button {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #323843, #151920);
+  color: var(--bp-text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+}
+.blackPianoTheme .startCampfire,
+.blackPianoTheme .createButton,
+.blackPianoTheme .primary {
+  border-color: rgba(255, 164, 91, .38);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 1px rgba(255,164,91,.08);
+}
+.blackPianoTheme .main,
+.blackPianoTheme .content { background: transparent; }
+.blackPianoTheme .sidebar {
+  background: linear-gradient(180deg, rgba(33,37,45,.97), rgba(13,15,18,.98));
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+.blackPianoTheme .search,
+.blackPianoTheme .roomNameInput,
+.blackPianoTheme input,
+.blackPianoTheme textarea,
+.blackPianoTheme select {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #1d2128, #0f1217);
+  color: var(--bp-text);
+}
+.blackPianoTheme .search::placeholder,
+.blackPianoTheme input::placeholder,
+.blackPianoTheme textarea::placeholder { color: #9ba7b4; }
+.blackPianoTheme .sectionTitle {
+  background: linear-gradient(180deg, #2e333d, #161a20);
+  border-top-color: rgba(255,255,255,.08);
+  border-bottom-color: rgba(255,255,255,.1);
+  color: #d3dae1;
+}
+.blackPianoTheme .friend,
+.blackPianoTheme .campfire,
+.blackPianoTheme .privacyOptions label,
+.blackPianoTheme .inviteFriend {
+  border-bottom-color: rgba(255,255,255,.06);
+  color: var(--bp-text);
+}
+.blackPianoTheme .friend:hover,
+.blackPianoTheme .campfire:hover,
+.blackPianoTheme .privacyOptions label:hover,
+.blackPianoTheme .inviteFriend:hover {
+  background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(104,167,255,.08));
+}
+.blackPianoTheme .friendText small,
+.blackPianoTheme .campfire small,
+.blackPianoTheme .campfireRosterUser,
+.blackPianoTheme .campfireRosterEmpty,
+.blackPianoTheme .fieldLabel,
+.blackPianoTheme .vipHint,
+.blackPianoTheme .temporaryNotice {
+  color: var(--bp-muted);
+}
+.blackPianoTheme .welcome,
+.blackPianoTheme .createModal,
+.blackPianoTheme .modalBody,
+.blackPianoTheme .modalHeader,
+.blackPianoTheme .modalFooter {
+  color: var(--bp-text);
+}
+.blackPianoTheme .welcome,
+.blackPianoTheme .createModal {
+  border-color: rgba(255,255,255,.1);
+  background: linear-gradient(180deg, rgba(44,49,57,.96), rgba(14,16,19,.98));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 24px 60px rgba(0,0,0,.38);
+}
+.blackPianoTheme .modalOverlay {
+  background: rgba(4,5,8,.66);
+  backdrop-filter: blur(5px);
+}
+.blackPianoTheme .modalHeader,
+.blackPianoTheme .modalFooter {
+  border-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+}
+.blackPianoTheme .logo,
+.blackPianoTheme .modalFire,
+.blackPianoTheme .fire { filter: drop-shadow(0 6px 14px rgba(255,164,91,.25)); }
+
+/* ============================================================
+   BLACK PIANO WLM SHELL REFINEMENT
+   ============================================================ */
+.blackPianoTheme .blackPianoMenuBar {
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 10px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.03) 48%, rgba(0,0,0,.22)),
+    linear-gradient(180deg, #3a3f49, #171a20);
+  color: #e8edf2;
+  font-size: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+}
+.blackPianoTheme .blackPianoMenuBar span,
+.blackPianoTheme .blackPianoMenuBar strong {
+  cursor: default;
+  user-select: none;
+}
+.blackPianoTheme .blackPianoMenuBar span:hover,
+.blackPianoTheme .blackPianoMenuBar strong:hover {
+  color: #ffcf91;
+}
+.blackPianoTheme .blackPianoMenuBar strong {
+  margin-left: auto;
+  color: #ffb06a;
+  font-weight: 700;
+}
+.blackPianoTheme .topbar {
+  height: 102px;
+  padding: 14px 18px;
+}
+.blackPianoTheme .profile {
+  position: relative;
+  z-index: 1;
+}
+.blackPianoTheme .topButtons {
+  position: relative;
+  z-index: 1;
+}
+.blackPianoTheme .topButtons button:hover,
+.blackPianoTheme .startCampfire:hover,
+.blackPianoTheme .campfireFeaturePageButton:hover,
+.blackPianoTheme .createButton:hover,
+.blackPianoTheme .primary:hover {
+  border-color: rgba(255,181,112,.48);
+  background: linear-gradient(180deg, #454b57, #1d222a);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 0 18px rgba(255,157,75,.12);
+}
+.blackPianoTheme .sidebar::-webkit-scrollbar,
+.blackPianoTheme .campfireMessages::-webkit-scrollbar,
+.blackPianoTheme *::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.blackPianoTheme .sidebar::-webkit-scrollbar-track,
+.blackPianoTheme .campfireMessages::-webkit-scrollbar-track,
+.blackPianoTheme *::-webkit-scrollbar-track {
+  background: #0b0d10;
+}
+.blackPianoTheme .sidebar::-webkit-scrollbar-thumb,
+.blackPianoTheme .campfireMessages::-webkit-scrollbar-thumb,
+.blackPianoTheme *::-webkit-scrollbar-thumb {
+  border: 2px solid #0b0d10;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3d4450, #1d222a);
+}
+.blackPianoTheme .friendAvatar.online,
+.blackPianoTheme .friendAvatar.away,
+.blackPianoTheme .friendAvatar.offline,
+.blackPianoTheme .friendAvatar {
+  border-color: rgba(255,255,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 5px 14px rgba(0,0,0,.32);
+}
+.blackPianoTheme .friendAvatar.online { background: linear-gradient(145deg,#46bc72,#1b6b3e); }
+.blackPianoTheme .friendAvatar.away { background: linear-gradient(145deg,#ffbd5f,#9b6120); }
+.blackPianoTheme .friendAvatar.offline { background: linear-gradient(145deg,#6c7582,#2d333b); }
+.blackPianoTheme .campfire .fire,
+.blackPianoTheme .campfireRoomFlame,
+.blackPianoTheme .campfireFeatureIcon {
+  text-shadow: 0 0 14px rgba(255,150,65,.35);
+}
+
+/* Campfire Media Pro — create-room contrast fix for Black Piano.
+   The legacy WLM modal above uses light surfaces. These overrides are
+   intentionally explicit so readable text never lands on white cards. */
+.blackPianoTheme .modalHeader strong {
+  color: #f3f6f9;
+}
+
+.blackPianoTheme .fieldLabel {
+  color: #d6dee6;
+}
+
+.blackPianoTheme .privacyOptions label {
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #1f242c, #12161b);
+  color: #eef2f6;
+}
+
+.blackPianoTheme .privacyOptions strong {
+  color: #f2f5f8;
+}
+
+.blackPianoTheme .privacyOptions small {
+  color: #c2ccd6;
+}
+
+.blackPianoTheme .inviteFriends {
+  border-color: rgba(255,255,255,.12);
+  background: #12161b;
+}
+
+.blackPianoTheme .inviteFriend {
+  color: #eef2f6;
+}
+
+.blackPianoTheme .inviteFriend strong {
+  color: #f2f5f8;
+}
+
+.blackPianoTheme .inviteFriend small,
+.blackPianoTheme .inviteHeader small {
+  color: #bec9d3;
+}
+
+.inviteEmptyState {
+  padding: 15px;
+  text-align: center;
+  font-size: 13px;
+  color: #aebbc6;
+}
+
+.blackPianoTheme .inviteEmptyState {
+  color: #c0cad4;
+}
+
+.blackPianoTheme .temporaryNotice {
+  border-color: rgba(255, 164, 91, .42);
+  background: rgba(255, 164, 91, .10);
+  color: #ffd6b5;
+}
+
+.blackPianoTheme .temporaryNotice strong {
+  color: #ffe3cb;
+}
+
+.blackPianoTheme .temporaryNotice span {
+  color: #d7c0ae;
+}
+
+.blackPianoTheme .vipHint {
+  border: 1px solid rgba(153, 112, 210, .28);
+  background: rgba(153, 112, 210, .12);
+  color: #d9c8ef;
+}
+
+.blackPianoTheme .campfireMain {
+  color: var(--bp-text);
+}
+.blackPianoTheme .campfireRoster {
+  border-left-color: rgba(255,255,255,.08);
+  scrollbar-color: rgba(255,255,255,.18) transparent;
+}
+.blackPianoTheme .campfireRosterUser:hover {
+  background: rgba(255,255,255,.055);
+}
+.blackPianoTheme .campfireRosterUser b {
+  color: #dfe5eb;
+}
+
+/* ============================================================
+   CAMPFIRE 1.0 — LEGIBILITY + FUNCTIONAL WLM MENUS
+   ============================================================ */
+
+.blackPianoTheme {
+  font-size: 14px;
+}
+
+.blackPianoTheme .blackPianoMenuBar {
+  position: relative;
+  z-index: 12000;
+  height: 32px;
+  gap: 2px;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+.blackPianoMenuItem {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.blackPianoTheme .blackPianoMenuButton,
+.blackPianoTheme .blackPianoPlusButton {
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #edf2f7;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.blackPianoTheme .blackPianoMenuButton:hover,
+.blackPianoTheme .blackPianoMenuButton[aria-expanded="true"],
+.blackPianoTheme .blackPianoPlusButton:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,164,91,.08));
+  color: #ffd5a8;
+}
+
+.blackPianoTheme .blackPianoPlusButton {
+  margin-left: auto;
+  color: #ffb06a;
+  font-weight: 700;
+}
+
+.blackPianoMenuDropdown {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  z-index: 12020;
+  min-width: 245px;
+  padding: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(180deg, #252a32, #11151a 34%, #0b0d10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 18px 38px rgba(0,0,0,.54);
+}
+
+.blackPianoMenuDropdown button {
+  width: 100%;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #eef3f7;
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.blackPianoMenuDropdown button:hover:not(:disabled) {
+  background: linear-gradient(90deg, rgba(255,164,91,.16), rgba(104,167,255,.08));
+  color: #fff4e9;
+}
+
+.blackPianoMenuDropdown button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.blackPianoMenuSeparator {
+  height: 1px;
+  margin: 5px 4px;
+  background: rgba(255,255,255,.09);
+}
+
+.blackPianoMenuHint {
+  display: block;
+  padding: 7px 10px 8px;
+  color: #98a5b1;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.blackPianoTheme .topbar {
+  min-height: 108px;
+}
+
+.blackPianoTheme .username {
+  font-size: 20px;
+}
+
+.blackPianoTheme .status {
+  font-size: 13px;
+}
+
+.blackPianoTheme .search {
+  height: 38px;
+  font-size: 14px;
+}
+
+.blackPianoTheme .sectionTitle {
+  min-height: 36px;
+  font-size: 13px;
+}
+
+.blackPianoTheme .friendText strong,
+.blackPianoTheme .campfire strong,
+.blackPianoTheme .startCampfire,
+.blackPianoTheme .campfireRoomTitle,
+.blackPianoTheme .campfireFeatureTab {
+  font-size: 14px;
+}
+
+.blackPianoTheme .friendText small,
+.blackPianoTheme .campfire small,
+.blackPianoTheme .campfireRosterUser,
+.blackPianoTheme .campfireRosterEmpty,
+.blackPianoTheme .fieldLabel,
+.blackPianoTheme .vipHint,
+.blackPianoTheme .temporaryNotice,
+.blackPianoTheme footer {
+  font-size: 12px;
+}
+
+.blackPianoTheme footer {
+  min-height: 28px;
+  border-top: 1px solid rgba(255,255,255,.09);
+  background: linear-gradient(180deg, #181c21, #0c0f12);
+  color: #aeb9c3;
+}
+
+.blackPianoTheme .createModal {
+  width: min(620px, 94vw);
+}
+
+.blackPianoTheme .modalHeader {
+  min-height: 62px;
+  height: auto;
+}
+
+.blackPianoTheme .modalHeader strong {
+  font-size: 18px;
+}
+
+.blackPianoTheme .fieldLabel,
+.blackPianoTheme .privacyOptions strong,
+.blackPianoTheme .inviteFriend strong {
+  font-size: 14px;
+}
+
+.blackPianoTheme .privacyOptions small,
+.blackPianoTheme .inviteFriend small,
+.blackPianoTheme .temporaryNotice span {
+  font-size: 12px;
+}
+
+.campfireAboutModal {
+  width: min(560px, 92vw);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(42,46,54,.98), rgba(11,13,16,.99));
+  color: #eef2f6;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 24px 60px rgba(0,0,0,.55);
+}
+
+.campfireAboutBody {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px;
+}
+
+.campfireAboutBody img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(255,145,65,.28));
+}
+
+.campfireAboutBody h2 {
+  margin: 0 0 7px;
+  font-size: 22px;
+}
+
+.campfireAboutBody p {
+  margin: 0 0 12px;
+  color: #c2ccd5;
+  font-size: 14px;
+}
+
+.campfireAboutBody small {
+  color: #9ba7b2;
+  font-size: 12px;
+}
+
+@media (max-width: 860px) {
+  .blackPianoTheme .blackPianoMenuBar {
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  .blackPianoMenuDropdown {
+    position: fixed;
+    top: 32px;
+    left: 8px;
+  }
+}
+

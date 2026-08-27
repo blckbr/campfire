@@ -1,0 +1,274 @@
+.authPage {
+  position: fixed;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  background:
+    linear-gradient(
+      145deg,
+      #edf7fb 0%,
+      #dceef5 45%,
+      #f7e9dc 100%
+    );
+}
+
+.authGlow {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  filter: blur(80px);
+
+  opacity: 0.4;
+}
+
+.authGlowOne {
+  top: -180px;
+  left: -120px;
+
+  background: #8bd5ef;
+}
+
+.authGlowTwo {
+  right: -150px;
+  bottom: -180px;
+
+  background: #f2a25d;
+}
+
+.authCard {
+  position: relative;
+  z-index: 1;
+
+  width: 390px;
+
+  padding: 36px 34px 25px;
+
+  border: 1px solid rgba(137, 166, 179, 0.7);
+  border-radius: 16px;
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 22px 65px rgba(38, 67, 79, 0.2);
+
+  backdrop-filter: blur(16px);
+
+  text-align: center;
+}
+
+.authFire {
+  font-size: 70px;
+
+  filter:
+    drop-shadow(
+      0 5px 7px rgba(194, 91, 27, 0.2)
+    );
+}
+
+.authBrand h1 {
+  margin: 4px 0;
+
+  color: #b95a20;
+
+  font-size: 36px;
+  font-weight: 500;
+}
+
+.authBrand p {
+  margin: 5px auto 27px;
+
+  max-width: 280px;
+
+  color: #647983;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.googleButton {
+  width: 100%;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  border: 1px solid #bac9d0;
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #f3f7f9
+    );
+
+  color: #344951;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.googleButton:hover:not(:disabled) {
+  background: white;
+
+  border-color: #96adb8;
+}
+
+.googleButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.googleLogo {
+  width: 24px;
+  height: 24px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: #4285f4;
+
+  border: 1px solid #d5dce0;
+
+  font-weight: 700;
+}
+
+.authDivider {
+  margin: 22px 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.authDivider span {
+  flex: 1;
+
+  height: 1px;
+
+  background: #d9e2e6;
+}
+
+.authDivider small {
+  color: #8a9aa2;
+}
+
+.emailLoginPlaceholder {
+  width: 100%;
+  height: 42px;
+
+  border: 1px solid #d1dce1;
+  border-radius: 7px;
+
+  background: #edf3f5;
+
+  color: #7b8d95;
+
+  font-weight: 600;
+}
+
+.comingSoon {
+  display: block;
+
+  margin-top: 9px;
+
+  color: #98a6ad;
+}
+
+.authMessage {
+  margin-top: 18px;
+
+  padding: 11px;
+
+  border: 1px solid #d8c6ac;
+  border-radius: 7px;
+
+  background: #fff7eb;
+
+  color: #705d45;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.authFooter {
+  margin-top: 27px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #e0e8eb;
+
+  color: #9ba8ae;
+
+  font-size: 10px;
+}
+
+/* ============================================================
+   BLACK PIANO BRAND
+   ============================================================ */
+.authPage {
+  background:
+    radial-gradient(circle at top left, rgba(255, 156, 66, 0.12), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(111, 139, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, #262a31 0%, #121418 34%, #08090c 100%);
+  color: #ecf1f5;
+}
+.authGlowOne { background: #ff9d4e; opacity: .18; }
+.authGlowTwo { background: #607eff; opacity: .14; }
+.authCard {
+  border: 1px solid rgba(174, 184, 196, 0.34);
+  background: linear-gradient(180deg, rgba(52,56,64,.94), rgba(16,18,22,.98));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 28px 75px rgba(0,0,0,.48);
+}
+.authBrandLogo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 22px rgba(255, 138, 45, 0.22));
+}
+.authBrand h1 {
+  color: #f6f8fb;
+  text-shadow: 0 1px 0 rgba(255,255,255,.08);
+}
+.authBrand p, .comingSoon, .authFooter, .authDivider small { color: #b1bbc6; }
+.googleButton,
+.emailLoginPlaceholder {
+  border-color: #5b6470;
+  background: linear-gradient(180deg, #31363f, #16191f);
+  color: #edf1f6;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+.googleButton:hover:not(:disabled) {
+  border-color: #818b98;
+  background: linear-gradient(180deg, #3b414c, #1b1f26);
+}
+.googleLogo {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.12);
+}
+.authMessage {
+  border-color: rgba(255,179,112,.28);
+  background: rgba(255, 163, 71, .08);
+  color: #ead8c5;
+}
+.authDivider span, .authFooter { border-color: rgba(255,255,255,.08); }

@@ -1,0 +1,477 @@
+/* ============================================================
+   CAMPFIRE BLACK PIANO — NATIVE LIGHT
+   Objetivos:
+   - sensação de aplicativo Windows, não de página web;
+   - menos blur, glow, sombras e transparências pesadas;
+   - controles compactos, densos e previsíveis;
+   - uma única WebView principal;
+   - animações curtas apenas em transform/opacity.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeSpeed;
+}
+
+html,
+body,
+#root {
+  background: #0b0d10;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+/* Evita custo de vidro/blur em WebView2. */
+.authGlow,
+.profileSetupGlow {
+  display: none !important;
+}
+
+.authCard,
+.profileSetupCard,
+.modalOverlay,
+.friendsModalOverlay,
+.campfireSettingsOverlay,
+.campfireMembersOverlay,
+.animeModalOverlay,
+.winkOverlay {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ============================================================
+   SHELL DESKTOP
+   ============================================================ */
+
+.blackPianoTheme {
+  --native-bg: #0b0d10;
+  --native-panel: #12151a;
+  --native-panel-2: #191d23;
+  --native-panel-3: #222730;
+  --native-line: #343a44;
+  --native-line-soft: rgba(255,255,255,.075);
+  --native-text: #e7ecf1;
+  --native-muted: #a8b2bd;
+  --native-hot: #f0a15c;
+  --native-blue: #70a8e8;
+  background: #0b0d10 !important;
+}
+
+.blackPianoTheme .blackPianoMenuBar {
+  height: 24px !important;
+  gap: 16px !important;
+  padding: 0 9px !important;
+  border-bottom: 1px solid #2e333b !important;
+  background: linear-gradient(#252a31, #15181d) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.07) !important;
+  font-size: 11px !important;
+}
+
+.blackPianoTheme .topbar {
+  height: 78px !important;
+  padding: 9px 12px !important;
+  border-bottom: 1px solid #303640 !important;
+  background: linear-gradient(#2a2f37, #171a1f) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.07) !important;
+}
+
+.blackPianoTheme .topbar::after {
+  display: none !important;
+}
+
+.blackPianoTheme .profile {
+  gap: 9px !important;
+}
+
+.blackPianoTheme .campfireBrandBadge {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 5px !important;
+  background: #15181d !important;
+  box-shadow: none !important;
+}
+
+.blackPianoTheme .campfireBrandBadge img {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+.blackPianoTheme .avatar {
+  width: 46px !important;
+  height: 46px !important;
+  border: 1px solid #4a515c !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  font-size: 20px !important;
+}
+
+.blackPianoTheme .username {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.blackPianoTheme .status {
+  margin-top: 2px !important;
+  font-size: 11px !important;
+}
+
+.blackPianoTheme .topButtons {
+  gap: 5px !important;
+}
+
+.blackPianoTheme .topButtons button {
+  width: 32px !important;
+  height: 30px !important;
+}
+
+.blackPianoTheme .main {
+  background: #0d0f12 !important;
+}
+
+.blackPianoTheme .sidebar {
+  width: 276px !important;
+  background: #12151a !important;
+  border-right: 1px solid #2d323a !important;
+}
+
+.blackPianoTheme .search {
+  height: 30px !important;
+  margin: 8px !important;
+  width: calc(100% - 16px) !important;
+  padding: 0 8px !important;
+}
+
+.blackPianoTheme .sectionTitle {
+  height: 27px !important;
+  padding: 0 9px !important;
+  background: linear-gradient(#20242a, #171a1f) !important;
+  border-color: #2c3138 !important;
+  font-size: 10px !important;
+  letter-spacing: .02em;
+}
+
+.blackPianoTheme .friend {
+  height: 47px !important;
+  gap: 8px !important;
+  padding: 5px 8px !important;
+  border-bottom: 1px solid rgba(255,255,255,.045) !important;
+  content-visibility: auto;
+  contain-intrinsic-size: 47px;
+}
+
+.blackPianoTheme .friendAvatar {
+  width: 34px !important;
+  height: 34px !important;
+  border: 1px solid #454c56 !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+.blackPianoTheme .friendText strong {
+  font-size: 12px !important;
+}
+
+.blackPianoTheme .friendText small {
+  margin-top: 1px !important;
+  font-size: 10px !important;
+}
+
+.blackPianoTheme .campfire {
+  height: 46px !important;
+  padding: 5px 9px !important;
+  border-bottom: 1px solid rgba(255,255,255,.045) !important;
+  content-visibility: auto;
+  contain-intrinsic-size: 46px;
+}
+
+.blackPianoTheme .campfire .fire {
+  font-size: 19px !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.blackPianoTheme .startCampfire {
+  height: 32px !important;
+  margin: 8px !important;
+  width: calc(100% - 16px) !important;
+}
+
+.blackPianoTheme footer {
+  height: 22px !important;
+  padding: 0 8px !important;
+  border-top: 1px solid #2c3138 !important;
+  background: linear-gradient(#1b1f25, #111418) !important;
+  color: #9faab5 !important;
+  font-size: 10px !important;
+}
+
+/* ============================================================
+   CONTROLES: menos "site", mais desktop
+   ============================================================ */
+
+.blackPianoTheme button,
+.blackPianoTheme input,
+.blackPianoTheme textarea,
+.blackPianoTheme select,
+.authPage button,
+.authPage input,
+.profileSetupPage button,
+.profileSetupPage input,
+.profileSetupPage textarea,
+.profileSetupPage select {
+  border-radius: 3px !important;
+}
+
+.blackPianoTheme button,
+.blackPianoTheme .topButtons button,
+.blackPianoTheme .campfireFeaturePageButton,
+.blackPianoTheme .campfireVoiceJoin,
+.blackPianoTheme .campfireVoiceActions button,
+.blackPianoTheme .campfireSettingsActions button,
+.blackPianoTheme .friendsModal button,
+.blackPianoTheme .createButton,
+.blackPianoTheme .primary,
+.blackPianoTheme .secondary {
+  box-shadow: inset 0 1px rgba(255,255,255,.055) !important;
+  transition: background-color 90ms linear, border-color 90ms linear, color 90ms linear !important;
+}
+
+.blackPianoTheme button:hover:not(:disabled) {
+  box-shadow: inset 0 1px rgba(255,255,255,.08) !important;
+}
+
+.blackPianoTheme input:focus,
+.blackPianoTheme textarea:focus,
+.blackPianoTheme select:focus,
+.authPage input:focus,
+.profileSetupPage input:focus,
+.profileSetupPage textarea:focus,
+.profileSetupPage select:focus {
+  outline: 1px solid #6f8ba9 !important;
+  outline-offset: -1px;
+  box-shadow: none !important;
+}
+
+/* ============================================================
+   CHAT / ABAS
+   ============================================================ */
+
+.blackPianoTheme .campfireTabs {
+  min-height: 34px !important;
+  background: #15181d !important;
+  border-bottom: 1px solid #2d323a !important;
+}
+
+.blackPianoTheme .campfireTab {
+  min-height: 34px !important;
+  border-radius: 0 !important;
+}
+
+.blackPianoTheme .campfireTab.active {
+  background: #1e2229 !important;
+  box-shadow: inset 0 -2px #d8894e !important;
+}
+
+.blackPianoTheme .campfireRoomHeader {
+  min-height: 48px !important;
+  background: #171a1f !important;
+  box-shadow: none !important;
+}
+
+.blackPianoTheme .campfireChatStatus {
+  height: 27px !important;
+  background: #111418 !important;
+}
+
+.blackPianoTheme .chatBubble {
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  background: #191d23 !important;
+}
+
+.blackPianoTheme .chatMessageRow.mine .chatBubble,
+.blackPianoTheme .mine .chatBubble {
+  background: #211c18 !important;
+}
+
+.blackPianoTheme .campfireComposer,
+.blackPianoTheme .chatFormattingToolbar,
+.blackPianoTheme .chatAudioComposer {
+  background: #14171b !important;
+  box-shadow: none !important;
+}
+
+.blackPianoTheme .emoticonPicker,
+.blackPianoTheme .winkPicker {
+  border-radius: 4px !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.34) !important;
+}
+
+.nativeFeatureLoading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: #0f1115;
+  color: #9ea8b3;
+  font-size: 11px;
+}
+
+/* ============================================================
+   VOZ / CONFIG / MEMBERS / MODAIS
+   ============================================================ */
+
+.blackPianoTheme .campfireVoiceDock {
+  background: #14171b !important;
+  box-shadow: none !important;
+}
+
+.blackPianoTheme .campfireVoiceMainRow {
+  min-height: 46px !important;
+  padding: 6px 9px !important;
+}
+
+.blackPianoTheme .campfireVoiceIcon {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 3px !important;
+}
+
+.blackPianoTheme .campfireVoiceActions button {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.blackPianoTheme .campfireVoiceJoin {
+  min-height: 30px !important;
+}
+
+.blackPianoTheme .campfireSettingsModal,
+.blackPianoTheme .friendsModal,
+.blackPianoTheme .campfireMembersPanel,
+.blackPianoTheme .createModal,
+.authCard,
+.profileSetupCard,
+.animeDetailsModal,
+.animeWatchSetupModal {
+  border-radius: 5px !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.38) !important;
+}
+
+.blackPianoTheme .campfireSettingsOverlay,
+.blackPianoTheme .friendsModalOverlay,
+.blackPianoTheme .campfireMembersOverlay,
+.blackPianoTheme .modalOverlay,
+.blackPianoTheme .animeModalOverlay {
+  background: rgba(0,0,0,.58) !important;
+}
+
+.blackPianoTheme .campfireMembersPanel {
+  animation: nativePanelIn 100ms ease-out !important;
+}
+
+@keyframes nativePanelIn {
+  from { transform: translateX(8px); opacity: .65; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ============================================================
+   AUTH / PROFILE: sem "landing page"
+   ============================================================ */
+
+.authPage,
+.profileSetupPage {
+  background: #0d0f12 !important;
+}
+
+.authCard,
+.profileSetupCard {
+  border: 1px solid #353b44 !important;
+  background: #171a1f !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.36) !important;
+}
+
+.authBrandLogo {
+  width: 78px !important;
+  height: 78px !important;
+  filter: none !important;
+}
+
+.profileSetupBrandLogo {
+  width: 72px !important;
+  height: 72px !important;
+  filter: none !important;
+}
+
+.googleButton,
+.emailLoginPlaceholder,
+.usernameInputWrapper,
+.profilePreview {
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================
+   SCROLLBARS NATIVAS/COMPACTAS
+   ============================================================ */
+
+.blackPianoTheme *::-webkit-scrollbar,
+.authPage *::-webkit-scrollbar,
+.profileSetupPage *::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.blackPianoTheme *::-webkit-scrollbar-track,
+.authPage *::-webkit-scrollbar-track,
+.profileSetupPage *::-webkit-scrollbar-track {
+  background: #0d0f12 !important;
+}
+
+.blackPianoTheme *::-webkit-scrollbar-thumb,
+.authPage *::-webkit-scrollbar-thumb,
+.profileSetupPage *::-webkit-scrollbar-thumb {
+  border: 1px solid #0d0f12 !important;
+  border-radius: 2px !important;
+  background: #343a43 !important;
+}
+
+.blackPianoTheme *::-webkit-scrollbar-thumb:hover {
+  background: #454c57 !important;
+}
+
+/* ============================================================
+   PERFORMANCE / ACESSIBILIDADE
+   ============================================================ */
+
+.blackPianoTheme .friend,
+.blackPianoTheme .campfire,
+.blackPianoTheme .campfireMemberRow {
+  contain: layout paint style;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

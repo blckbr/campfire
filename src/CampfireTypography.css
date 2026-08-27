@@ -1,0 +1,26 @@
+/* Campfire Media Pro — legibilidade Black Piano sem zoom global */
+:root {
+  --cf-font-body: 15px;
+  --cf-font-control: 15px;
+  --cf-font-compact: 14px;
+  --cf-font-secondary: 13px;
+}
+
+html, body, #root { font-size: var(--cf-font-body); }
+body, button, input, select, textarea { font-size: var(--cf-font-control); }
+small { font-size: var(--cf-font-secondary) !important; line-height: 1.4; }
+.chatComposerInput, .chatComposer textarea, .chatComposer input { font-size: 15px !important; line-height: 1.45 !important; }
+.chatMessageMeta strong, .chatMessageMeta small, .chatMessageMeta time { font-size: 13px !important; }
+.campfireTab { font-size: 14px !important; }
+.campfireTabBadge { font-size: 13px !important; }
+.campfireVoiceIdentity strong, .campfireVoiceJoin { font-size: 15px !important; }
+.campfireVoiceIdentity small, .campfireVoiceMixer label > span, .campfireVoiceMonitorToggle, .campfireVoicePeople span { font-size: 13px !important; }
+.sectionTitle, .friendText strong, .campfire strong, .campfire small { font-size: 14px !important; }
+.campfireMembersPanel, .campfireSettingsModal, .friendsModal { font-size: 15px; }
+.animeSitesRoot button, .animeSitesRoot input, .animeSitesRoot select, .animeBrowser button, .animeBrowser input { font-size: 14px; }
+
+/* Em telas menores o layout deve reflow/rolar, nunca encolher o texto funcional. */
+@media (max-width: 900px) {
+  html, body, #root { font-size: var(--cf-font-body); }
+  .campfireMembersPanel, .campfireSettingsModal, .friendsModal { max-width: calc(100vw - 16px); }
+}

@@ -1,0 +1,893 @@
+.friendsModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 25px;
+
+  background:
+    rgba(25, 43, 51, 0.38);
+
+  backdrop-filter:
+    blur(3px);
+}
+
+.friendsModal {
+  width: 500px;
+  max-width: 100%;
+
+  overflow: hidden;
+
+  border:
+    1px solid #aebfc7;
+
+  border-radius:
+    13px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 25px 80px
+    rgba(20, 40, 50, 0.3);
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.friendsModalHeader {
+  height: 67px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    0 17px;
+
+  border-bottom:
+    1px solid #d5e0e5;
+
+  background:
+    linear-gradient(
+      #f8fcfd,
+      #e9f3f7
+    );
+}
+
+.friendsModalHeader > div {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+.friendsModalIcon {
+  font-size:
+    28px;
+}
+
+.friendsModalHeader strong {
+  display:
+    block;
+
+  color:
+    #3d5661;
+
+  font-size:
+    15px;
+}
+
+.friendsModalHeader small {
+  display:
+    block;
+
+  margin-top:
+    2px;
+
+  color:
+    #86969e;
+
+  font-size:
+    10px;
+}
+
+.friendsModalClose {
+  width:
+    30px;
+
+  height:
+    30px;
+
+  border:
+    0;
+
+  border-radius:
+    6px;
+
+  background:
+    transparent;
+
+  color:
+    #778990;
+
+  cursor:
+    pointer;
+}
+
+.friendsModalClose:hover {
+  background:
+    #e3edf1;
+
+  color:
+    #a74949;
+}
+
+/* ==========================================
+   TABS
+   ========================================== */
+
+.friendsTabs {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  border-bottom:
+    1px solid #d9e3e7;
+}
+
+.friendsTabs button {
+  position:
+    relative;
+
+  height:
+    43px;
+
+  border:
+    0;
+
+  border-right:
+    1px solid #e2e9ec;
+
+  background:
+    #f7fafb;
+
+  color:
+    #71838c;
+
+  font-size:
+    11px;
+
+  cursor:
+    pointer;
+}
+
+.friendsTabs button:last-child {
+  border-right:
+    0;
+}
+
+.friendsTabs button:hover {
+  background:
+    #f1f7f9;
+}
+
+.friendsTabs button.active {
+  background:
+    white;
+
+  color:
+    #b65b24;
+
+  font-weight:
+    700;
+
+  box-shadow:
+    inset 0 -2px
+    #dd7838;
+}
+
+.friendsTabBadge {
+  display:
+    inline-grid;
+
+  min-width:
+    17px;
+
+  height:
+    17px;
+
+  place-items:
+    center;
+
+  margin-left:
+    4px;
+
+  padding:
+    0 4px;
+
+  border-radius:
+    20px;
+
+  background:
+    #df6f30;
+
+  color:
+    white;
+
+  font-size:
+    9px;
+}
+
+/* ==========================================
+   BODY
+   ========================================== */
+
+.friendsModalBody {
+  min-height:
+    365px;
+
+  max-height:
+    560px;
+
+  overflow-y:
+    auto;
+
+  padding:
+    22px;
+}
+
+.friendsSectionIntro {
+  margin-bottom:
+    19px;
+
+  text-align:
+    center;
+}
+
+.friendsSectionIntro h3 {
+  margin:
+    0 0 5px;
+
+  color:
+    #405963;
+
+  font-size:
+    18px;
+  font-weight:
+    500;
+}
+
+.friendsSectionIntro p {
+  margin:
+    0;
+
+  color:
+    #82939b;
+
+  font-size:
+    11px;
+}
+
+.friendUsernameLabel {
+  display:
+    block;
+
+  margin-bottom:
+    6px;
+
+  color:
+    #506872;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+}
+
+.friendUsernameInput {
+  height:
+    43px;
+
+  display:
+    flex;
+  align-items:
+    center;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid #aebfc7;
+
+  border-radius:
+    7px;
+
+  background:
+    white;
+}
+
+.friendUsernameInput:focus-within {
+  border-color:
+    #d0783b;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(208, 120, 59, 0.13);
+}
+
+.friendUsernameInput span {
+  padding-left:
+    12px;
+
+  color:
+    #88989f;
+
+  font-weight:
+    600;
+}
+
+.friendUsernameInput input {
+  flex:
+    1;
+
+  height:
+    100%;
+
+  padding:
+    0 10px 0 3px;
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    #354d58;
+
+  font-weight:
+    600;
+}
+
+.sendFriendButton {
+  width:
+    100%;
+
+  height:
+    43px;
+
+  margin-top:
+    12px;
+
+  border:
+    1px solid #c56327;
+
+  border-radius:
+    7px;
+
+  background:
+    linear-gradient(
+      #f29a4d,
+      #d56a28
+    );
+
+  color:
+    white;
+
+  font-weight:
+    600;
+
+  cursor:
+    pointer;
+}
+
+.sendFriendButton:hover:not(:disabled) {
+  background:
+    linear-gradient(
+      #f5a95e,
+      #df7835
+    );
+}
+
+.sendFriendButton:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    not-allowed;
+}
+
+.friendTip {
+  margin-top:
+    18px;
+
+  padding:
+    11px;
+
+  border:
+    1px solid #dce7eb;
+
+  border-radius:
+    7px;
+
+  background:
+    #f5f9fa;
+
+  color:
+    #7b8d95;
+
+  font-size:
+    10px;
+
+  text-align:
+    center;
+}
+
+/* ==========================================
+   RESULTADO
+   ========================================== */
+
+.friendsResult {
+  margin-bottom:
+    14px;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid;
+
+  border-radius:
+    7px;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.4;
+}
+
+.friendsResult.success {
+  border-color:
+    #acd2b7;
+
+  background:
+    #eff9f2;
+
+  color:
+    #39704a;
+}
+
+.friendsResult.error {
+  border-color:
+    #e0b0b0;
+
+  background:
+    #fff2f2;
+
+  color:
+    #954545;
+}
+
+/* ==========================================
+   LISTAS
+   ========================================== */
+
+.friendsSectionTitle {
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    space-between;
+
+  margin-bottom:
+    8px;
+
+  color:
+    #596f79;
+
+  font-size:
+    11px;
+}
+
+.friendsSectionTitle span {
+  min-width:
+    20px;
+
+  height:
+    20px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  padding:
+    0 5px;
+
+  border-radius:
+    20px;
+
+  background:
+    #e8f0f3;
+
+  color:
+    #6a7d85;
+
+  font-size:
+    9px;
+}
+
+.outgoingTitle {
+  margin-top:
+    25px;
+}
+
+.friendRows {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    6px;
+}
+
+.friendManageRow {
+  min-height:
+    61px;
+
+  display:
+    flex;
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+  padding:
+    8px 9px;
+
+  border:
+    1px solid #dae4e8;
+
+  border-radius:
+    8px;
+
+  background:
+    #fbfdfd;
+}
+
+.friendManageAvatar {
+  width:
+    41px;
+
+  height:
+    41px;
+
+  flex-shrink:
+    0;
+
+  border-radius:
+    8px;
+
+  background-size:
+    cover;
+
+  background-position:
+    center;
+
+  box-shadow:
+    0 1px 4px
+    rgba(0, 0, 0, 0.15);
+}
+
+.friendManageAvatar.fallback {
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #60aaca,
+      #3c7e9a
+    );
+
+  color:
+    white;
+
+  font-weight:
+    700;
+}
+
+.friendManageIdentity {
+  min-width:
+    0;
+
+  flex:
+    1;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+}
+
+.friendManageIdentity strong {
+  overflow:
+    hidden;
+
+  color:
+    #405863;
+
+  font-size:
+    12px;
+
+  white-space:
+    nowrap;
+
+  text-overflow:
+    ellipsis;
+}
+
+.friendManageIdentity small {
+  margin-top:
+    3px;
+
+  overflow:
+    hidden;
+
+  color:
+    #89989f;
+
+  font-size:
+    9px;
+
+  white-space:
+    nowrap;
+
+  text-overflow:
+    ellipsis;
+}
+
+.friendRequestActions {
+  display:
+    flex;
+
+  gap:
+    5px;
+}
+
+.acceptFriendButton,
+.declineFriendButton {
+  width:
+    31px;
+
+  height:
+    31px;
+
+  border:
+    1px solid;
+
+  border-radius:
+    6px;
+
+  cursor:
+    pointer;
+}
+
+.acceptFriendButton {
+  border-color:
+    #9bc4a6;
+
+  background:
+    #eef8f1;
+
+  color:
+    #3d7c50;
+}
+
+.declineFriendButton {
+  border-color:
+    #d4aaaa;
+
+  background:
+    #fff1f1;
+
+  color:
+    #9f4d4d;
+}
+
+.pendingText {
+  color:
+    #b27a39;
+
+  font-size:
+    9px;
+}
+
+.cancelRequestButton,
+.removeFriendButton {
+  height:
+    29px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid #d5b1b1;
+
+  border-radius:
+    6px;
+
+  background:
+    #fff6f6;
+
+  color:
+    #975555;
+
+  font-size:
+    9px;
+
+  cursor:
+    pointer;
+}
+
+.friendRequestActions button:disabled,
+.cancelRequestButton:disabled,
+.removeFriendButton:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    not-allowed;
+}
+
+/* ==========================================
+   EMPTY
+   ========================================== */
+
+.friendsEmpty {
+  min-height:
+    91px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+
+  border:
+    1px dashed #d7e2e6;
+
+  border-radius:
+    8px;
+
+  color:
+    #95a5ac;
+}
+
+.friendsEmpty span {
+  font-size:
+    22px;
+}
+
+.friendsEmpty small {
+  font-size:
+    10px;
+}
+
+.friendsRefreshButton {
+  display:
+    block;
+
+  margin:
+    18px auto 0;
+
+  padding:
+    7px 13px;
+
+  border:
+    1px solid #c9d7dd;
+
+  border-radius:
+    6px;
+
+  background:
+    #f5f9fa;
+
+  color:
+    #70838c;
+
+  font-size:
+    9px;
+
+  cursor:
+    pointer;
+}
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .friendsModalOverlay { background: rgba(4,5,8,.72); }
+.blackPianoTheme .friendsModal {
+  border-color: rgba(255,255,255,.1);
+  background: linear-gradient(180deg, rgba(42,46,54,.97), rgba(12,14,17,.99));
+  color: #ebf1f6;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 24px 60px rgba(0,0,0,.5);
+}
+.blackPianoTheme .friendsModalHeader,
+.blackPianoTheme .friendsTabs button,
+.blackPianoTheme .friendManageRow,
+.blackPianoTheme .friendsResult,
+.blackPianoTheme .friendsEmpty,
+.blackPianoTheme .friendTip {
+  border-color: rgba(255,255,255,.08);
+  color: #eaf0f5;
+}
+.blackPianoTheme .friendsModalHeader {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}
+.blackPianoTheme .friendsModalHeader strong,
+.blackPianoTheme .friendsSectionTitle,
+.blackPianoTheme .friendsSectionIntro h3,
+.blackPianoTheme .friendManageIdentity strong { color: #f1f5f8; }
+.blackPianoTheme .friendsModalHeader small,
+.blackPianoTheme .friendsSectionIntro p,
+.blackPianoTheme .friendManageIdentity small,
+.blackPianoTheme .pendingText { color: #a9b3bd; }
+.blackPianoTheme .friendsTabs {
+  border-bottom-color: rgba(255,255,255,.08);
+}
+.blackPianoTheme .friendsTabs button {
+  border-right-color: rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  color: #c6cfd8;
+}
+.blackPianoTheme .friendsTabs button.active {
+  background: linear-gradient(180deg, rgba(255,168,100,.16), rgba(255,255,255,.03));
+  color: #fff3e5;
+  box-shadow: inset 0 -2px 0 #ffad6b;
+}
+.blackPianoTheme .friendsModalClose,
+.blackPianoTheme .friendsRefreshButton,
+.blackPianoTheme .sendFriendButton,
+.blackPianoTheme .acceptFriendButton,
+.blackPianoTheme .declineFriendButton,
+.blackPianoTheme .removeFriendButton,
+.blackPianoTheme .cancelRequestButton,
+.blackPianoTheme .friendUsernameInput {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #313741, #14181d);
+  color: #edf2f7;
+}

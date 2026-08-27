@@ -1,0 +1,568 @@
+.campfireSettingsOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(18, 28, 33, 0.38);
+  backdrop-filter: blur(2px);
+}
+
+.campfireSettingsModal {
+  width: min(920px, 96vw);
+  max-height: 88vh;
+  overflow: hidden;
+  border: 1px solid #bfcdd2;
+  border-radius: 12px;
+  background: #f8fbfc;
+  color: #526a74;
+  box-shadow: 0 18px 52px rgba(28, 45, 53, 0.3);
+}
+
+.campfireSettingsModal > header {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #d4dfe3;
+  background: linear-gradient(#ffffff, #eef4f6);
+}
+
+.campfireSettingsModal > header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.campfireSettingsModal > header > div > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ccd9de;
+  border-radius: 50%;
+  background: white;
+  font-size: 18px;
+}
+
+.campfireSettingsModal h2,
+.campfireSettingsModal h3,
+.campfireSettingsModal p {
+  margin: 0;
+}
+
+.campfireSettingsModal h2 {
+  color: #405964;
+  font-size: 18px;
+}
+
+.campfireSettingsModal header p {
+  margin-top: 2px;
+  color: #81949c;
+  font-size: 12px;
+}
+
+.campfireSettingsModal header button {
+  width: 31px;
+  height: 31px;
+  border: 1px solid #c8d5da;
+  border-radius: 7px;
+  background: white;
+  color: #6c8088;
+  cursor: pointer;
+}
+
+.campfireSettingsBody {
+  min-height: 420px;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+}
+
+.campfireSettingsBody > aside {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 10px;
+  border-right: 1px solid #d8e2e5;
+  background: #eef4f6;
+}
+
+.campfireSettingsBody > aside button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #5e737c;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+}
+
+.campfireSettingsBody > aside button.active {
+  border-color: #d6b08a;
+  background: #fff8ef;
+  color: #815a35;
+  font-weight: 700;
+}
+
+.campfireSettingsBody > aside small {
+  margin-top: auto;
+  padding: 8px;
+  color: #87999f;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.campfireSettingsBody > main {
+  overflow: auto;
+  padding: 18px;
+}
+
+.campfireSettingsBody main h3 {
+  margin-bottom: 14px;
+  color: #425e69;
+  font-size: 15px;
+}
+
+.campfireSettingsBody main > label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.campfireSettingsBody main > label > span {
+  color: #566f79;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.campfireSettingsBody select {
+  min-height: 34px;
+  padding: 0 9px;
+  border: 1px solid #c8d6db;
+  border-radius: 7px;
+  background: white;
+  color: #536d77;
+  font: inherit;
+  font-size: 15px;
+}
+
+.campfireSettingsBody label small {
+  color: #8a9ba1;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.campfireDeviceTest {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) minmax(180px, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.campfireDevicePreview {
+  position: relative;
+  min-height: 145px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c5d2d7;
+  border-radius: 9px;
+  background: #172126;
+  color: #91a2a9;
+}
+
+.campfireDevicePreview video {
+  width: 100%;
+  height: 145px;
+  display: block;
+  object-fit: cover;
+}
+
+.campfireDevicePreview > span {
+  position: absolute;
+  font-size: 12px;
+}
+
+.campfireMicTest {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #d2dde1;
+  border-radius: 9px;
+  background: white;
+}
+
+.campfireMicTest strong {
+  color: #516b75;
+  font-size: 15px;
+}
+
+.campfireMicTest > div {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e4ecef;
+}
+
+.campfireMicTest i {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #79b582, #d6ad63);
+  transition: width 80ms linear;
+}
+
+.campfireMicTest > span {
+  color: #84969e;
+  font-size: 12px;
+}
+
+.campfireSettingsActions {
+  display: flex;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.campfireSettingsActions button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #c5d3d8;
+  border-radius: 7px;
+  background: white;
+  color: #5d747e;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.campfireSettingsActions button.primary {
+  border-color: #d89f6b;
+  background: #fff7ee;
+  color: #885a32;
+  font-weight: 700;
+}
+
+.campfireSettingsMessage {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid #d8c5aa;
+  border-radius: 7px;
+  background: #fff9ef;
+  color: #796044;
+  font-size: 12px;
+}
+
+.campfireSettingsHint {
+  margin-top: 12px !important;
+  color: #899aa0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+  .campfireSettingsBody {
+    grid-template-columns: 1fr;
+  }
+
+  .campfireSettingsBody > aside {
+    display: none;
+  }
+
+  .campfireDeviceTest {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* BLACK PIANO THEME */
+.blackPianoTheme .campfireSettingsOverlay { background: rgba(4,5,8,.76); }
+.blackPianoTheme .campfireSettingsModal {
+  border-color: rgba(255,255,255,.1);
+  background: linear-gradient(180deg, rgba(42,46,54,.97), rgba(12,14,17,.99));
+  color: #ebf1f6;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 24px 60px rgba(0,0,0,.5);
+}
+.blackPianoTheme .campfireSettingsModal > header {
+  border-bottom-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}
+.blackPianoTheme .campfireSettingsModal h2,
+.blackPianoTheme .campfireSettingsBody main h3,
+.blackPianoTheme .campfireMicTest strong { color: #f0f4f8; }
+.blackPianoTheme .campfireSettingsModal header p,
+.blackPianoTheme .campfireSettingsBody main > label > span,
+.blackPianoTheme .campfireSettingsBody label small,
+.blackPianoTheme .campfireMicTest > span { color: #aab4be; }
+.blackPianoTheme .campfireSettingsModal header button,
+.blackPianoTheme .campfireSettingsBody > aside button,
+.blackPianoTheme .campfireSettingsActions button,
+.blackPianoTheme .campfireSettingsBody select {
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, #313741, #14181d);
+  color: #edf2f7;
+}
+.blackPianoTheme .campfireSettingsBody {
+  grid-template-columns: 210px 1fr;
+}
+.blackPianoTheme .campfireSettingsBody > aside {
+  border-right-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+}
+.blackPianoTheme .campfireSettingsBody > aside button.active,
+.blackPianoTheme .campfireSettingsActions button.primary {
+  border-color: rgba(255,165,95,.34);
+  background: linear-gradient(180deg, rgba(255,168,100,.16), rgba(33,28,22,.96));
+  color: #fff4e8;
+}
+.blackPianoTheme .campfireDevicePreview,
+.blackPianoTheme .campfireMicTest,
+.blackPianoTheme .campfireSettingsMessage {
+  border-color: rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(33,36,43,.96), rgba(14,16,19,.98));
+  color: #edf2f7;
+}
+
+
+/* Campfire 1.0 — appearance, language and independent UI scale */
+.campfireScaleSetting {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 10px;
+  background: rgba(255,255,255,.025);
+}
+
+.campfireScaleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campfireScaleHeader strong {
+  color: #ffbe80;
+  font-size: 15px;
+}
+
+.campfireScaleControls {
+  display: grid;
+  grid-template-columns: 38px minmax(180px,1fr) 38px auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.campfireScaleControls input[type="range"] {
+  width: 100%;
+  accent-color: #e98b44;
+}
+
+.campfireScaleControls button {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  background: linear-gradient(180deg,#303640,#161a20);
+  color: #edf2f7;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.campfireScaleControls button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.campfireScaleReset {
+  white-space: nowrap;
+}
+
+.campfireScaleSetting > small {
+  color: #aab4be;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.campfireSettingsInfo {
+  display: grid;
+  gap: 5px;
+  padding: 13px 14px;
+  border: 1px solid rgba(104,167,255,.18);
+  border-radius: 10px;
+  background: linear-gradient(180deg,rgba(104,167,255,.06),rgba(255,255,255,.02));
+}
+
+.campfireSettingsInfo strong {
+  color: #eef4fa;
+  font-size: 14px;
+}
+
+.campfireSettingsInfo span {
+  color: #aab5bf;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .campfireScaleControls {
+    grid-template-columns: 38px 1fr 38px;
+  }
+  .campfireScaleReset {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Prevent the voice-channel manager action buttons from collapsing into
+   vertical letter stacks on narrower dialog widths. */
+.cfVoiceChannelManager header,
+.cfVoiceChannelList > div {
+  flex-wrap: wrap;
+}
+
+.cfVoiceChannelManager header > button,
+.cfVoiceChannelList div > div,
+.cfVoiceChannelList div > div button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.campfireVoiceProSettings {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid #d6c3ad;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #fffaf4, #f6f9fa);
+}
+
+.campfireVoiceProHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.campfireVoiceProHeading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.campfireVoiceProHeading strong {
+  color: #4d6570;
+  font-size: 15px;
+}
+
+.campfireVoiceProHeading span,
+.campfireVoiceProSettings small {
+  color: #7f9299;
+  font-size: 13px;
+}
+
+.campfireVoiceProPrivacy {
+  padding: 4px 8px;
+  border: 1px solid #dec4a8;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #855e38 !important;
+  font-weight: 700;
+}
+
+.campfireVoiceProSettings > label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.campfireVoiceProSettings > label > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #566f79;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campfireVoiceProToggles {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.campfireVoiceProToggles label,
+.campfireMicListenToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #566f79;
+  font-size: 13px;
+}
+
+.campfireMicMeterRow {
+  display: grid;
+  grid-template-columns: 105px minmax(80px, 1fr) 40px;
+  align-items: center;
+  gap: 8px;
+}
+
+.campfireMicMeterRow > span,
+.campfireMicMeterRow > b {
+  color: #6b8089;
+  font-size: 13px;
+}
+
+.campfireMicMeterRow > div {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e4ecef;
+}
+
+.campfireMicMeterRow i {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #79b582, #d6ad63);
+  transition: width 80ms linear;
+}
+
+.campfireMicMeterRow.processed i {
+  background: linear-gradient(90deg, #74a6bc, #d89f6b);
+}
+
+.campfireMicCompare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.campfireMicCompare button {
+  min-height: 32px;
+  border: 1px solid #c8d6db;
+  border-radius: 7px;
+  background: #fff;
+  color: #607780;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.campfireMicCompare button.active {
+  border-color: #d89f6b;
+  background: #fff3e7;
+  color: #82562f;
+  font-weight: 700;
+}
