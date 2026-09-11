@@ -34,11 +34,15 @@ test('Campfire name is an apex effect, not baked into the static base', () => {
   assert.match(css, /\.fire-apex-name/);
 });
 
-test('all 12 confirmed Campfire screenshots are present', () => {
-  for (let i = 1; i <= 12; i += 1) {
-    const prefix = `site-${String(i).padStart(2, '0')}-`;
-    assert.ok(html.includes(prefix), `Missing screenshot reference ${prefix}`);
+test('the three canonical R6.6.6.15 visual references are present', () => {
+  for (const name of [
+    'current-home-r66615.png',
+    'current-call-r66615.png',
+    'current-countdown-r66615.png',
+  ]) {
+    assert.ok(html.includes(name), `Missing current screenshot reference ${name}`);
   }
+  assert.doesNotMatch(html, /site-(?:0[1-9]|1[0-2])-/);
 });
 
 test('site remains static and release-aware', () => {

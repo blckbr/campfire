@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { openUrl } from "./desktop";
+import { webOAuthRedirectUrl } from "./web/platform";
 
 import { supabase } from "./lib/supabase";
 import "./AuthScreen.css";
@@ -48,7 +49,7 @@ function AuthScreen({
                * nem localhost:1420.
                */
               redirectTo:
-                "http://127.0.0.1:54321/auth/callback",
+                webOAuthRedirectUrl(),
 
               skipBrowserRedirect:
                 true,

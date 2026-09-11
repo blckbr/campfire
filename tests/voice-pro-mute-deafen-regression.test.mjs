@@ -12,17 +12,16 @@ test("Voice Pro owns one microphone pipeline and hot-replaces the published trac
 });
 
 test("mute controls pipeline track gain and LiveKit publication", () => {
-  assert.match(source, /pipeline\?\.setMuted\(next\)/);
-  assert.match(source, /await publication\.mute\(\)/);
-  assert.match(source, /await publication\.unmute\(\)/);
+  assert.match(source, /microphonePipelineRef\.current\?\.setMuted\(effectiveMuted\)/);
+  assert.match(source, /if \(effectiveMuted\) await publication\.mute\(\)/);
+  assert.match(source, /else await publication\.unmute\(\)/);
 });
 
 test("deafen remembers prior mute state and controls the playback context", () => {
-  assert.match(source, /muteBeforeDeafenRef/);
+  assert.match(source, /preDeafenMutedRef/);
   assert.match(source, /await applyMute\(true\)/);
-  assert.match(source, /context\.suspend\(\)/);
-  assert.match(source, /context\.resume\(\)/);
-  assert.match(source, /await applyMute\(false\)/);
+  assert.match(source, /remoteAudioMixerRef\.current\?\.setDeafened\(next\)/);
+  assert.match(source, /await applyMute\(preDeafenMutedRef\.current\)/);
 });
 
 test("Voice Pro profile changes refresh the live microphone", () => {

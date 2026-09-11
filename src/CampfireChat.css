@@ -2101,3 +2101,126 @@
   background: linear-gradient(180deg, rgba(40,44,52,.95), rgba(14,16,19,.98));
   color: #edf2f6;
 }
+
+/* ============================================================
+   CAMPFIRE R3 — compact overlay chat inspired by the approved mockup
+   ============================================================ */
+.blackPianoTheme .campfireChat {
+  min-height: 0;
+  background: #11171d;
+}
+.blackPianoTheme .campfireChatStatus {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: #151b22;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.campfireChatTopTabs {
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 2px;
+}
+.campfireChatTopTabs button {
+  position: relative;
+  min-width: 0;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: #9ea8b2;
+  font: 550 10px/1 "Segoe UI",sans-serif;
+  cursor: pointer;
+}
+.campfireChatTopTabs button::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 999px 999px 0 0;
+  background: transparent;
+}
+.campfireChatTopTabs button:hover,.campfireChatTopTabs button.active {
+  color: #f3f6f8;
+}
+.campfireChatTopTabs button.active::after {
+  background: var(--cf-accent,#ff8a42);
+  box-shadow: 0 0 12px var(--cf-glow,rgba(255,138,66,.28));
+}
+.blackPianoTheme .campfireMessages {
+  position: relative;
+  padding: 18px 22px 24px;
+  background: linear-gradient(180deg,#11171d,#0f1419);
+}
+.campfireChatWelcome,.campfireChatAuxView {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: #dce3e8;
+}
+.campfireChatWelcomeIcon {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  margin-bottom: 18px;
+  border: 1px solid color-mix(in srgb,var(--cf-accent,#7ce4b9) 30%,rgba(255,255,255,.09));
+  border-radius: 50%;
+  background: radial-gradient(circle,color-mix(in srgb,var(--cf-accent,#7ce4b9) 14%,#171d24),#11161c 68%);
+  color: #f8fafb;
+  font: 750 48px/1 "Segoe UI",sans-serif;
+  box-shadow: 0 0 34px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.2)) 62%,transparent);
+}
+.campfireChatWelcome h2 { margin: 0 0 8px; color: #f3f6f8; font: 720 22px/1.2 "Segoe UI",sans-serif; }
+.campfireChatWelcome p { margin: 0 0 22px; color: #89949e; font: 500 11px/1.45 "Segoe UI",sans-serif; }
+.campfireChatWelcomeGrid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,220px));
+  gap: 10px;
+  width: min(460px,100%);
+  margin-bottom: 24px;
+}
+.campfireChatWelcomeGrid > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 11px;
+  background: #1a2129;
+  color: #9ca7b0;
+  text-align: left;
+}
+.campfireChatWelcomeGrid span { font-size: 20px; }
+.campfireChatWelcomeGrid small { font: 500 10px/1.35 "Segoe UI",sans-serif; }
+.campfireChatWelcomeCta {
+  padding: 10px 18px;
+  border: 1px solid color-mix(in srgb,var(--cf-accent,#7ce4b9) 38%,transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb,var(--cf-accent,#7ce4b9) 10%,#171d24);
+  color: #e9f5f0;
+  font: 650 11px/1 "Segoe UI",sans-serif;
+}
+.campfireChatAuxView strong { margin-bottom: 7px; color: #eef2f5; font-size: 17px; }
+.campfireChatAuxView small { max-width: 390px; color: #89949e; line-height: 1.5; }
+.blackPianoTheme .campfireComposer {
+  border-top: 1px solid rgba(255,255,255,.07);
+  background: #10161c;
+}
+.blackPianoTheme .campfireComposer textarea {
+  min-height: 50px;
+  border-color: color-mix(in srgb,var(--cf-accent,#7ce4b9) 22%,rgba(255,255,255,.1));
+  border-radius: 12px;
+  background: #202832;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035),0 0 0 1px rgba(0,0,0,.18);
+}
+.blackPianoTheme .campfireComposer textarea:focus {
+  border-color: color-mix(in srgb,var(--cf-accent,#7ce4b9) 62%,transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.18)) 62%,transparent);
+}

@@ -28,9 +28,10 @@ test('apex CAMPFIRE reveal returns from the original concept', () => {
   assert.match(css, /\.fire-apex-name/);
 });
 
-test('hero keeps the approved centered title and primary actions', () => {
-  assert.match(html, /id="hero-title">CAMPFIRE</);
-  assert.match(html, /> Baixar para Windows</);
-  assert.match(html, /> Ver no GitHub</);
-  assert.match(html, /floating-shot/);
+test('hero keeps the approved R6.6.6.15 identity and primary actions', () => {
+  assert.match(html, /id="hero-title">Sua conversa\.<br><span>Sua fogueira\.<\/span>/);
+  assert.match(html, /Baixar Campfire<\/a>/);
+  assert.match(html, /Conhecer CampfireWeb<\/a>/);
+  assert.match(html, /product-window-shot/);
+  assert.match(html, /current-home-r66615\.png/);
 });

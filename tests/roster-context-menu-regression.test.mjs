@@ -6,7 +6,8 @@ const read = (path) => fs.readFileSync(path, 'utf8');
 
 const home = read('src/CampfireHome.tsx');
 const rooms = read('src/useCampfires.ts');
-const css = read('src/App.css');
+const rail = read('src/CampfireRightRail.tsx');
+const railCss = read('src/CampfireRightRail.css');
 const menu = read('src/UserContextMenu.tsx');
 const membersPanel = read('src/CampfireMembersPanel.tsx');
 const actions = read('src/useCampfireUserActions.ts');
@@ -14,20 +15,22 @@ const preload = read('electron/preload.cjs');
 const main = read('electron/main.mjs');
 const desktop = read('src/desktop.ts');
 
-test('Campfire cards expose a vertical scrollable username roster instead of a people count', () => {
+test('Campfire left rail stays Campfires-only while the right rail renders participants with avatars', () => {
   assert.match(rooms, /members:\s*CampfireRosterMember\[\]/);
   assert.match(rooms, /get_campfire_members/);
-  assert.match(home, /campfireRoster/);
-  assert.match(home, /room\.members\.map/);
-  assert.doesNotMatch(home, /`\$\{room\.activePeople\} pessoa\(s\)`/);
-  assert.match(css, /\.campfireRoster\s*\{[^}]*overflow-y:\s*auto/s);
-  assert.match(css, /\.campfireRoster\s*\{[^}]*max-height:/s);
+  assert.doesNotMatch(home, /className="campfireRoster"/);
+  assert.match(home, /CampfireRightRail/);
+  assert.match(rail, /members\.map/);
+  assert.match(rail, /avatar_url/);
+  assert.match(railCss, /\.campfireRightRail\s*\{[^}]*overflow:\s*auto/s);
+  assert.doesNotMatch(rail, /🔥/);
 });
 
-test('sidebar roster forwards right click to the shared user context menu', () => {
-  assert.match(home, /onContextMenu=/);
-  assert.match(home, /sidebarContextRequest/);
-  assert.match(home, /externalContextRequest=/);
+test('right-rail participants forward right click to the shared user context menu host', () => {
+  assert.match(rail, /onContextMenu=/);
+  assert.match(rail, /onParticipantContextMenu/);
+  assert.match(home, /railContextRequest/);
+  assert.match(home, /externalContextRequest=\{\s*railContextRequest\s*\}/s);
   assert.match(membersPanel, /externalContextRequest/);
 });
 

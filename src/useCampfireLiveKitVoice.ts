@@ -30,11 +30,27 @@ import {
   type CampfireVoicePipeline,
 } from "./media/campfireVoicePipeline";
 import { campfireAnalyserLevel } from "./media/voiceProcessing";
+import {
+  createCampfireRemoteAudioMixer,
+  type CampfireRemoteAudioMixer,
+} from "./campfireRemoteAudioMixer";
+import {
+  CAMPFIRE_VOICE_INPUT_SETTINGS_EVENT,
+  isCampfireVoiceTypingTarget,
+  loadCampfireVoiceInputSettings,
+  matchesCampfirePushToTalkBinding,
+  type CampfireVoiceInputSettings,
+} from "./campfireVoiceInputMode";
 import { requestCampfireMediaToken } from "./media/livekitToken";
+import { campfireConnectionId } from "./web/platform";
 import {
   CAMPFIRE_USER_MEDIA_PREFERENCES_EVENT,
   getUserLocalMediaPreference,
 } from "./userLocalMediaPreferences";
+import {
+  enforceSingleMicrophonePublication,
+  snapshotCampfireVoicePublications,
+} from "./campfireVoiceDiagnostics";
 
 export type CampfirePresenceStatus = "online" | "away" | "busy" | "offline";
 export type CampfirePresenceMember = {
@@ -49,11 +65,25 @@ export type CampfirePresenceMember = {
   updatedAt: string;
 };
 export type CampfireVoiceActionResult = { ok: boolean; message: string };
+export type CampfireVoicePhase =
+  | "disconnected"
+  | "connecting"
+  | "connected-listener"
+  | "publishing-microphone"
+  | "connected-speaking"
+  | "reconnecting"
+  | "microphone-unavailable"
+  | "error";
+export type CampfireVoiceErrorCode =
+  | "token"
+  | "network"
+  | "microphone-permission"
+  | "microphone-device"
+  | "playback-subscription"
+  | "unknown";
 export type CampfireVoiceController = ReturnType<typeof useCampfireLiveKitVoice>;
 
 type PresencePayload = Partial<CampfirePresenceMember>;
-type PlaybackNode = { source: MediaStreamAudioSourceNode; gain: GainNode };
-type SinkAudioContext = AudioContext & { setSinkId?: (sinkId: string) => Promise<void> };
 
 const STATUS_MESSAGE_KEY = "campfire.presence.personalMessage";
 const USER_VOLUME_KEY = "campfire.voice.userVolumes.v1";
@@ -103,6 +133,17 @@ function normalizePresence(raw: PresencePayload, fallbackUserId: string): Campfi
     updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : new Date().toISOString(),
   };
 }
+function principalIdFromParticipant(participant: Pick<RemoteParticipant, "identity" | "metadata">): string {
+  try {
+    const metadata = participant.metadata ? JSON.parse(participant.metadata) as { principalId?: unknown } : null;
+    if (metadata && typeof metadata.principalId === "string" && metadata.principalId) return metadata.principalId;
+  } catch {
+    // Old clients may not publish JSON metadata.
+  }
+  const separator = participant.identity.indexOf(":");
+  return separator > 0 ? participant.identity.slice(0, separator) : participant.identity;
+}
+
 function errorMessage(error: unknown): string {
   if (error && typeof error === "object" && "message" in error) {
     return String((error as { message?: unknown }).message ?? "Falha de mídia.");
@@ -110,8 +151,32 @@ function errorMessage(error: unknown): string {
   return "Não foi possível concluir a operação de mídia.";
 }
 
+function errorName(error: unknown): string {
+  return error && typeof error === "object" && "name" in error
+    ? String((error as { name?: unknown }).name ?? "")
+    : "";
+}
+
+function classifyMicrophoneError(error: unknown): CampfireVoiceErrorCode {
+  const name = errorName(error);
+  if (name === "NotAllowedError" || name === "SecurityError" || name === "PermissionDeniedError") {
+    return "microphone-permission";
+  }
+  if (
+    name === "NotFoundError" ||
+    name === "DevicesNotFoundError" ||
+    name === "OverconstrainedError" ||
+    name === "NotReadableError" ||
+    name === "TrackStartError" ||
+    name === "AbortError"
+  ) {
+    return "microphone-device";
+  }
+  return "microphone-device";
+}
+
 export function useCampfireLiveKitVoice(
-  campfireId: string,
+  campfireId: string | null,
   currentUserId: string,
   initialStatus: string,
   active = true
@@ -131,9 +196,13 @@ export function useCampfireLiveKitVoice(
   const [hasCamera, setHasCamera] = useState(false);
   const [hasMicrophone, setHasMicrophone] = useState(false);
   const [error, setError] = useState("");
+  const [errorCode, setErrorCode] = useState<CampfireVoiceErrorCode | null>(null);
+  const [phase, setPhase] = useState<CampfireVoicePhase>("disconnected");
   const [reconnecting, setReconnecting] = useState(false);
   const [remoteStreams, setRemoteStreams] = useState<Record<string, MediaStream>>({});
+  const [speakingParticipantIds, setSpeakingParticipantIds] = useState<ReadonlySet<string>>(() => new Set());
   const [userVolumes, setUserVolumes] = useState<Record<string, number>>(loadUserVolumes);
+  const [participantLocalMutes, setParticipantLocalMutes] = useState<Record<string, boolean>>({});
   const [outgoingVolume, setOutgoingVolumeState] = useState(() => loadNumber(OUTGOING_VOLUME_KEY, 100));
   const [monitorEnabled, setMonitorEnabled] = useState(false);
   const [monitorVolume, setMonitorVolumeState] = useState(() => loadNumber(MONITOR_VOLUME_KEY, 100));
@@ -144,6 +213,10 @@ export function useCampfireLiveKitVoice(
   const [inputLevel, setInputLevel] = useState(0);
   const [processedLevel, setProcessedLevel] = useState(0);
 
+  const [voiceInputSettings, setVoiceInputSettings] =
+    useState<CampfireVoiceInputSettings>(loadCampfireVoiceInputSettings);
+  const [pushToTalkHeld, setPushToTalkHeld] = useState(false);
+
   const roomRef = useRef<Room | null>(null);
   const presenceChannelRef = useRef<RealtimeChannel | null>(null);
   const subscribedRef = useRef(false);
@@ -152,13 +225,19 @@ export function useCampfireLiveKitVoice(
   const cameraStreamRef = useRef<MediaStream | null>(null);
   const micPublicationRef = useRef<LocalTrackPublication | null>(null);
   const cameraPublicationRef = useRef<LocalTrackPublication | null>(null);
-  const playbackAudioContextRef = useRef<AudioContext | null>(null);
-  const playbackNodesRef = useRef(new Map<string, PlaybackNode>());
+  const leaseHeartbeatRef = useRef<number | null>(null);
+  const disconnectPromiseRef = useRef<Promise<void> | null>(null);
+  const connectedCampfireIdRef = useRef<string | null>(null);
+  const mediaConnectionId = useMemo(() => campfireConnectionId(), []);
+  const remoteAudioMixerRef = useRef<CampfireRemoteAudioMixer | null>(null);
+  const mediaRefreshSuppressedRef = useRef(false);
+  const voiceInputSettingsRef = useRef(voiceInputSettings);
+  const pushToTalkHeldRef = useRef(false);
   const userVolumesRef = useRef(userVolumes);
   const joinedRef = useRef(false);
   const mutedRef = useRef(false);
   const deafenedRef = useRef(false);
-  const muteBeforeDeafenRef = useRef(false);
+  const preDeafenMutedRef = useRef(false);
   const cameraEnabledRef = useRef(false);
   const statusRef = useRef(status);
   const personalMessageRef = useRef(personalMessage);
@@ -178,7 +257,16 @@ export function useCampfireLiveKitVoice(
   useEffect(() => { deafenedRef.current = deafened; }, [deafened]);
   useEffect(() => { cameraEnabledRef.current = cameraEnabled; }, [cameraEnabled]);
   useEffect(() => { userVolumesRef.current = userVolumes; }, [userVolumes]);
+  useEffect(() => { voiceInputSettingsRef.current = voiceInputSettings; }, [voiceInputSettings]);
+  useEffect(() => { pushToTalkHeldRef.current = pushToTalkHeld; }, [pushToTalkHeld]);
 
+  const microphoneGateMuted = useCallback((): boolean => {
+    const input = voiceInputSettingsRef.current;
+    const pushToTalkClosed =
+      input.mode === "push-to-talk" &&
+      (!input.binding || !pushToTalkHeldRef.current);
+    return mutedRef.current || deafenedRef.current || pushToTalkClosed;
+  }, []);
 
   useEffect(() => {
     if (!joined) {
@@ -261,10 +349,14 @@ export function useCampfireLiveKitVoice(
       hasMicrophone: hasMicrophoneRef.current,
       voiceJoined: joinedRef.current,
       cameraEnabled: cameraEnabledRef.current,
-      micEnabled: joinedRef.current && !mutedRef.current && permissionsRef.current.canPublishMicrophone,
+      micEnabled:
+        joinedRef.current &&
+        Boolean(micPublicationRef.current) &&
+        !microphoneGateMuted() &&
+        permissionsRef.current.canPublishMicrophone,
       updatedAt: new Date().toISOString(),
     });
-  }, [active, currentUserId]);
+  }, [active, currentUserId, microphoneGateMuted]);
 
   const detectDevices = useCallback(async () => {
     try {
@@ -288,7 +380,7 @@ export function useCampfireLiveKitVoice(
   }, [active, detectDevices]);
 
   useEffect(() => {
-    if (!active) {
+    if (!active || !campfireId) {
       subscribedRef.current = false;
       presenceChannelRef.current = null;
       setSignalingReady(false);
@@ -372,71 +464,72 @@ export function useCampfireLiveKitVoice(
     };
   }, [active, campfireId, currentUserId, publishPresence]);
 
-  const closePlaybackForUser = useCallback((userId: string) => {
-    const node = playbackNodesRef.current.get(userId);
-    if (node) {
-      try { node.source.disconnect(); node.gain.disconnect(); } catch { /* best effort */ }
-      playbackNodesRef.current.delete(userId);
-    }
-  }, []);
-
   const ensurePlaybackContext = useCallback(async () => {
-    let context = playbackAudioContextRef.current;
-    if (!context) { context = new AudioContext(); playbackAudioContextRef.current = context; }
-    if (deafenedRef.current) {
-      if (context.state === "running") await context.suspend().catch(() => undefined);
-    } else if (context.state === "suspended") {
-      await context.resume().catch(() => undefined);
-    }
-    const outputId = loadCampfireMediaSettings().audioOutputId;
-    const sinkContext = context as SinkAudioContext;
-    if (outputId && typeof sinkContext.setSinkId === "function") {
-      await sinkContext.setSinkId(outputId).catch(() => undefined);
-    }
-    return context;
+    const mixer = remoteAudioMixerRef.current;
+    if (!mixer) return null;
+    await mixer.setOutputDevice(loadCampfireMediaSettings().audioOutputId);
+    return null;
   }, []);
 
-  const attachRemotePlayback = useCallback(async (userId: string, stream: MediaStream) => {
-    closePlaybackForUser(userId);
-    if (!stream.getAudioTracks().length) return;
-    const context = await ensurePlaybackContext();
-    const source = context.createMediaStreamSource(stream);
-    const gain = context.createGain();
-    gain.gain.value = deafenedRef.current ? 0 : (userVolumesRef.current[userId] ?? 100) / 100;
-    source.connect(gain); gain.connect(context.destination);
-    playbackNodesRef.current.set(userId, { source, gain });
-  }, [closePlaybackForUser, ensurePlaybackContext]);
+  const upsertRemoteTrack = useCallback((track: RemoteTrack, publication: RemoteTrackPublication, participant: RemoteParticipant) => {
+    const userId = principalIdFromParticipant(participant);
+    const room = roomRef.current;
 
-  const upsertRemoteTrack = useCallback((track: RemoteTrack, _publication: RemoteTrackPublication, participant: RemoteParticipant) => {
-    const userId = participant.identity;
+    if (
+      room &&
+      participant.identity !== room.localParticipant.identity &&
+      publication.source === Track.Source.Microphone
+    ) {
+      try {
+        const mixer = remoteAudioMixerRef.current;
+        mixer?.setVolume(userId, userVolumesRef.current[userId] ?? 100);
+        mixer?.attach(userId, publication.trackSid, track.mediaStreamTrack);
+      } catch (playbackError) {
+        setErrorCode("playback-subscription");
+        setError(errorMessage(playbackError));
+      }
+    }
+
     setRemoteStreams((current) => {
-      const stream = current[userId] ? new MediaStream(current[userId].getTracks()) : new MediaStream();
+      const stream = current[userId]
+        ? new MediaStream(current[userId].getTracks())
+        : new MediaStream();
       const mediaTrack = track.mediaStreamTrack;
-      if (!stream.getTracks().some((item) => item.id === mediaTrack.id)) stream.addTrack(mediaTrack);
-      void attachRemotePlayback(userId, stream);
+      if (!stream.getTracks().some((item) => item.id === mediaTrack.id)) {
+        stream.addTrack(mediaTrack);
+      }
       return { ...current, [userId]: stream };
     });
-  }, [attachRemotePlayback]);
+  }, []);
 
-  const removeRemoteTrack = useCallback((track: RemoteTrack, _publication: RemoteTrackPublication, participant: RemoteParticipant) => {
-    const userId = participant.identity;
+  const removeRemoteTrack = useCallback((track: RemoteTrack, publication: RemoteTrackPublication, participant: RemoteParticipant) => {
+    const userId = principalIdFromParticipant(participant);
+    if (publication.source === Track.Source.Microphone) {
+      remoteAudioMixerRef.current?.detach(userId, publication.trackSid);
+    }
     setRemoteStreams((current) => {
       const existing = current[userId];
       if (!existing) return current;
-      const stream = new MediaStream(existing.getTracks().filter((item) => item.id !== track.mediaStreamTrack.id));
+      const stream = new MediaStream(
+        existing.getTracks().filter((item) => item.id !== track.mediaStreamTrack.id)
+      );
       if (!stream.getTracks().length) {
-        const next = { ...current }; delete next[userId]; closePlaybackForUser(userId); return next;
+        const next = { ...current };
+        delete next[userId];
+        return next;
       }
-      void attachRemotePlayback(userId, stream);
       return { ...current, [userId]: stream };
     });
-  }, [attachRemotePlayback, closePlaybackForUser]);
+  }, []);
 
   const applyLocalVideoPreference = useCallback((userId: string) => {
-    const participant = roomRef.current?.remoteParticipants.get(userId);
-    if (!participant) return;
+    const room = roomRef.current;
+    if (!room) return;
     const { videoHidden } = getUserLocalMediaPreference(userId);
-    participant.getTrackPublication(Track.Source.Camera)?.setSubscribed(!videoHidden);
+    for (const participant of room.remoteParticipants.values()) {
+      if (principalIdFromParticipant(participant) !== userId) continue;
+      participant.getTrackPublication(Track.Source.Camera)?.setSubscribed(!videoHidden);
+    }
   }, []);
 
   useEffect(() => {
@@ -447,23 +540,38 @@ export function useCampfireLiveKitVoice(
       const nextVolume = getUserVolume(detail.userId);
       userVolumesRef.current = { ...userVolumesRef.current, [detail.userId]: nextVolume };
       setUserVolumes(userVolumesRef.current);
-      const node = playbackNodesRef.current.get(detail.userId);
-      if (node) node.gain.gain.value = deafenedRef.current ? 0 : nextVolume / 100;
+      remoteAudioMixerRef.current?.setVolume(detail.userId, nextVolume);
     };
     window.addEventListener(CAMPFIRE_USER_MEDIA_PREFERENCES_EVENT, handler);
     return () => window.removeEventListener(CAMPFIRE_USER_MEDIA_PREFERENCES_EVENT, handler);
   }, [applyLocalVideoPreference]);
 
   const cleanupRoom = useCallback(async () => {
+    if (leaseHeartbeatRef.current !== null) {
+      window.clearInterval(leaseHeartbeatRef.current);
+      leaseHeartbeatRef.current = null;
+    }
+    const connectedCampfireId = connectedCampfireIdRef.current;
+    connectedCampfireIdRef.current = null;
+    if (connectedCampfireId) {
+      try {
+        await supabase.rpc("release_campfire_media_lease", {
+          p_campfire_id: connectedCampfireId,
+          p_purpose: "voice",
+          p_connection_id: mediaConnectionId,
+        });
+      } catch {
+        // Lease expires server-side if the browser closes abruptly.
+      }
+    }
     const room = roomRef.current;
     roomRef.current = null;
     setReconnecting(false);
     if (room) room.disconnect();
-    for (const node of playbackNodesRef.current.values()) {
-      try { node.source.disconnect(); node.gain.disconnect(); } catch { /* best effort */ }
-    }
-    playbackNodesRef.current.clear();
+    remoteAudioMixerRef.current?.dispose();
+    remoteAudioMixerRef.current = null;
     setRemoteStreams({});
+    setSpeakingParticipantIds(new Set());
     micPublicationRef.current = null;
     cameraPublicationRef.current = null;
     cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
@@ -472,7 +580,26 @@ export function useCampfireLiveKitVoice(
     microphonePipelineRef.current = null;
     setRnnoiseActive(false);
     await pipeline?.dispose();
-  }, []);
+  }, [mediaConnectionId]);
+
+  const disconnect = useCallback(async (): Promise<void> => {
+    if (disconnectPromiseRef.current) return disconnectPromiseRef.current;
+
+    disconnectPromiseRef.current = (async () => {
+      joinedRef.current = false;
+      setJoined(false);
+      setJoining(false);
+      cameraEnabledRef.current = false;
+      setCameraEnabled(false);
+      await cleanupRoom();
+      setPhase("disconnected");
+      await publishPresence();
+    })().finally(() => {
+      disconnectPromiseRef.current = null;
+    });
+
+    return disconnectPromiseRef.current;
+  }, [cleanupRoom, publishPresence]);
 
   const createCurrentMicrophonePipeline = useCallback(async () => {
     return createCampfireVoicePipeline({
@@ -482,6 +609,47 @@ export function useCampfireLiveKitVoice(
       monitorVolume,
     });
   }, [monitorEnabled, monitorVolume, outgoingVolume]);
+
+  const verifyMicrophoneInvariant = useCallback(async (reason: string) => {
+    const room = roomRef.current;
+    if (!room) return;
+
+    const expectedPublication = micPublicationRef.current;
+    const before = snapshotCampfireVoicePublications(
+      room.localParticipant,
+      expectedPublication
+    );
+
+    const result = await enforceSingleMicrophonePublication(
+      room.localParticipant,
+      expectedPublication
+    );
+
+    const effectiveMuted = microphoneGateMuted();
+    if (expectedPublication) {
+      if (effectiveMuted && !expectedPublication.isMuted) {
+        await expectedPublication.mute();
+      } else if (!effectiveMuted && expectedPublication.isMuted) {
+        await expectedPublication.unmute();
+      }
+    }
+
+    if (result.removed > 0 || before.count > 1) {
+      console.warn("Campfire voice: publicação duplicada de microfone removida.", {
+        reason,
+        before,
+        after: result.remaining,
+      });
+    }
+
+    if (result.remaining.count > 1) {
+      console.error("Campfire voice: invariante de microfone ainda violada.", {
+        reason,
+        snapshot: result.remaining,
+      });
+    }
+  }, [microphoneGateMuted]);
+
 
   const refreshPublishedMicrophone = useCallback(async () => {
     const publication = micPublicationRef.current;
@@ -498,7 +666,8 @@ export function useCampfireLiveKitVoice(
 
     const previous = microphonePipelineRef.current;
     const next = await createCurrentMicrophonePipeline();
-    next.setMuted(mutedRef.current);
+    const effectiveMuted = microphoneGateMuted();
+    next.setMuted(effectiveMuted);
 
     try {
       await localTrack.replaceTrack(next.processedTrack, true);
@@ -506,12 +675,13 @@ export function useCampfireLiveKitVoice(
       setRnnoiseActive(next.rnnoiseActive);
       await previous?.dispose();
 
-      if (mutedRef.current) {
+      if (effectiveMuted) {
         await publication.mute();
       } else {
         await publication.unmute();
       }
 
+      await verifyMicrophoneInvariant("device-or-profile-refresh");
       setError("");
     } catch (switchError) {
       await next.dispose();
@@ -519,14 +689,15 @@ export function useCampfireLiveKitVoice(
       setError(`Não foi possível trocar o microfone: ${message}`);
       throw switchError;
     }
-  }, [createCurrentMicrophonePipeline]);
+  }, [createCurrentMicrophonePipeline, microphoneGateMuted, verifyMicrophoneInvariant]);
 
   const publishMicrophone = useCallback(async (room: Room) => {
     if (!permissionsRef.current.canPublishMicrophone) return;
 
     const settings = loadCampfireMediaSettings();
     const pipeline = await createCurrentMicrophonePipeline();
-    pipeline.setMuted(mutedRef.current);
+    const effectiveMuted = microphoneGateMuted();
+    pipeline.setMuted(effectiveMuted);
 
     try {
       const publication = await room.localParticipant.publishTrack(
@@ -551,99 +722,309 @@ export function useCampfireLiveKitVoice(
       microphonePipelineRef.current = pipeline;
       micPublicationRef.current = publication;
       setRnnoiseActive(pipeline.rnnoiseActive);
-      if (mutedRef.current) await publication.mute();
+      if (effectiveMuted) await publication.mute();
+      await verifyMicrophoneInvariant("publishMicrophone");
     } catch (publishError) {
       await pipeline.dispose();
       throw publishError;
     }
-  }, [createCurrentMicrophonePipeline]);
+  }, [createCurrentMicrophonePipeline, microphoneGateMuted, verifyMicrophoneInvariant]);
+
+  const applyEffectiveMicrophoneGate = useCallback(async () => {
+    const effectiveMuted = microphoneGateMuted();
+    microphonePipelineRef.current?.setMuted(effectiveMuted);
+
+    const publication = micPublicationRef.current;
+    if (publication) {
+      if (effectiveMuted) await publication.mute();
+      else await publication.unmute();
+    }
+
+    await verifyMicrophoneInvariant("applyEffectiveMicrophoneGate");
+    await publishPresence();
+  }, [microphoneGateMuted, publishPresence, verifyMicrophoneInvariant]);
 
   const applyMute = useCallback(async (next: boolean) => {
     mutedRef.current = next;
     setMuted(next);
-
-    const pipeline = microphonePipelineRef.current;
-    pipeline?.setMuted(next);
-
-    const publication = micPublicationRef.current;
-    if (publication) {
-      if (next) await publication.mute();
-      else await publication.unmute();
-    }
-
-    await publishPresence();
-  }, [publishPresence]);
+    await applyEffectiveMicrophoneGate();
+  }, [applyEffectiveMicrophoneGate]);
 
   const applyDeafenPlayback = useCallback(async (next: boolean) => {
-    for (const [userId, node] of playbackNodesRef.current) {
-      node.gain.gain.value = next
-        ? 0
-        : (userVolumesRef.current[userId] ?? 100) / 100;
-    }
-
-    const context = playbackAudioContextRef.current;
-    if (!context) return;
-    if (next) await context.suspend().catch(() => undefined);
-    else await context.resume().catch(() => undefined);
+    remoteAudioMixerRef.current?.setDeafened(next);
   }, []);
 
-  const joinVoice = useCallback(async (): Promise<CampfireVoiceActionResult> => {
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const next =
+        (event as CustomEvent<CampfireVoiceInputSettings>).detail ??
+        loadCampfireVoiceInputSettings();
+      voiceInputSettingsRef.current = next;
+      setVoiceInputSettings(next);
+      pushToTalkHeldRef.current = false;
+      setPushToTalkHeld(false);
+      void applyEffectiveMicrophoneGate();
+    };
+    window.addEventListener(CAMPFIRE_VOICE_INPUT_SETTINGS_EVENT, handler);
+    return () => window.removeEventListener(CAMPFIRE_VOICE_INPUT_SETTINGS_EVENT, handler);
+  }, [applyEffectiveMicrophoneGate]);
+
+  useEffect(() => {
+    if (!active) return;
+
+    const press = (event: KeyboardEvent) => {
+      const input = voiceInputSettingsRef.current;
+      if (
+        input.mode !== "push-to-talk" ||
+        !input.binding ||
+        deafenedRef.current ||
+        isCampfireVoiceTypingTarget(event.target) ||
+        !matchesCampfirePushToTalkBinding(event, input.binding)
+      ) return;
+      event.preventDefault();
+      if (pushToTalkHeldRef.current) return;
+      pushToTalkHeldRef.current = true;
+      setPushToTalkHeld(true);
+      void applyEffectiveMicrophoneGate();
+    };
+
+    const release = (event: KeyboardEvent) => {
+      const input = voiceInputSettingsRef.current;
+      if (
+        input.mode !== "push-to-talk" ||
+        !input.binding ||
+        event.code !== input.binding.code ||
+        !pushToTalkHeldRef.current
+      ) return;
+      pushToTalkHeldRef.current = false;
+      setPushToTalkHeld(false);
+      void applyEffectiveMicrophoneGate();
+    };
+
+    const releaseOnBlur = () => {
+      if (!pushToTalkHeldRef.current) return;
+      pushToTalkHeldRef.current = false;
+      setPushToTalkHeld(false);
+      void applyEffectiveMicrophoneGate();
+    };
+
+    window.addEventListener("keydown", press, true);
+    window.addEventListener("keyup", release, true);
+    window.addEventListener("blur", releaseOnBlur);
+    return () => {
+      window.removeEventListener("keydown", press, true);
+      window.removeEventListener("keyup", release, true);
+      window.removeEventListener("blur", releaseOnBlur);
+    };
+  }, [active, applyEffectiveMicrophoneGate]);
+
+  const connectToCampfire = useCallback(async (targetCampfireId: string): Promise<CampfireVoiceActionResult> => {
     if (!active) return { ok: false, message: "Esta Campfire não está ativa." };
-    if (joinedRef.current) return { ok: true, message: "Você já está na voz." };
-    setJoining(true); setError("");
+    if (joinedRef.current && connectedCampfireIdRef.current === targetCampfireId) {
+      return { ok: true, message: "A voz desta Campfire já está conectada." };
+    }
+
+    setJoining(true);
+    setPhase("connecting");
+    setError("");
+    setErrorCode(null);
+
+    let credentials: Awaited<ReturnType<typeof requestCampfireMediaToken>>;
     try {
-      const credentials = await requestCampfireMediaToken({ campfireId, purpose: "voice" });
-      permissionsRef.current = credentials.permissions;
-      const room = new Room({
-        adaptiveStream: true,
-        dynacast: true,
-        disconnectOnPageLeave: true,
-        stopLocalTrackOnUnpublish: true,
+      credentials = await requestCampfireMediaToken({
+        campfireId: targetCampfireId,
+        purpose: "voice",
       });
-      roomRef.current = room;
-      room.on(RoomEvent.TrackSubscribed, upsertRemoteTrack);
-      room.on(RoomEvent.TrackUnsubscribed, removeRemoteTrack);
-      room.on(RoomEvent.ParticipantConnected, (participant) => {
-        applyLocalVideoPreference(participant.identity);
-      });
-      room.on(RoomEvent.ParticipantDisconnected, (participant) => {
-        closePlaybackForUser(participant.identity);
-        setRemoteStreams((current) => { const next = { ...current }; delete next[participant.identity]; return next; });
-      });
-      room.on(RoomEvent.Reconnecting, () => setReconnecting(true));
-      room.on(RoomEvent.Reconnected, () => {
-        setReconnecting(false);
-        void applyMute(mutedRef.current);
-        void applyDeafenPlayback(deafenedRef.current);
-      });
-      room.on(RoomEvent.Disconnected, () => { setJoined(false); joinedRef.current = false; setReconnecting(false); void publishPresence(); });
-      await room.connect(credentials.url, credentials.token);
-      for (const participant of room.remoteParticipants.values()) {
-        applyLocalVideoPreference(participant.identity);
+    } catch (tokenError) {
+      const message = errorMessage(tokenError);
+      setErrorCode("token");
+      setError(message);
+      setPhase("error");
+      setJoining(false);
+      return { ok: false, message };
+    }
+
+    permissionsRef.current = credentials.permissions;
+    connectedCampfireIdRef.current = targetCampfireId;
+    const room = new Room({
+      adaptiveStream: true,
+      dynacast: true,
+      disconnectOnPageLeave: true,
+      stopLocalTrackOnUnpublish: true,
+    });
+    roomRef.current = room;
+    remoteAudioMixerRef.current?.dispose();
+    remoteAudioMixerRef.current = createCampfireRemoteAudioMixer();
+    await remoteAudioMixerRef.current.setOutputDevice(
+      loadCampfireMediaSettings().audioOutputId
+    );
+
+    room.on(RoomEvent.TrackSubscribed, upsertRemoteTrack);
+    room.on(RoomEvent.TrackUnsubscribed, removeRemoteTrack);
+    room.on(RoomEvent.ParticipantConnected, (participant) => {
+      applyLocalVideoPreference(principalIdFromParticipant(participant));
+    });
+    room.on(RoomEvent.ParticipantDisconnected, (participant) => {
+      const principalId = principalIdFromParticipant(participant);
+      const disconnectedTrackIds = new Set<string>();
+
+      for (const publication of participant.trackPublications.values()) {
+        const mediaTrack = publication.track?.mediaStreamTrack;
+        if (mediaTrack) disconnectedTrackIds.add(mediaTrack.id);
+        if (publication.source === Track.Source.Microphone) {
+          remoteAudioMixerRef.current?.detach(principalId, publication.trackSid);
+        }
       }
-      await ensurePlaybackContext();
-      if (credentials.permissions.canPublishMicrophone) await publishMicrophone(room);
-      joinedRef.current = true; setJoined(true);
-      await applyMute(mutedRef.current);
-      await applyDeafenPlayback(deafenedRef.current);
-      await publishPresence();
-      return {
-        ok: true,
-        message: credentials.permissions.canPublishMicrophone
-          ? "Conectado à voz SFU do Campfire."
-          : "Conectado em modo de escuta; seu microfone está bloqueado pelo owner.",
-      };
-    } catch (joinError) {
+
+      const anotherConnectionRemains = [...room.remoteParticipants.values()]
+        .some((other) => principalIdFromParticipant(other) === principalId);
+
+      if (!anotherConnectionRemains) {
+        setSpeakingParticipantIds((current) => {
+          if (!current.has(principalId)) return current;
+          const next = new Set(current);
+          next.delete(principalId);
+          return next;
+        });
+      }
+
+      setRemoteStreams((current) => {
+        const existing = current[principalId];
+        if (!existing || !disconnectedTrackIds.size) return current;
+        const remaining = existing.getTracks().filter(
+          (track) => !disconnectedTrackIds.has(track.id)
+        );
+        const next = { ...current };
+        if (remaining.length) next[principalId] = new MediaStream(remaining);
+        else delete next[principalId];
+        return next;
+      });
+    });
+    room.on(RoomEvent.ActiveSpeakersChanged, (speakers) => {
+      const next = new Set<string>();
+      for (const participant of speakers) {
+        if (participant.identity === room.localParticipant.identity) continue;
+        next.add(principalIdFromParticipant(participant));
+      }
+      setSpeakingParticipantIds(next);
+    });
+    room.on(RoomEvent.Reconnecting, () => {
+      setReconnecting(true);
+      setPhase("reconnecting");
+    });
+    room.on(RoomEvent.Reconnected, () => {
+      setReconnecting(false);
+      setErrorCode(null);
+      setError("");
+      setPhase(
+        micPublicationRef.current
+          ? "connected-speaking"
+          : "connected-listener"
+      );
+      void applyMute(mutedRef.current);
+      void applyDeafenPlayback(deafenedRef.current);
+    });
+    room.on(RoomEvent.Disconnected, () => {
+      if (roomRef.current !== room) return;
+      setJoined(false);
+      joinedRef.current = false;
+      setReconnecting(false);
+      setPhase("disconnected");
+      void publishPresence();
+    });
+
+    try {
+      await room.connect(credentials.url, credentials.token);
+    } catch (connectError) {
+      const message = errorMessage(connectError);
+      setErrorCode("network");
+      setError(message);
+      setPhase("error");
       await cleanupRoom();
-      const message = errorMessage(joinError); setError(message); return { ok: false, message };
-    } finally { setJoining(false); }
-  }, [active, applyDeafenPlayback, applyLocalVideoPreference, applyMute, campfireId, cleanupRoom, closePlaybackForUser, ensurePlaybackContext, publishMicrophone, publishPresence, removeRemoteTrack, upsertRemoteTrack]);
+      setJoining(false);
+      return { ok: false, message };
+    }
+
+    joinedRef.current = true;
+    setJoined(true);
+    setPhase("connected-listener");
+
+    for (const participant of room.remoteParticipants.values()) {
+      applyLocalVideoPreference(principalIdFromParticipant(participant));
+    }
+
+    try {
+      await ensurePlaybackContext();
+    } catch (playbackError) {
+      setErrorCode("playback-subscription");
+      setError(errorMessage(playbackError));
+    }
+
+    let microphoneUnavailable = false;
+    if (credentials.permissions.canPublishMicrophone) {
+      try {
+        setPhase("publishing-microphone");
+        await publishMicrophone(room);
+        setPhase("connected-speaking");
+        setErrorCode(null);
+        setError("");
+      } catch (microphoneError) {
+        const code = classifyMicrophoneError(microphoneError);
+        const message = errorMessage(microphoneError);
+        microphoneUnavailable = true;
+        setErrorCode(code);
+        setError(message);
+        setPhase("microphone-unavailable");
+        // Listener fallback is intentional: the LiveKit Room remains connected.
+      }
+    }
+
+    if (leaseHeartbeatRef.current !== null) window.clearInterval(leaseHeartbeatRef.current);
+    leaseHeartbeatRef.current = window.setInterval(() => {
+      void supabase.rpc("refresh_campfire_media_lease", {
+        p_campfire_id: targetCampfireId,
+        p_purpose: "voice",
+        p_connection_id: mediaConnectionId,
+      });
+    }, 60_000);
+
+    await applyMute(mutedRef.current);
+    await applyDeafenPlayback(deafenedRef.current);
+    await publishPresence();
+    setJoining(false);
+
+    if (microphoneUnavailable) {
+      return { ok: true, message: "Conectado à voz em modo de escuta; microfone indisponível." };
+    }
+    return {
+      ok: true,
+      message: credentials.permissions.canPublishMicrophone
+        ? "Conectado automaticamente à voz da Campfire."
+        : "Conectado em modo de escuta; seu microfone está bloqueado pelo owner.",
+    };
+  }, [
+    active,
+    applyDeafenPlayback,
+    applyLocalVideoPreference,
+    applyMute,
+    cleanupRoom,
+    ensurePlaybackContext,
+    mediaConnectionId,
+    publishMicrophone,
+    publishPresence,
+    removeRemoteTrack,
+    upsertRemoteTrack,
+  ]);
+
+  const joinVoice = useCallback(async (): Promise<CampfireVoiceActionResult> => {
+    if (!campfireId) return { ok: false, message: "Nenhuma Campfire ativa." };
+    return connectToCampfire(campfireId);
+  }, [campfireId, connectToCampfire]);
 
   const leaveVoice = useCallback(async (): Promise<CampfireVoiceActionResult> => {
-    joinedRef.current = false; setJoined(false); cameraEnabledRef.current = false; setCameraEnabled(false);
-    await cleanupRoom(); await publishPresence();
-    return { ok: true, message: "Você saiu da voz." };
-  }, [cleanupRoom, publishPresence]);
+    await disconnect();
+    return { ok: true, message: "Voz desconectada com a saída da Campfire." };
+  }, [disconnect]);
 
   const toggleMute = useCallback(async (): Promise<CampfireVoiceActionResult> => {
     if (!joinedRef.current) return { ok: false, message: "Entre na voz primeiro." };
@@ -653,8 +1034,9 @@ export function useCampfireLiveKitVoice(
     }
     const next = !mutedRef.current;
     await applyMute(next);
+    await verifyMicrophoneInvariant("toggleMute");
     return { ok: true, message: next ? "Microfone silenciado." : "Microfone ativado." };
-  }, [applyMute]);
+  }, [applyMute, verifyMicrophoneInvariant]);
 
   const toggleCamera = useCallback(async (): Promise<CampfireVoiceActionResult> => {
     const room = roomRef.current;
@@ -692,16 +1074,16 @@ export function useCampfireLiveKitVoice(
     const next = !deafenedRef.current;
 
     if (next) {
-      muteBeforeDeafenRef.current = mutedRef.current;
-      if (!mutedRef.current) await applyMute(true);
+      preDeafenMutedRef.current = mutedRef.current;
+      await applyMute(true);
     }
 
     deafenedRef.current = next;
     setDeafened(next);
     await applyDeafenPlayback(next);
 
-    if (!next && !muteBeforeDeafenRef.current) {
-      await applyMute(false);
+    if (!next) {
+      await applyMute(preDeafenMutedRef.current);
     }
 
     return {
@@ -719,10 +1101,23 @@ export function useCampfireLiveKitVoice(
       try { localStorage.setItem(USER_VOLUME_KEY, JSON.stringify(next)); } catch { /* optional */ }
       return next;
     });
-    const node = playbackNodesRef.current.get(userId);
-    if (node) node.gain.gain.value = deafenedRef.current ? 0 : nextValue / 100;
+    remoteAudioMixerRef.current?.setVolume(userId, nextValue);
   }, []);
   const getUserVolume = useCallback((userId: string) => userVolumesRef.current[userId] ?? 100, []);
+  const setParticipantVolume = useCallback((participantId: string, percent: number) => {
+    setUserVolume(participantId, percent);
+  }, [setUserVolume]);
+  const setParticipantLocallyMuted = useCallback((participantId: string, locallyMuted: boolean) => {
+    setParticipantLocalMutes((current) => ({
+      ...current,
+      [participantId]: locallyMuted,
+    }));
+    remoteAudioMixerRef.current?.setLocallyMuted(participantId, locallyMuted);
+  }, []);
+  const isParticipantLocallyMuted = useCallback(
+    (participantId: string) => participantLocalMutes[participantId] === true,
+    [participantLocalMutes]
+  );
   const setOutgoingVolume = useCallback((value: number) => {
     const next = clampVolume(value); setOutgoingVolumeState(next);
     try { localStorage.setItem(OUTGOING_VOLUME_KEY, String(next)); } catch { /* optional */ }
@@ -762,6 +1157,35 @@ export function useCampfireLiveKitVoice(
     return setVoiceProfile(profile === "studio" ? "studio" : "clean");
   }, [setVoiceProfile]);
 
+  const setInputDevice = useCallback(async (deviceId: string): Promise<void> => {
+    const previousSettings = loadCampfireMediaSettings();
+    if (previousSettings.audioInputId === deviceId) return;
+
+    mediaRefreshSuppressedRef.current = true;
+    try {
+      saveCampfireMediaSettings({
+        ...previousSettings,
+        audioInputId: deviceId,
+      });
+    } finally {
+      mediaRefreshSuppressedRef.current = false;
+    }
+
+    if (!joinedRef.current || !micPublicationRef.current) return;
+
+    try {
+      await refreshPublishedMicrophone();
+    } catch (switchError) {
+      mediaRefreshSuppressedRef.current = true;
+      try {
+        saveCampfireMediaSettings(previousSettings);
+      } finally {
+        mediaRefreshSuppressedRef.current = false;
+      }
+      throw switchError;
+    }
+  }, [refreshPublishedMicrophone]);
+
   const setStatus = useCallback(async (nextStatus: CampfirePresenceStatus) => {
     setStatusState(nextStatus); statusRef.current = nextStatus;
     await supabase.from("profiles").update({ status: nextStatus }).eq("id", currentUserId).then(() => undefined);
@@ -775,6 +1199,28 @@ export function useCampfireLiveKitVoice(
     window.dispatchEvent(new CustomEvent("campfire-profile-presence-change", { detail: { status: statusRef.current, personalMessage: next } }));
     await publishPresence();
   }, [currentUserId, publishPresence]);
+
+  useEffect(() => {
+    if (!active || !campfireId) {
+      void disconnect();
+      return;
+    }
+
+    let cancelled = false;
+    void (async () => {
+      await disconnect();
+      if (cancelled) return;
+      await connectToCampfire(campfireId);
+      if (cancelled) await disconnect();
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  // Voice membership follows Campfire membership only. Media setting changes are
+  // handled in-place and must never tear down/rejoin the room.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, campfireId, currentUserId]);
 
   const lastMediaSettingsRef = useRef(loadCampfireMediaSettings());
 
@@ -795,13 +1241,14 @@ export function useCampfireLiveKitVoice(
       setVoiceProfileState(next.voiceProfile);
 
       if (
-        previous.audioInputId !== next.audioInputId ||
-        previous.voiceProfile !== next.voiceProfile ||
-        previous.echoCancellation !== next.echoCancellation ||
-        previous.nativeNoiseSuppression !== next.nativeNoiseSuppression ||
-        previous.autoGainControl !== next.autoGainControl ||
-        previous.gateMode !== next.gateMode ||
-        previous.gateSensitivity !== next.gateSensitivity
+        !mediaRefreshSuppressedRef.current &&
+        (previous.audioInputId !== next.audioInputId ||
+          previous.voiceProfile !== next.voiceProfile ||
+          previous.echoCancellation !== next.echoCancellation ||
+          previous.nativeNoiseSuppression !== next.nativeNoiseSuppression ||
+          previous.autoGainControl !== next.autoGainControl ||
+          previous.gateMode !== next.gateMode ||
+          previous.gateSensitivity !== next.gateSensitivity)
       ) {
         void refreshPublishedMicrophone().catch(() => undefined);
       }
@@ -815,7 +1262,7 @@ export function useCampfireLiveKitVoice(
     refreshPublishedMicrophone,
   ]);
 
-  useEffect(() => () => { void cleanupRoom(); }, [cleanupRoom]);
+  useEffect(() => () => { void disconnect(); }, [disconnect]);
 
   const voiceMembers = useMemo(
     () => Object.values(presence).filter((member) => member.voiceJoined),
@@ -825,14 +1272,20 @@ export function useCampfireLiveKitVoice(
   return {
     status, personalMessage, presence, signalingReady,
     joined, joining, muted, deafened, cameraEnabled, hasCamera, hasMicrophone, error,
-    reconnecting,
+    phase, errorCode, errorMessage: error, reconnecting,
     remoteStreams, localCameraStream: cameraStreamRef.current, voiceMembers,
+    speakingParticipantIds, participantLocalMutes,
     outgoingVolume, monitorEnabled, monitorVolume,
     voiceProfile, rnnoiseActive, inputLevel, processedLevel,
+    voiceInputMode: voiceInputSettings.mode,
+    pushToTalkBinding: voiceInputSettings.binding,
+    pushToTalkHeld,
     audioProfile: voiceProfile === "studio" ? "studio" : "voice",
     setStatus, setPersonalMessage, detectDevices,
-    joinVoice, leaveVoice, toggleMute, toggleCamera, toggleDeafen,
-    getUserVolume, setUserVolume, setOutgoingVolume,
+    joinVoice, leaveVoice, disconnect, toggleMute, toggleCamera, toggleDeafen,
+    getUserVolume, setUserVolume, setParticipantVolume,
+    setParticipantLocallyMuted, isParticipantLocallyMuted, setInputDevice,
+    setOutgoingVolume,
     setMonitorEnabled: setMonitorEnabledState, setMonitorVolume,
     setVoiceProfile, setAudioProfile,
   };

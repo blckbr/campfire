@@ -7,17 +7,18 @@ const css = fs.readFileSync(new URL('../website/styles.css', import.meta.url), '
 const app = fs.readFileSync(new URL('../website/app.js', import.meta.url), 'utf8');
 
 const expectedScreens = [
-  'site-01-home.png','site-02-menu-arquivo.png','site-03-menu-contatos.png','site-04-amigos.png',
-  'site-05-criar-campfire.png','site-06-configuracoes.png','site-07-idioma-escala.png','site-08-animes.png',
-  'site-09-tela-compartilhamento.png','site-10-voz-video.png','site-11-fechamento.png','site-12-sobre.png',
+  'current-home-r66615.png',
+  'current-call-r66615.png',
+  'current-countdown-r66615.png',
 ];
 
-test('final website uses all real Campfire screenshots', () => {
+test('final website uses the canonical R6.6.6.15 Campfire screenshots', () => {
   for (const name of expectedScreens) {
     assert.ok(html.includes(`./assets/screenshots/${name}`), `Missing screenshot reference: ${name}`);
   }
-  assert.match(html, /floating-shot/);
+  assert.match(html, /product-window-shot|current-shot/);
   assert.match(html, /data-preview-src=/);
+  assert.doesNotMatch(html, /site-(?:0[1-9]|1[0-2])-/);
 });
 
 test('screenshot lightbox renders the selected real image', () => {

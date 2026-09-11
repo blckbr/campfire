@@ -1,0 +1,503 @@
+/* ============================================================
+   CAMPFIRE R4 — approved mockup fidelity + Aero material Glow
+   Loaded after R2/R3. This file intentionally wins the cascade.
+   ============================================================ */
+
+.blackPianoTheme{
+  --cf-r4-min-width:1280px;
+  --cf-left-rail-width:252px;
+  --cf-right-rail-width:308px;
+}
+
+/* ------------------------------------------------------------
+   HUD / accessibility law: no feature disappears when UI scale grows.
+   The app scrolls instead of collapsing functional rails.
+   ------------------------------------------------------------ */
+.blackPianoTheme .main{
+  min-width:0;
+  overflow:auto !important;
+  scrollbar-gutter:stable both-edges;
+  scrollbar-color:var(--cf-edge-bright) color-mix(in srgb,var(--cf-panel) 88%,black);
+}
+.blackPianoTheme .sidebar.campfireLeftRail{
+  flex:0 0 var(--cf-left-rail-width) !important;
+  width:var(--cf-left-rail-width) !important;
+  min-width:var(--cf-left-rail-width) !important;
+  overflow:hidden !important;
+}
+.blackPianoTheme .content{
+  flex:1 0 calc(var(--cf-r4-min-width) - var(--cf-left-rail-width));
+  min-width:calc(var(--cf-r4-min-width) - var(--cf-left-rail-width));
+}
+.campfireLeftRailList{
+  min-height:0;
+  overflow-y:auto !important;
+  overflow-x:hidden;
+  scrollbar-gutter:stable;
+}
+.campfireRightRail{
+  overflow-y:auto !important;
+  overflow-x:hidden;
+  scrollbar-gutter:stable;
+  border-left:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 1px 0 0 color-mix(in srgb,var(--cf-edge-bright) 26%,transparent),-8px 0 28px var(--cf-glow-soft),-20px 0 54px rgba(0,0,0,.32) !important;
+}
+.campfireRoomShell > .campfireRightRail{
+  display:block !important;
+}
+
+.blackPianoTheme *,
+.blackPianoTheme *::before,
+.blackPianoTheme *::after{
+  scrollbar-color:var(--cf-edge-bright) color-mix(in srgb,var(--cf-panel) 88%,black);
+}
+.blackPianoTheme *::-webkit-scrollbar{width:10px;height:10px}
+.blackPianoTheme *::-webkit-scrollbar-track{background:color-mix(in srgb,var(--cf-panel) 90%,black);border-radius:999px}
+.blackPianoTheme *::-webkit-scrollbar-thumb{
+  border:2px solid color-mix(in srgb,var(--cf-panel) 92%,black);
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--cf-edge-bright),var(--cf-edge));
+  box-shadow:0 0 10px var(--cf-glow-soft),inset 0 1px 0 rgba(255,255,255,.38);
+}
+
+/* ------------------------------------------------------------
+   Full-chrome Aero material law. Top, rails, panels and overlays
+   all receive the selected theme — no isolated green buttons only.
+   ------------------------------------------------------------ */
+.blackPianoTheme .blackPianoMenuBar{
+  border:1px solid var(--cf-edge) !important;
+  border-top-color:color-mix(in srgb,var(--cf-edge-bright) 62%,transparent) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),inset 0 -1px 0 rgba(0,0,0,.46),0 0 18px var(--cf-glow-soft),0 9px 26px rgba(0,0,0,.36) !important;
+}
+.blackPianoTheme .topbar{
+  position:relative;
+  border:1px solid var(--cf-edge) !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),inset 0 -1px 0 color-mix(in srgb,var(--cf-edge) 50%,transparent),0 0 24px var(--cf-glow-soft),0 12px 32px rgba(0,0,0,.34) !important;
+}
+.blackPianoTheme .topbar::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(105deg,rgba(255,255,255,.10),transparent 18% 72%,rgba(255,255,255,.025));
+  mix-blend-mode:screen;
+  opacity:.75;
+}
+.blackPianoTheme .campfireLeftRail{
+  border-right:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset -1px 0 0 color-mix(in srgb,var(--cf-edge-bright) 24%,transparent),8px 0 28px var(--cf-glow-soft),18px 0 54px rgba(0,0,0,.26) !important;
+}
+.blackPianoTheme .campfireSpotlightCard{
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),inset 0 0 28px color-mix(in srgb,var(--cf-edge) 8%,transparent),0 0 22px var(--cf-glow-soft),0 24px 60px rgba(0,0,0,.36) !important;
+}
+.blackPianoTheme .campfireMoodCard{
+  border:1px solid var(--cf-edge) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),0 0 20px var(--cf-glow-soft),0 24px 60px rgba(0,0,0,.34) !important;
+}
+.blackPianoTheme .campfireVoiceDock{
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),inset 0 0 20px color-mix(in srgb,var(--cf-edge) 7%,transparent),0 0 24px var(--cf-glow-soft),0 20px 54px rgba(0,0,0,.48) !important;
+}
+.blackPianoTheme .campfireWorkspacePanel{
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),0 0 24px var(--cf-glow-soft),0 28px 72px rgba(0,0,0,.52) !important;
+}
+.blackPianoTheme .campfireSettingsModal{
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),inset 0 0 24px color-mix(in srgb,var(--cf-edge) 7%,transparent),0 0 26px var(--cf-glow-soft),0 28px 80px rgba(0,0,0,.62) !important;
+}
+
+.blackPianoTheme .blackPianoMenuDropdown,
+.blackPianoTheme .campfireUnifiedMenu,
+.blackPianoTheme .campfireThemePopover,
+.blackPianoTheme .createModal,
+.blackPianoTheme .friendsModal,
+.blackPianoTheme .cfUserContextMenu{
+  border-color:var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),0 0 24px var(--cf-glow-soft),0 28px 74px rgba(0,0,0,.58) !important;
+  backdrop-filter:blur(26px) saturate(138%) !important;
+}
+
+.blackPianoTheme .topButtons button,
+.blackPianoTheme .campfireQuickActionButton,
+.blackPianoTheme .campfireThemeButton,
+.blackPianoTheme .campfireCreatePrimary,
+.blackPianoTheme .campfireLeftUserCard button{
+  border-color:color-mix(in srgb,var(--cf-edge) 72%,transparent) !important;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--cf-glass-tint) 92%,white 5%),color-mix(in srgb,var(--cf-panel) 92%,black 8%)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 12px color-mix(in srgb,var(--cf-glow-soft) 64%,transparent) !important;
+}
+.blackPianoTheme .topButtons button:hover,
+.blackPianoTheme .campfireQuickActionButton:hover:not(:disabled),
+.blackPianoTheme .campfireQuickActionButton.active{
+  border-color:var(--cf-edge-bright) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 0 22px var(--cf-glow-soft) !important;
+}
+
+/* ------------------------------------------------------------
+   Home = approved cinematic dashboard mockup.
+   ------------------------------------------------------------ */
+.campfireHomeShell{
+  display:grid !important;
+  grid-template-columns:minmax(760px,1fr) var(--cf-right-rail-width) !important;
+  min-width:calc(var(--cf-r4-min-width) - var(--cf-left-rail-width)) !important;
+  height:100% !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at 42% -8%,color-mix(in srgb,var(--cf-accent) 15%,transparent),transparent 38%),
+    linear-gradient(180deg,color-mix(in srgb,var(--cf-bg-2) 94%,black),var(--cf-bg)) !important;
+}
+.campfireHomeBeautiful{
+  min-width:0;
+  overflow-y:auto !important;
+  overflow-x:hidden;
+  padding:12px 14px 26px !important;
+  scrollbar-gutter:stable;
+}
+.campfireHomeHero{
+  position:relative;
+  min-height:342px !important;
+  overflow:hidden;
+  border:1px solid var(--cf-edge) !important;
+  border-radius:18px !important;
+  background-position:center 60% !important;
+  background-size:cover !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 28px var(--cf-glow-soft),0 24px 64px rgba(0,0,0,.42) !important;
+}
+.campfireHomeHero::before{
+  background:
+    linear-gradient(90deg,rgba(2,5,8,.86) 0%,rgba(3,6,10,.48) 44%,rgba(2,5,8,.09) 72%),
+    linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.38)) !important;
+}
+.campfireHomeHeroCopy{left:24px !important;bottom:28px !important;max-width:480px !important}
+.campfireHomeHeroCopy h1{font-size:30px !important;letter-spacing:-.03em !important;text-shadow:0 3px 18px rgba(0,0,0,.75)}
+.campfireHomeHeroQuote{font-size:16px !important;font-style:italic;color:#f4f5f6 !important}
+.campfireHomeHeroStatus{
+  position:absolute !important;
+  z-index:3;
+  top:22px !important;
+  right:24px !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:0 !important;
+  min-width:310px !important;
+  border:1px solid var(--cf-edge) !important;
+  border-radius:14px !important;
+  overflow:hidden;
+  background:color-mix(in srgb,var(--cf-glass-tint) 82%,transparent) !important;
+  backdrop-filter:blur(18px) saturate(130%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 0 20px var(--cf-glow-soft),0 14px 35px rgba(0,0,0,.35);
+}
+.campfireHomeHeroStatus>div{padding:12px 16px;border-right:1px solid color-mix(in srgb,var(--cf-edge) 38%,transparent)}
+.campfireHomeHeroStatus>div:last-child{border-right:0}
+.campfireHomeHeroStatus small{display:block;color:var(--cf-muted);font-size:8px;letter-spacing:.12em}
+.campfireHomeHeroStatus strong{display:block;margin-top:5px;color:var(--cf-text);font-size:18px}
+.campfireHomeHeroServices{
+  position:absolute !important;
+  z-index:3;
+  right:24px !important;
+  bottom:28px !important;
+  display:grid !important;
+  gap:7px !important;
+  text-align:right;
+  color:#fff;
+  font:600 11px/1.1 "Segoe UI",sans-serif;
+  text-shadow:0 2px 10px #000;
+}
+
+.campfireHomeHighlights,
+.campfireHomeActivityPanel,
+.campfireHomeEventsPanel,
+.campfireHomeFriendsPanel,
+.campfireHomeSuggestionsPanel,
+.campfireHomeQuotePanel{
+  border:1px solid color-mix(in srgb,var(--cf-edge) 66%,transparent) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 0 16px color-mix(in srgb,var(--cf-glow-soft) 70%,transparent),0 18px 44px rgba(0,0,0,.28) !important;
+}
+.campfireHomeHighlights{margin-top:12px !important;padding:11px !important;border-radius:16px !important}
+.campfireHomeHighlightRow{
+  display:grid !important;
+  grid-template-columns:repeat(6,minmax(142px,1fr)) !important;
+  gap:9px !important;
+  overflow-x:auto !important;
+  padding-bottom:3px;
+}
+.campfireHomeHighlightCard{min-width:142px !important;border-color:color-mix(in srgb,var(--cf-edge) 52%,transparent) !important;border-radius:12px !important;overflow:hidden;background:color-mix(in srgb,var(--cf-panel) 90%,transparent) !important}
+.campfireHomeHighlightImage{height:96px !important;background-position:center;background-size:cover}
+.campfireHomeHighlightCopy{padding:8px !important}
+.campfireHomeHighlightCopy>span{display:flex;gap:4px;margin-top:6px}.campfireHomeHighlightCopy i{font-style:normal;font-size:7px;padding:2px 5px;border-radius:999px;background:color-mix(in srgb,var(--cf-accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--cf-edge) 30%,transparent)}
+.campfireHomeDashboardGrid{display:grid !important;grid-template-columns:minmax(0,1.18fr) minmax(310px,.92fr) !important;gap:12px !important;margin-top:12px !important}
+.campfireHomeActivityPanel,.campfireHomeEventsPanel{padding:12px !important;border-radius:15px !important;min-height:188px}
+.campfireHomeActivityList{display:grid;gap:5px}.campfireHomeActivityList button,.campfireHomeEventsPanel>button{display:flex!important;align-items:center;gap:9px;width:100%;min-height:42px;padding:5px 7px;border:0;border-radius:9px;background:transparent;color:var(--cf-text);text-align:left}.campfireHomeActivityList button:hover,.campfireHomeEventsPanel>button:hover{background:color-mix(in srgb,var(--cf-accent) 8%,transparent)}
+.campfireHomeActivityThumb,.campfireHomeEventThumb{width:32px;height:32px;flex:0 0 32px;border-radius:8px;background-size:cover;background-position:center;border:1px solid color-mix(in srgb,var(--cf-edge) 40%,transparent)}
+.campfireHomeEventsPanel>button>b{margin-left:auto;padding:7px 12px;border-radius:8px;background:color-mix(in srgb,var(--cf-accent) 10%,var(--cf-panel-2));border:1px solid color-mix(in srgb,var(--cf-edge) 42%,transparent);color:var(--cf-text)}
+
+.campfireHomeRightRail{
+  display:flex !important;
+  flex-direction:column;
+  gap:12px;
+  width:var(--cf-right-rail-width) !important;
+  min-width:var(--cf-right-rail-width) !important;
+  height:100%;
+  overflow-y:auto !important;
+  padding:12px 11px 22px !important;
+  border-left:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 1px 0 0 color-mix(in srgb,var(--cf-edge-bright) 22%,transparent),-10px 0 30px color-mix(in srgb,var(--cf-glow-soft) 52%,transparent) !important;
+}
+.campfireHomeFriendsPanel,.campfireHomeSuggestionsPanel,.campfireHomeQuotePanel{border-radius:15px !important;padding:12px !important}
+.campfireHomeFriendList{display:grid;gap:4px}.campfireHomeFriendList button{display:flex;align-items:center;gap:9px;width:100%;padding:5px;border:0;border-radius:10px;background:transparent;color:var(--cf-text);text-align:left}.campfireHomeFriendList button:hover{background:color-mix(in srgb,var(--cf-accent) 8%,transparent)}
+.campfireHomeFriendAvatar{width:37px!important;height:37px!important;aspect-ratio:1/1;flex:0 0 37px;border-radius:50%!important;background-size:cover!important;background-position:center!important;border:1px solid var(--cf-edge)!important;box-shadow:0 0 12px var(--cf-glow-soft)!important}
+.campfireHomeSuggestionsPanel>button{display:grid!important;grid-template-columns:34px 1fr 26px;align-items:center;gap:9px;width:100%;padding:6px;border:0;border-radius:9px;background:transparent;color:var(--cf-text);text-align:left}.campfireHomeSuggestionsPanel>button>span{width:34px;height:34px;border-radius:8px;background-size:cover;background-position:center}.campfireHomeSuggestionsPanel>button>b{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:color-mix(in srgb,var(--cf-accent) 9%,var(--cf-panel-2));border:1px solid color-mix(in srgb,var(--cf-edge) 38%,transparent)}
+.campfireHomeQuotePanel{margin-top:auto;text-align:center;padding:22px 15px!important}.campfireHomeQuotePanel>span{font:700 34px/1 Georgia,serif;color:var(--cf-edge-bright)}.campfireHomeQuotePanel blockquote{margin:3px 0 9px;font:italic 600 14px/1.45 Georgia,serif;color:var(--cf-text)}
+
+/* ------------------------------------------------------------
+   Internal Campfire = approved “Assistindo Filmes” composition.
+   ------------------------------------------------------------ */
+.campfireRoomShell{
+  min-width:calc(var(--cf-r4-min-width) - var(--cf-left-rail-width)) !important;
+  grid-template-columns:minmax(700px,1fr) var(--cf-right-rail-width) !important;
+  grid-template-rows:72px minmax(0,1fr) !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at 44% -12%,color-mix(in srgb,var(--cf-accent) 13%,transparent),transparent 38%),
+    linear-gradient(180deg,color-mix(in srgb,var(--cf-bg-2) 96%,black),var(--cf-bg)) !important;
+}
+.blackPianoTheme .campfireRoomHeader{
+  margin:9px calc(var(--cf-right-rail-width) + 14px) 7px 14px !important;
+  min-height:56px !important;
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),0 0 18px var(--cf-glow-soft),0 14px 34px rgba(0,0,0,.30) !important;
+}
+.campfireStage{
+  grid-template-columns:minmax(0,1.72fr) minmax(250px,.82fr) !important;
+  grid-template-rows:minmax(300px,1fr) 166px !important;
+  gap:12px !important;
+  margin:7px 14px 92px !important;
+  overflow:auto !important;
+  scrollbar-gutter:stable;
+}
+.campfireSpotlightCard{
+  min-height:300px;
+  border-radius:18px !important;
+}
+.campfireMoodCard{
+  min-height:300px;
+  border-radius:18px !important;
+  background-position:center!important;
+  background-size:cover!important;
+}
+.campfireParticipantTiles{grid-column:1 / span 2!important;display:grid!important;grid-template-columns:repeat(5,minmax(120px,1fr))!important;gap:11px!important;overflow-x:auto!important;padding:1px 1px 5px!important}
+.campfireParticipantTile{min-height:144px!important;border:1px solid color-mix(in srgb,var(--cf-edge) 54%,transparent)!important;border-radius:15px!important;background:var(--cf-material-surface)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 0 12px color-mix(in srgb,var(--cf-glow-soft) 54%,transparent)!important}
+
+.campfireQuickActions{
+  top:16px !important;
+  right:calc(var(--cf-right-rail-width) + 18px) !important;
+  z-index:30020 !important;
+  border:1px solid var(--cf-edge) !important;
+  background:var(--cf-material-surface) !important;
+  box-shadow:inset 0 1px 0 var(--cf-material-highlight),0 0 18px var(--cf-glow-soft),0 12px 32px rgba(0,0,0,.34) !important;
+}
+.campfireWorkspaceOverlay{
+  overflow:auto !important;
+  scrollbar-gutter:stable;
+}
+
+/* Avatar geometry: never allow a circle to inherit a narrow flex-basis. */
+.campfireSpotlightAvatar{
+  width:154px !important;
+  height:154px !important;
+  min-width:154px !important;
+  min-height:154px !important;
+  aspect-ratio:1 / 1;
+  flex-shrink:0;
+  border-radius:50% !important;
+  background-size:cover !important;
+  background-position:center !important;
+  border:2px solid var(--cf-edge-bright) !important;
+  box-shadow:0 0 0 7px color-mix(in srgb,var(--cf-edge) 10%,transparent),0 0 34px var(--cf-glow-soft) !important;
+}
+.campfireParticipantTileAvatar{
+  width:72px !important;
+  height:72px !important;
+  min-width:72px !important;
+  min-height:72px !important;
+  aspect-ratio:1 / 1;
+  flex-shrink:0;
+  border-radius:50% !important;
+  background-size:cover !important;
+  background-position:center !important;
+  border:1px solid var(--cf-edge) !important;
+  box-shadow:0 0 14px var(--cf-glow-soft) !important;
+}
+.campfireParticipantTileAvatar.campfireStageAvatar{
+  flex:0 0 72px !important;
+}
+.campfireRailAvatar{
+  width:38px !important;
+  height:38px !important;
+  min-width:38px !important;
+  min-height:38px !important;
+  aspect-ratio:1 / 1;
+  flex-shrink:0;
+  border-radius:50% !important;
+  background-size:cover !important;
+  background-position:center !important;
+  border:1px solid var(--cf-edge) !important;
+  box-shadow:0 0 12px var(--cf-glow-soft) !important;
+}
+.blackPianoTheme .topbar .avatar,
+.campfireLeftUserAvatar{
+  aspect-ratio:1 / 1 !important;
+  flex-shrink:0 !important;
+  border-radius:50% !important;
+  border-color:var(--cf-edge) !important;
+  box-shadow:0 0 14px var(--cf-glow-soft) !important;
+}
+
+/* ------------------------------------------------------------
+   Settings and long modals: real scrolling at 130%+ HUD.
+   ------------------------------------------------------------ */
+.campfireSettingsModal{
+  display:grid !important;
+  grid-template-rows:auto minmax(0, 1fr) !important;
+  max-height:min(88vh,920px) !important;
+  overflow:hidden !important;
+}
+.campfireSettingsBody{
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+.campfireSettingsBody > main{
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  scrollbar-gutter:stable !important;
+  overscroll-behavior:contain;
+}
+.campfireSettingsBody > aside{
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  scrollbar-gutter:stable;
+}
+.blackPianoTheme .createModal,
+.blackPianoTheme .friendsModal{
+  max-height:88vh !important;
+  overflow-y:auto !important;
+  scrollbar-gutter:stable;
+}
+
+/* Roll menus and functional overlays always sit above room/native media. */
+.blackPianoTheme .blackPianoMenuBar{z-index:40000!important}
+.blackPianoTheme .blackPianoMenuDropdown{z-index:40020!important}
+.blackPianoTheme .campfireUnifiedMenu,
+.blackPianoTheme .campfireThemePopover,
+.blackPianoTheme .campfireSettingsOverlay,
+.blackPianoTheme .friendsModalOverlay,
+.blackPianoTheme .modalOverlay,
+.blackPianoTheme .cfUserContextMenu,
+.blackPianoTheme .cfUserContextSubmenu,
+.blackPianoTheme .campfireMembersOverlay,
+.blackPianoTheme .cfDmBackdrop,
+.blackPianoTheme .cfDirectCallOverlay,
+.blackPianoTheme .cfVerificationBackdrop,
+.blackPianoTheme .campfireUserProfileBackdrop{
+  z-index:40100!important;
+}
+
+/* Do not remove rails at narrow logical widths: the parent .main scrolls. */
+@media(max-width:1050px){
+  .campfireHomeShell,.campfireRoomShell{grid-template-columns:minmax(700px,1fr) var(--cf-right-rail-width)!important}
+  .campfireHomeRightRail,.campfireRoomShell > .campfireRightRail{display:block!important}
+  .blackPianoTheme .campfireRoomHeader{margin-right:calc(var(--cf-right-rail-width) + 14px)!important}
+  .campfireQuickActions{right:calc(var(--cf-right-rail-width) + 18px)!important;left:auto!important;bottom:auto!important}
+  .campfireWorkspaceOverlay{right:calc(var(--cf-right-rail-width) + 18px)!important}
+  .campfireRoomShell > .campfireVoiceDock{right:calc(var(--cf-right-rail-width) + 18px)!important;width:560px!important;min-width:520px!important}
+}
+@media(max-width:760px){
+  .campfireMoodCard{display:block!important}
+  .campfireStage{grid-template-columns:minmax(0,1.72fr) minmax(250px,.82fr)!important;grid-template-rows:minmax(300px,1fr) 166px!important}
+  .campfireParticipantTiles{grid-template-columns:repeat(5,minmax(120px,1fr))!important}
+  .campfireQuickActions{top:16px!important;right:calc(var(--cf-right-rail-width) + 18px)!important;left:auto!important;bottom:auto!important}
+}
+
+/* R4 cinematic top navigation — mirrors the approved Home mockup. */
+.campfireModeHome .topbar{
+  display:grid !important;
+  grid-template-columns:auto auto minmax(250px,1fr) auto !important;
+  align-items:center !important;
+  gap:14px !important;
+  min-width:var(--cf-r4-min-width) !important;
+  padding:6px 14px !important;
+}
+.campfireModeHome .campfireLeftRailBrand{display:none !important}
+.campfireTopbarBrand{display:flex;align-items:center;gap:9px;min-width:154px}.campfireTopbarBrand img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 12px var(--cf-glow-soft))}.campfireTopbarBrand>div{display:grid;gap:2px}.campfireTopbarBrand strong{font:800 19px/1 "Segoe UI",sans-serif;color:var(--cf-text);letter-spacing:-.02em}.campfireTopbarBrand small{font:700 7px/1 "Segoe UI",sans-serif;color:var(--cf-edge-bright);letter-spacing:.18em}
+.campfireTopbarNav{display:flex;align-items:stretch;height:40px;gap:4px}.campfireTopbarNav button{height:40px;padding:0 11px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--cf-muted);font:650 11px/1 "Segoe UI",sans-serif}.campfireTopbarNav button:hover,.campfireTopbarNav button.active{color:var(--cf-text);border-color:color-mix(in srgb,var(--cf-edge) 45%,transparent);background:color-mix(in srgb,var(--cf-accent) 8%,transparent);box-shadow:inset 0 -2px 0 var(--cf-edge-bright),0 0 13px color-mix(in srgb,var(--cf-glow-soft) 58%,transparent)}
+.campfireTopbarSearch{height:38px;display:flex;align-items:center;gap:8px;min-width:250px;max-width:520px;justify-self:center;width:100%;padding:0 12px;border:1px solid color-mix(in srgb,var(--cf-edge) 52%,transparent);border-radius:11px;background:color-mix(in srgb,var(--cf-panel) 88%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 14px color-mix(in srgb,var(--cf-glow-soft) 40%,transparent)}.campfireTopbarSearch>span{color:var(--cf-edge-bright)}.campfireTopbarSearch input{width:100%;min-width:0;border:0!important;outline:0!important;background:transparent!important;color:var(--cf-text);font:500 11px/1 "Segoe UI",sans-serif}.campfireTopbarSearch input::placeholder{color:var(--cf-muted)}
+.campfireTopbarAccount{display:flex;align-items:center;gap:8px;justify-self:end}.campfireTopbarBell{position:relative;width:34px;height:34px;border:1px solid color-mix(in srgb,var(--cf-edge) 50%,transparent);border-radius:11px;background:color-mix(in srgb,var(--cf-panel-2) 82%,transparent);color:var(--cf-text)}.campfireTopbarBell b{position:absolute;right:-5px;top:-5px;min-width:15px;height:15px;padding:0 3px;display:grid;place-items:center;border-radius:999px;background:#ff5968;color:white;font:800 7px/1 "Segoe UI",sans-serif}.campfireTopbarAccountAvatar{width:38px;height:38px;aspect-ratio:1/1;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;background-position:center;background-size:cover;background-color:color-mix(in srgb,var(--cf-accent) 16%,var(--cf-panel-2));border:1px solid var(--cf-edge-bright);box-shadow:0 0 15px var(--cf-glow-soft);color:var(--cf-text);font-weight:800}.campfireTopbarAccountCopy{display:grid;gap:2px;min-width:105px}.campfireTopbarAccountCopy strong{color:var(--cf-text);font-size:11px}.campfireTopbarAccountCopy small{color:var(--cf-muted);font-size:8px}
+.campfireModeRoom .topbar{min-width:calc(var(--cf-r4-min-width) - 0px) !important}
+
+
+/* ============================================================
+   R6.1 compatibility layer for previously approved R4.1/R5 behaviors.
+   The R6 shell loaded later owns final geometry; these declarations keep
+   the shared Aero/scroll/header contracts explicit and testable.
+   ============================================================ */
+.blackPianoTheme .blackPianoMenuBar{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.blackPianoTheme .topbar{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.blackPianoTheme .blackPianoMenuBar::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  box-shadow:0 0 12px var(--cf-edge-bright);
+}
+.blackPianoTheme .topbar::after{display:block!important}
+.blackPianoTheme .campfireLeftRail{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.blackPianoTheme .campfireRightRail{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.blackPianoTheme .campfireRoomHeader{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.blackPianoTheme .campfireSettingsModal{
+  background:var(--cf-chrome-surface)!important;
+  backdrop-filter:blur(24px) saturate(1.25)!important;
+}
+.campfireSettingsModal{height:min(88dvh, 920px)!important;grid-template-rows:auto minmax(0,1fr)!important}
+.campfireSettingsBody{grid-template-rows:minmax(0,1fr);min-height:0!important;overflow:hidden!important}
+.campfireSettingsBody > main{overflow-y:auto!important;overflow-x:hidden!important;scrollbar-gutter:stable}
+.campfireSettingsThemeSection .campfireThemePicker{max-height:none!important;overflow:visible!important}
+.campfireVoiceDock.headerCompact{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
+.blackPianoTheme .main{grid-template-columns:var(--cf-left-rail-width) minmax(0,1fr)!important}
+.campfireRoomShell > .campfireRightRail{width:var(--cf-right-rail-width)!important}
+.campfireLeftRailList{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important}
+.campfireRoomHeaderControls{margin-left:auto}
+:root{--cf-participant-card-width:176px;--cf-participant-card-height:164px}
+.campfireParticipantTile{width:var(--cf-participant-card-width)!important;height:var(--cf-participant-card-height)!important}
+.campfireParticipantTileAvatar.campfireStageAvatar{width:72px!important;height:72px!important;aspect-ratio:1 / 1!important;flex-shrink:0!important}
+.campfireParticipantMore > span:first-child{aspect-ratio:1 / 1!important;border-radius:50%!important}

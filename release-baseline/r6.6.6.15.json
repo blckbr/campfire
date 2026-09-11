@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "baseArchive": "Campfire-Fonte-Minima-Para-CampfireWeb.zip",
+  "webOverlays": [
+    {
+      "archive": "CampfireWeb-1.0.0-Final.zip",
+      "mode": "strip-root",
+      "root": "CampfireWeb-1.0.0-Final"
+    },
+    {
+      "archive": "CampfireWeb-R3-Patch-Minimo.zip",
+      "mode": "payload"
+    },
+    {
+      "archive": "CampfireWeb-R4-Patch-Interno.zip",
+      "mode": "strip-root",
+      "root": "CampfireWeb-R4-Patch-Interno"
+    }
+  ],
+  "siteArchive": {
+    "archive": "Campfire-Publicacao-Final-1.0.0-v1.4.zip",
+    "mode": "prefix",
+    "prefix": "_campfire_publicacao_final/payload/"
+  },
+  "carryForwardOverlays": [
+    {
+      "archive": "Campfire-GameVox-Voice-Core-R1.zip",
+      "mode": "payload"
+    }
+  ],
+  "overlays": [
+    "Campfire-R2-Black-Piano-UX.zip",
+    "Campfire-R2.1-Black-Piano-UX.zip",
+    "Campfire-R2.2-Black-Piano-UX.zip",
+    "Campfire-R3-Cinematic-UX.zip",
+    "Campfire-R4-Aero-Glow-Fidelity.zip",
+    "Campfire-R5-Aero-Liquid-Glass-UX.zip",
+    "Campfire-R5.1-Aero-Liquid-Glass-UX.zip",
+    "Campfire-R6-Mockup-Fidelity-Rebuild.zip",
+    "Campfire-R6.1-Mockup-Fidelity-Rebuild.zip",
+    "Campfire-R6.2-Mockup-Fidelity-Rebuild.zip",
+    "Campfire-R6.3-Navigation-Identity-Material-Themes.zip",
+    "Campfire-R6.4-Settings-Themes-Textured-Frames.zip",
+    "Campfire-R6.5-Project-Polish-Anime-Player-Fixes.zip",
+    "Campfire-R6.5.1-Project-Polish-Anime-Player-Fixes.zip",
+    "Campfire-R6.6-Final-Polish-Functional.zip",
+    "Campfire-R6.6.2-Regression-Fix.zip",
+    "Campfire-R6.6.2.1-Windows-Gate-Fix.zip",
+    "Campfire-R6.6.2.2-Windows-Vite-Warning-Gate-Fix.zip",
+    "Campfire-R6.6.3-Professional-Glass-Frames-Create-Fix.zip",
+    "Campfire-R6.6.3.1-Supabase-CLI-Resolver-Fix.zip",
+    "Campfire-R6.6.4-Vitreous-UHD-Countdown-Fix.zip",
+    "Campfire-R6.6.4.1-Windows-TypeScript-Fix.zip",
+    "Campfire-R6.6.5.1-Material-Fidelity-Glass-Installer-Fix.zip",
+    "Campfire-R6.6.6-Simple-Dark-Reference-UI.zip",
+    "Campfire-R6.6.6.3-Installer-Settings-AI-News-Fix.zip",
+    "Campfire-R6.6.6.5-Installer-Integrity-Fix.zip",
+    "Campfire-R6.6.6.6-Live-AI-News-Clean-Settings-Fix.zip",
+    "Campfire-R6.6.6.7-Webcam-Stage-Feedback-Preview-Fix.zip",
+    "Campfire-R6.6.6.8-Reference-Call-AI-Voice-Fix.zip",
+    "Campfire-R6.6.6.9-Scope-TypeScript-Fix.zip",
+    "Campfire-R6.6.6.10-Detached-Windows-Mic-Sounds.zip",
+    "Campfire-R6.6.6.11-Microphone-Detection-Hotfix.zip",
+    "Campfire-R6.6.6.12-Live-Mic-Monitor-Fix.zip",
+    "Campfire-R6.6.6.13-Fire-Out-Volume-Fix.zip",
+    "Campfire-R6.6.6.14-Settings-Escape-Fix.zip"
+  ],
+  "finalArchive": "Campfire-R6.6.6.15-Fire-Out-Quieter-Fix(1).zip",
+  "finalSha256": "c9f12130d5ef372575c0f9937e64e63bc0d650afac944d80eefd4414e705063a",
+  "visualBaseline": "simple-dark-current",
+  "legacyThemesEnabled": false,
+  "legacyFramesEnabled": false,
+  "fireOutVolume": 0.1,
+  "finalPayloadManifest": [
+    {
+      "path": "src/CampfireHome.tsx",
+      "kind": "modified",
+      "payloadSha256": "d9660dfc74a7530006bcc82d078ec309f6209224f1706b90ec17c4bb5d75c80f",
+      "acceptedBaselineSha256": [
+        "3e99b8a7ecf93bb71ad9d09ef2a45922064c6a00f5e2bcbc71112fc4df2fec0b",
+        "cd79d3b7613a82d209c2e8c044e0c688eb3fe29774f759cf93d066311842d77d",
+        "9b5bfbf617e7264f51adfd384faffbf3b360dce273fb87fa65709b0b897be91f",
+        "fc99d76a754812b5a9094173b29d38b446db7709db04650636ba3231bb45dce4"
+      ]
+    },
+    {
+      "path": "src/CampfireR6Shell.css",
+      "kind": "modified",
+      "payloadSha256": "4bbb0d97acbe13089b2ce36bbfd76953b6f73897ceaffbeb4ea1080d251827fa",
+      "acceptedBaselineSha256": [
+        "ea041b38fdbc7f1e67e3d164fa7f0786d3549245115c74e523fe0cc6c1b44ce4",
+        "0b5de18811b45a881c4bb2552bfcade0b80c0384540b379b44f6f3d31c7eabcc",
+        "a784fb039941883050578a6a45abff68450dee83c4ba7b06ce176896976853c5"
+      ]
+    },
+    {
+      "path": "src/CampfireSettingsModal.tsx",
+      "kind": "modified",
+      "payloadSha256": "4383da10d1124ef3d0bb2be2483c8cac0162672850d1aaa03ab2b0aaf3501c16",
+      "acceptedBaselineSha256": [
+        "2999e303366bb27e934c7dd735c7197e341a8a78641eba72eed37ba970001d01",
+        "b77f8404f1d28762c55f28501a9e76a10cbbc44565083970b32ef7830cf9b862",
+        "c7f66b9603fc9bc59f31efeaf27f0c3d77127c83514bf30a7f8cc3ebe5a5ea9b",
+        "d5e7917ba9ce34c4f2734d7535189051cc3d57ae7872a24ee2f45f6526fec099"
+      ]
+    },
+    {
+      "path": "src/CampfireSettingsModal.css",
+      "kind": "modified",
+      "payloadSha256": "389d45748289f0e1aea8707b2923787acbb5b1ac5058eecd315e5bddb346e906",
+      "acceptedBaselineSha256": [
+        "8a314584d9cc527f029aee158b335d5d3607853b754c1809d92fc22059273af1",
+        "657518f984cfd0a0a502950b35fd51ad433b3551427858903a0f80ea0f094fb3"
+      ]
+    },
+    {
+      "path": "src/desktop.ts",
+      "kind": "modified",
+      "payloadSha256": "ab896e29495900b5a68217ebb93b18027148c8b7c28a11e7fd484c0b4d70d98a",
+      "acceptedBaselineSha256": [
+        "bd64dad750d204a7aba547d8645724b1e66903f661d7adf36c0919b1ac06064e",
+        "7cac07470590efc469e099441548192d23736d14c294f1da51a9d4b9c6dc34df",
+        "72cc8d20897286ee1021fdf21edac3c46b3536ece85eccaa8169a6866ae4ffc5"
+      ]
+    },
+    {
+      "path": "src/useCampfireMicrophoneTest.ts",
+      "kind": "modified",
+      "payloadSha256": "0c14f92ddf2c41db12cc9a71d16cc4baa8873b75f5966cd26f09d669980ebc07",
+      "acceptedBaselineSha256": [
+        "0547f14b39b7c54252ba3bd09a3ba05863c1c28465aec49e46af900c710cc0e6",
+        "cb824a0855885ed98c1feb5f7e64cc6131b6ac1008d880c7121806a3fcb57264"
+      ]
+    },
+    {
+      "path": "electron/main.mjs",
+      "kind": "modified",
+      "payloadSha256": "5f1078278f87369e67ce5eb66b08ba6dd78fc88868767e9b16b2b0652acba8c5",
+      "acceptedBaselineSha256": [
+        "5f4f2c27dfa9b45fd1f3fcf793dd9bc6e4fb4be3d5a1b16c1ac0dae03fb0e2d3"
+      ]
+    },
+    {
+      "path": "electron/preload.cjs",
+      "kind": "modified",
+      "payloadSha256": "2de9a8a748a1846e00c196b6cb6494a8156fe2102f98bda17404bb10ff0aa564",
+      "acceptedBaselineSha256": [
+        "88a13844dc1bc2b4768364c1fb6f4368523e826601cb9f7e112215f28799576a"
+      ]
+    },
+    {
+      "path": "public/audio/campfire-fire-out.wav",
+      "kind": "created",
+      "payloadSha256": "0f1c6753cd291c69b349e45e416183a70e455fcd4620c44ffab1850e63137e92"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-7-camera-feedback-preview-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "57f19e951013e41e615ca03bc02f348e9cd84edf9e0d9d0fe78326bedf056c5e"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-8-reference-call-ai-voice-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "41099f7a4caa9e2360bc9727938652ec28dc873c7ac2d9a1af2cafd46c70dcb5"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-9-scope-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "0002494e23811332186eae6fdbf78c002053bc533a7ee6abd410b1b4aba8b986"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-10-detached-windows-mic-sounds-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "97600f89190bef4bd8263bc9bce4c9fc368ea4bbf25343761805a357a9944a1f"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-11-microphone-enumeration-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "a8d4494612c3a2effdd4a0a6f353c07c2de0f894b7af2479e0a7464d146e0a7f"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-12-live-mic-monitor-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "5394c203e46bfd493eb1099ad09930eda7979b264a15564270a16ef38d4a2e98"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-13-fire-out-volume-regression.test.mjs",
+      "kind": "modified",
+      "payloadSha256": "f3a540e366372fc0d511fe10a236caa8ef169d49157c8065c31a9c689b4aa8c3",
+      "acceptedBaselineSha256": [
+        "3472d4c4ee15af6c44958188e48ad3c5909719d2e9c0e1ad022aa06642b9ea4e"
+      ]
+    },
+    {
+      "path": "tests/campfire-r6-6-6-14-settings-escape-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "c9c039f3fb21271e0695c05fe274bdb5c58dd9876b003241cb8aeab350b7ab33"
+    },
+    {
+      "path": "tests/campfire-r6-6-6-15-fire-out-quieter-regression.test.mjs",
+      "kind": "created",
+      "payloadSha256": "c3009830d95e5887597a72fd0d06aa1fa43ae7c6a9349f8ff3ca1b2bcb51d479"
+    }
+  ]
+}

@@ -622,6 +622,9 @@ function CampfireChat({
       true
     );
 
+
+  const [chatView, setChatView] = useState<"messages" | "files" | "pins">("messages");
+
   const [contextTargetId, setContextTargetId] = useState<string | null>(null);
   const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
   const [moderatorTargetId, setModeratorTargetId] = useState<string | null>(null);
@@ -1553,22 +1556,15 @@ function CampfireChat({
           ==================================================== */}
 
       <div className="campfireChatStatus">
-        <span>
-          💬 Chat
-        </span>
+        <div className="campfireChatTopTabs" role="tablist" aria-label="Conversa">
+          <button type="button" role="tab" aria-selected={chatView === "messages"} className={chatView === "messages" ? "active" : ""} onClick={() => setChatView("messages")}>💬 Mensagens</button>
+          <button type="button" role="tab" aria-selected={chatView === "files"} className={chatView === "files" ? "active" : ""} onClick={() => setChatView("files")}>▧ Arquivos</button>
+          <button type="button" role="tab" aria-selected={chatView === "pins"} className={chatView === "pins" ? "active" : ""} onClick={() => setChatView("pins")}>⌖ Fixados</button>
+        </div>
 
-        <span
-          className={
-            chat.realtimeConnected
-              ? "chatRealtime online"
-              : "chatRealtime reconnecting"
-          }
-        >
+        <span className={chat.realtimeConnected ? "chatRealtime online" : "chatRealtime reconnecting"}>
           <i />
-
-          {chat.realtimeConnected
-            ? "Realtime"
-            : "Reconectando"}
+          {chat.realtimeConnected ? "Realtime" : "Reconectando"}
         </span>
       </div>
 
@@ -1579,36 +1575,46 @@ function CampfireChat({
 
       <div className="campfireMessages">
 
-        {chat.loading && (
+        {chatView === "files" && (
+          <div className="campfireChatAuxView">
+            <div className="campfireChatWelcomeIcon">▧</div>
+            <strong>Arquivos da Campfire</strong>
+            <small>{chat.messages.filter((item) => Boolean(item.mediaUrl)).length > 0 ? "Os arquivos enviados aparecem na conversa." : "Ainda não há arquivos compartilhados nesta Campfire."}</small>
+          </div>
+        )}
+
+        {chatView === "pins" && (
+          <div className="campfireChatAuxView">
+            <div className="campfireChatWelcomeIcon">⌖</div>
+            <strong>Mensagens fixadas</strong>
+            <small>Nenhuma mensagem foi fixada ainda.</small>
+          </div>
+        )}
+
+        {chatView === "messages" && chat.loading && (
           <div className="chatCenterMessage">
             🔥 Carregando mensagens...
           </div>
         )}
 
 
-        {!chat.loading &&
-          chat.messages.length ===
-            0 && (
-            <div className="chatEmpty">
-
-              <div>
-                🔥
-              </div>
-
-              <strong>
-                A fogueira está silenciosa.
-              </strong>
-
-              <small>
-                Seja o primeiro a dizer
-                alguma coisa.
-              </small>
-
+        {chatView === "messages" && !chat.loading && chat.messages.length === 0 && (
+          <div className="campfireChatWelcome">
+            <div className="campfireChatWelcomeIcon">#</div>
+            <h2>A conversa começa aqui.</h2>
+            <p>Esta é a primeira página da conversa desta Campfire.</p>
+            <div className="campfireChatWelcomeGrid">
+              <div><span>💬</span><small>Converse com toda a Campfire</small></div>
+              <div><span>🖼</span><small>Compartilhe imagens e GIFs</small></div>
+              <div><span>🔗</span><small>Envie links e descobertas</small></div>
+              <div><span>🎤</span><small>Grave mensagens de áudio</small></div>
             </div>
-          )}
+            <strong className="campfireChatWelcomeCta">Seja o primeiro a quebrar o gelo.</strong>
+          </div>
+        )}
 
 
-        {!chat.loading &&
+        {chatView === "messages" && !chat.loading &&
           chat.messages.map(
             (
               message,
@@ -1973,6 +1979,7 @@ function CampfireChat({
           COMPOSITOR
           ==================================================== */}
 
+      {chatView === "messages" && (
       <div className="campfireComposer">
 
         {/* ==================================================
@@ -2598,6 +2605,7 @@ function CampfireChat({
         </div>
 
       </div>
+      )}
 
       <UserContextMenu
         open={contextTarget !== null}

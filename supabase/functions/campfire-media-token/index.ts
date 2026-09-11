@@ -1,8 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2.112.3";
-import {
-  AccessToken,
-  TrackSource,
-} from "npm:livekit-server-sdk@2.18.0";
+import { AccessToken, TrackSource } from "npm:livekit-server-sdk@2.18.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,25 +9,25 @@ const corsHeaders = {
 };
 
 type Purpose = "voice" | "watch" | "screen" | "direct-call";
-
 type Body = {
   campfireId?: string;
   purpose?: Purpose;
   voiceChannelId?: string;
   callId?: string;
+  connectionId?: string;
+  publishing?: boolean;
 };
 
 function json(status: number, value: unknown) {
-  return new Response(JSON.stringify(value), {
-    status,
-    headers: corsHeaders,
-  });
+  return new Response(JSON.stringify(value), { status, headers: corsHeaders });
+}
+
+function validUuid(value: string | undefined): value is string {
+  return Boolean(value && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value));
 }
 
 function roomName(body: Required<Pick<Body, "campfireId" | "purpose">> & Body, voiceChannelId: string | null) {
-  if (body.purpose === "voice") {
-    return `cf:${body.campfireId}:voice:${voiceChannelId ?? "general"}`;
-  }
+  if (body.purpose === "voice") return `cf:${body.campfireId}:voice:${voiceChannelId ?? "general"}`;
   if (body.purpose === "watch") return `cf:${body.campfireId}:watch`;
   if (body.purpose === "screen") return `cf:${body.campfireId}:screen`;
   if (!body.callId) throw new Error("CALL_ID_REQUIRED");
@@ -38,17 +35,13 @@ function roomName(body: Required<Pick<Body, "campfireId" | "purpose">> & Body, v
 }
 
 Deno.serve(async (request) => {
-  if (request.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
+  if (request.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (request.method !== "POST") return json(405, { error: "METHOD_NOT_ALLOWED" });
 
   const livekitUrl = Deno.env.get("LIVEKIT_URL") ?? "";
   const livekitKey = Deno.env.get("LIVEKIT_API_KEY") ?? "";
   const livekitSecret = Deno.env.get("LIVEKIT_API_SECRET") ?? "";
-  if (!livekitUrl || !livekitKey || !livekitSecret) {
-    return json(503, { error: "MEDIA_NOT_CONFIGURED" });
-  }
+  if (!livekitUrl || !livekitKey || !livekitSecret) return json(503, { error: "MEDIA_NOT_CONFIGURED" });
 
   const authorization = request.headers.get("Authorization") ?? "";
   if (!authorization.startsWith("Bearer ")) return json(401, { error: "NOT_AUTHENTICATED" });
@@ -63,23 +56,22 @@ Deno.serve(async (request) => {
   const { data: userData, error: userError } = await supabase.auth.getUser();
   const userId = userData.user?.id;
   if (userError || !userId) return json(401, { error: "NOT_AUTHENTICATED" });
+  const principalId = userId;
 
   let body: Body;
-  try {
-    body = (await request.json()) as Body;
-  } catch {
-    return json(400, { error: "INVALID_JSON" });
-  }
+  try { body = (await request.json()) as Body; }
+  catch { return json(400, { error: "INVALID_JSON" }); }
 
   const purpose = body.purpose;
   const campfireId = body.campfireId;
+  const connectionId = body.connectionId;
   if (!campfireId || !purpose || !["voice", "watch", "screen", "direct-call"].includes(purpose)) {
     return json(400, { error: "INVALID_MEDIA_REQUEST" });
   }
+  if (!validUuid(connectionId)) return json(400, { error: "INVALID_CONNECTION_ID" });
 
-  // Direct calls are authorized by the call record itself before room membership is checked.
-  // A caller cannot manufacture an arbitrary call:<uuid> LiveKit room token.
   if (purpose === "direct-call") {
+    if (userData.user?.is_anonymous) return json(403, { error: "GUEST_DIRECT_CALL_NOT_ALLOWED" });
     const callId = body.callId;
     if (!callId) return json(400, { error: "CALL_ID_REQUIRED" });
     const { data: call, error: callError } = await supabase
@@ -89,19 +81,24 @@ Deno.serve(async (request) => {
       .maybeSingle();
     if (callError || !call) return json(403, { error: "CALL_NOT_FOUND" });
     if (String(call.campfire_id) !== campfireId) return json(403, { error: "CALL_CAMPFIRE_MISMATCH" });
-    const callerId = String(call.caller_id ?? "");
-    const calleeId = String(call.callee_id ?? "");
-    if (userId !== callerId && userId !== calleeId) return json(403, { error: "NOT_CALL_PARTICIPANT" });
+    if (userId !== String(call.caller_id ?? "") && userId !== String(call.callee_id ?? "")) {
+      return json(403, { error: "NOT_CALL_PARTICIPANT" });
+    }
     if (String(call.status) !== "active") return json(409, { error: "CALL_NOT_ACTIVE" });
   }
 
-  // Membership is checked through the same RPC the Campfire client already uses.
-  const { data: members, error: membersError } = await supabase.rpc("get_campfire_members", {
+  const { data: memberRows, error: memberError } = await supabase.rpc("get_campfire_members", {
     p_campfire_id: campfireId,
   });
-  if (membersError) return json(403, { error: "MEMBERSHIP_CHECK_FAILED" });
-  const isMember = Array.isArray(members) && members.some((member) => String(member?.id ?? "") === userId);
-  if (!isMember) return json(403, { error: "NOT_MEMBER" });
+  if (memberError) return json(503, { error: "MEMBERSHIP_CHECK_FAILED" });
+  const isPermanentMember = Array.isArray(memberRows) && memberRows.some((member) => String(member?.id ?? "") === userId);
+
+  const { data: canParticipate, error: participateError } = await supabase.rpc("can_participate_in_campfire", {
+    p_campfire_id: campfireId,
+    p_user_id: userId,
+  });
+  if (participateError || canParticipate !== true) return json(403, { error: "NOT_MEMBER_OR_GUEST" });
+  if (purpose === "direct-call" && !isPermanentMember) return json(403, { error: "DIRECT_CALL_REQUIRES_MEMBERSHIP" });
 
   const { data: moderation } = await supabase
     .from("campfire_member_media_state")
@@ -121,28 +118,38 @@ Deno.serve(async (request) => {
     voiceChannelId = defaultChannel?.id ?? null;
   }
 
-  // Owner moderation belongs to shared Campfire media rooms. Private calls remain
-  // user-to-user: blocking controls them, not the room owner's voice/video flags.
+  const wantsPublishing =
+    purpose === "voice" || purpose === "direct-call" || body.publishing === true;
+
+  let hasPublishingLease = purpose === "direct-call";
+  if (purpose !== "direct-call" && wantsPublishing) {
+    const { data: lease, error: leaseError } = await supabase.rpc("acquire_campfire_media_lease", {
+      p_campfire_id: campfireId,
+      p_purpose: purpose,
+      p_connection_id: connectionId,
+    });
+    if (leaseError) return json(503, { error: "MEDIA_LEASE_CHECK_FAILED" });
+    hasPublishingLease = lease === true;
+  }
+
   const canPublishMicrophone =
-    purpose === "direct-call" || (purpose === "voice" && moderation?.room_voice_muted !== true);
+    purpose === "direct-call" || (purpose === "voice" && wantsPublishing && hasPublishingLease && moderation?.room_voice_muted !== true);
   const canPublishCamera =
-    purpose === "direct-call" || (purpose === "voice" && moderation?.room_video_disabled !== true);
+    purpose === "direct-call" || (purpose === "voice" && wantsPublishing && hasPublishingLease && moderation?.room_video_disabled !== true);
   const canPublishScreen =
-    (purpose === "watch" || purpose === "screen") && moderation?.room_screen_disabled !== true;
+    wantsPublishing && (purpose === "watch" || purpose === "screen") && hasPublishingLease && moderation?.room_screen_disabled !== true;
 
   const canPublishSources: TrackSource[] = [];
   if (canPublishMicrophone) canPublishSources.push(TrackSource.MICROPHONE);
   if (canPublishCamera) canPublishSources.push(TrackSource.CAMERA);
-  if (canPublishScreen) {
-    canPublishSources.push(TrackSource.SCREEN_SHARE, TrackSource.SCREEN_SHARE_AUDIO);
-  }
+  if (canPublishScreen) canPublishSources.push(TrackSource.SCREEN_SHARE, TrackSource.SCREEN_SHARE_AUDIO);
 
   try {
     const targetRoom = roomName({ campfireId, purpose, ...body }, voiceChannelId);
     const accessToken = new AccessToken(livekitKey, livekitSecret, {
-      identity: userId,
+      identity: `${userId}:${connectionId}`,
       ttl: "10m",
-      metadata: JSON.stringify({ campfireId, purpose, voiceChannelId }),
+      metadata: JSON.stringify({ principalId, connectionId, campfireId, purpose, voiceChannelId }),
     });
     accessToken.addGrant({
       roomJoin: true,
@@ -157,7 +164,10 @@ Deno.serve(async (request) => {
       url: livekitUrl,
       token: await accessToken.toJwt(),
       roomName: targetRoom,
-      identity: userId,
+      identity: `${userId}:${connectionId}`,
+      principalId,
+      connectionId,
+      publishingLease: hasPublishingLease,
       permissions: {
         canPublishMicrophone,
         canPublishCamera,

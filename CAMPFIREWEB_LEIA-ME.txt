@@ -1,0 +1,186 @@
+==============================================================
+ CAMPFIREWEB 1.0.0 - PACOTE FINAL DE FONTE
+ Criador / Desenvolvedor: Deivison Santos / @devsaex
+==============================================================
+
+URL oficial planejada:
+  https://campfireweb.pages.dev/
+
+Cloudflare Pages:
+  campfireweb
+
+Este pacote foi preparado a partir da fonte atual do Campfire enviada
+em 28/08/2026. Ele NÃO contém versões anteriores, demos, node_modules,
+instaladores, builds, backups, vídeos, áudios de mídia, .env ou chaves.
+
+--------------------------------------------------------------
+ 1. O QUE ESTA VERSAO IMPLEMENTA
+--------------------------------------------------------------
+
+- Mesmo renderer React do Campfire Desktop; não existe um segundo app demo.
+- Login Supabase/Google compatível com /auth/callback no navegador.
+- PWA instalável (manifest + service worker + modo standalone).
+- Service worker não armazena respostas privadas do Supabase.
+- Campfires, amigos, chat, áudio, Voice Pro, webcam, tela e recursos
+  já presentes no renderer compartilhado continuam disponíveis.
+- Link Web de convite:
+    https://campfireweb.pages.dev/invite/<token>
+- Convidado pode entrar sem conta permanente usando Supabase Anonymous Auth.
+- Convidados ficam fora de campfire_members e não podem receber Mestre,
+  Vice-Mestre, ownership, sucessão ou privilégios permanentes.
+- Chat permanente + convidado usa uma timeline compartilhada.
+- Mensagens de áudio de convidado usam o mesmo bucket privado campfire-audio.
+- Heartbeat do convidado: 20 s; sem membro permanente ativo a sessão não
+  é renovada indefinidamente e expira dentro da tolerância do servidor.
+- LiveKit usa identidade <principal_id>:<connection_id> para evitar colisão
+  da mesma conta em mais de um dispositivo/aba.
+- Apenas uma conexão por conta/Campfire mantém lease de publicação de mídia.
+  Espectadores de Tela/Watch Together não consomem o lease de publicação.
+- Tela Web usa getDisplayMedia, ou seja, o seletor oficial do navegador.
+- Sites externos da área Animes são abertos no navegador; o CampfireWeb não
+  tenta burlar CSP, X-Frame-Options ou políticas do site.
+- Navegação móvel: Campfires | Chat | Pessoas | Mais.
+- Controle permanente Baixar Desktop em /api/desktop-download.
+- Instalação PWA oferecida quando o navegador disponibiliza
+  beforeinstallprompt.
+- Notificações locais via Service Worker para contas permanentes enquanto
+  o CampfireWeb/PWA está em execução e recebe eventos Realtime.
+
+--------------------------------------------------------------
+ 2. CONFIGURACAO PUBLICA DO FRONTEND
+--------------------------------------------------------------
+
+O build precisa das MESMAS variáveis públicas já usadas pelo Desktop:
+
+  VITE_SUPABASE_URL
+  VITE_SUPABASE_PUBLISHABLE_KEY
+  VITE_CAMPFIRE_MEDIA_TRANSPORT=livekit
+
+NÃO coloque no frontend:
+
+  SUPABASE_SERVICE_ROLE_KEY
+  LIVEKIT_API_SECRET
+  VAPID_PRIVATE_KEY
+  tokens pessoais
+  certificados/chaves privadas
+
+Se você estiver aplicando este pacote sobre C:\messenger, mantenha o .env
+real apenas na sua máquina. Ele foi excluído deste ZIP intencionalmente.
+
+--------------------------------------------------------------
+ 3. SUPABASE - OBRIGATORIO ANTES DA PUBLICACAO WEB
+--------------------------------------------------------------
+
+Aplique UMA VEZ, no projeto Supabase atual do Campfire:
+
+  supabase/migrations/20260828073000_campfire_web_1_0.sql
+
+Depois publique a versão incluída da Edge Function:
+
+  supabase/functions/campfire-media-token/index.ts
+
+A função continua exigindo os segredos de servidor do LiveKit que já são
+usados pelo Media Pro:
+
+  LIVEKIT_URL
+  LIVEKIT_API_KEY
+  LIVEKIT_API_SECRET
+
+Ative também Anonymous Sign-Ins no Supabase Auth para permitir convidados.
+
+No provedor Google/Supabase Auth, inclua como Redirect URL autorizada:
+
+  https://campfireweb.pages.dev/auth/callback
+
+--------------------------------------------------------------
+ 4. CLOUDFLARE PAGES
+--------------------------------------------------------------
+
+Build command:
+  npm run build:campfireweb
+
+Output directory:
+  dist
+
+Project name:
+  campfireweb
+
+A pasta public já contém _headers e _redirects para:
+  /invite/*
+  /auth/callback
+  /app/*
+
+O endpoint /api/desktop-download usa por padrão:
+  blckbr/campfire
+
+Ele procura o asset público mais recente cujo nome comece com:
+  Campfire-Black-Piano-Setup-
+
+e termine em:
+  .exe
+
+Se no futuro o repositório mudar, defina no Cloudflare Pages:
+  CAMPFIRE_GITHUB_REPO=dono/repositorio
+
+--------------------------------------------------------------
+ 5. TESTAR LOCALMENTE
+--------------------------------------------------------------
+
+Na pasta do projeto:
+
+  npm ci
+  npm run test:campfireweb
+  npm run dev:campfireweb
+
+Para validação de produção:
+
+  npm run build:campfireweb
+
+--------------------------------------------------------------
+ 6. PUBLICAR
+--------------------------------------------------------------
+
+Depois de o backend Supabase acima estar atualizado, execute:
+
+  CAMPFIREWEB_PUBLICAR.bat
+
+O BAT:
+- faz npm ci;
+- executa os testes específicos do CampfireWeb;
+- gera o build Web;
+- recusa publicar se teste/build falhar;
+- publica dist no projeto Cloudflare Pages campfireweb.
+
+--------------------------------------------------------------
+ 7. OBSERVACAO SOBRE NOTIFICACOES
+--------------------------------------------------------------
+
+Esta entrega implementa Notification API + Service Worker para eventos
+Realtime recebidos enquanto o Web/PWA está executando. Notificação Web Push
+com o aplicativo totalmente encerrado exige VAPID + um emissor server-side;
+essa chave privada NÃO foi inventada nem incluída no cliente.
+
+--------------------------------------------------------------
+ 8. SEGURANCA
+--------------------------------------------------------------
+
+Convites:
+- o segredo do token aparece apenas no link entregue ao criador;
+- o banco armazena somente SHA-256 do token;
+- uso/limite do convite é validado pelo servidor.
+
+Convidados:
+- usam tabela campfire_guest_sessions separada;
+- nunca entram em campfire_members;
+- não participam da sucessão de Mestre/Vice-Mestre.
+
+Mídia:
+- token LiveKit é emitido no servidor;
+- segredo LiveKit nunca vai para o browser;
+- publicação usa lease por conta/conexão;
+- espectadores não ocupam lease de publicação.
+
+==============================================================
+ CAMPFIREWEB 1.0.0
+ Deivison Santos / @devsaex
+==============================================================

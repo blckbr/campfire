@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase";
+import { campfireConnectionId } from "../web/platform";
 import type { MediaPurpose } from "./campfireMediaPolicy";
 
 export type CampfireMediaToken = {
@@ -6,6 +7,9 @@ export type CampfireMediaToken = {
   token: string;
   roomName: string;
   identity: string;
+  principalId?: string;
+  connectionId: string;
+  publishingLease?: boolean;
   permissions: {
     canPublishMicrophone: boolean;
     canPublishCamera: boolean;
@@ -19,7 +23,9 @@ export async function requestCampfireMediaToken(input: {
   purpose: MediaPurpose;
   voiceChannelId?: string | null;
   callId?: string | null;
+  publishing?: boolean;
 }): Promise<CampfireMediaToken> {
+  const connectionId = campfireConnectionId();
   const { data, error } = await supabase.functions.invoke<CampfireMediaToken>(
     "campfire-media-token",
     {
@@ -28,6 +34,8 @@ export async function requestCampfireMediaToken(input: {
         purpose: input.purpose,
         voiceChannelId: input.voiceChannelId ?? undefined,
         callId: input.callId ?? undefined,
+        connectionId,
+        publishing: input.publishing,
       },
     }
   );
@@ -36,5 +44,5 @@ export async function requestCampfireMediaToken(input: {
   if (!data?.url || !data.token || !data.roomName || !data.identity) {
     throw new Error("O serviço de mídia retornou uma resposta incompleta.");
   }
-  return data;
+  return { ...data, connectionId: data.connectionId || connectionId };
 }

@@ -18,6 +18,24 @@ export type CampfireState =
   | "away"
   | "invited";
 
+export type CampfireCoverKind =
+  | "preset"
+  | "storage"
+  | "web";
+
+export type CampfireLifecycleType =
+  | "temporary"
+  | "permanent";
+
+export type CreateCampfireInput = {
+  name: string;
+  privacy: CampfirePrivacy;
+  inviteeIds: string[];
+  lifecycle: CampfireLifecycleType;
+  coverKind: CampfireCoverKind;
+  coverRef: string;
+};
+
 export type CampfireRosterMember = {
   id: string;
   username: string | null;
@@ -31,6 +49,9 @@ export type CampfireItem = {
   ownerId: string;
   privacy: CampfirePrivacy;
   persistent: boolean;
+  lifecycle: CampfireLifecycleType;
+  coverKind: CampfireCoverKind;
+  coverRef: string;
   inviteCode: string;
   createdAt: string;
   emptySince: string | null;
@@ -59,6 +80,12 @@ type RawCampfire = {
   expires_at: string | null;
   active_people: number | string;
   my_state: CampfireState;
+};
+
+type RawCampfireVisual = {
+  campfire_id: string;
+  cover_kind: CampfireCoverKind | null;
+  cover_ref: string | null;
 };
 
 type RawInvite = {
@@ -329,6 +356,41 @@ export function useCampfires(
               []
             ) as RawCampfire[];
 
+          const visualMap = new Map<
+            string,
+            RawCampfireVisual
+          >();
+
+          try {
+            const {
+              data: visualData,
+              error: visualError,
+            } = await supabase.rpc(
+              "get_my_campfire_visuals"
+            );
+
+            if (visualError) {
+              throw visualError;
+            }
+
+            for (
+              const visual of (
+                visualData ?? []
+              ) as RawCampfireVisual[]
+            ) {
+              visualMap.set(
+                visual.campfire_id,
+                visual
+              );
+            }
+          } catch (visualLoadError) {
+            // Compatibilidade segura enquanto a migration R2 ainda não foi aplicada.
+            console.warn(
+              "Campfire R2: metadados de capa ainda não disponíveis.",
+              visualLoadError
+            );
+          }
+
           /*
            * O sidebar mostra quem está dentro da Campfire em vez
            * de um contador abstrato. Pela regra do produto, um
@@ -402,6 +464,19 @@ export function useCampfires(
 
                 persistent:
                   row.persistent,
+
+                lifecycle:
+                  row.persistent
+                    ? "permanent"
+                    : "temporary",
+
+                coverKind:
+                  visualMap.get(row.id)?.cover_kind ??
+                  "preset",
+
+                coverRef:
+                  visualMap.get(row.id)?.cover_ref ??
+                  "cinema-night",
 
                 inviteCode:
                   row.invite_code,
@@ -652,18 +727,14 @@ export function useCampfires(
    */
 
   async function createCampfire(
-    name: string,
-    privacy: CampfirePrivacy,
-    inviteeIds: string[]
+    input: CreateCampfireInput
   ): Promise<CampfireActionResult> {
     const cleanName =
-      name.trim();
+      input.name.trim();
 
     if (
-      cleanName.length <
-        1 ||
-      cleanName.length >
-        40
+      cleanName.length < 1 ||
+      cleanName.length > 40
     ) {
       return {
         ok: false,
@@ -672,23 +743,43 @@ export function useCampfires(
       };
     }
 
+    if (
+      !["private", "friends", "link"].includes(
+        input.privacy
+      )
+    ) {
+      return {
+        ok: false,
+        message: "Privacidade inválida.",
+      };
+    }
+
+    if (
+      !["preset", "storage", "web"].includes(
+        input.coverKind
+      ) ||
+      !input.coverRef.trim()
+    ) {
+      return {
+        ok: false,
+        message: "Escolha uma imagem de capa válida.",
+      };
+    }
+
     try {
       const {
         data,
-        error:
-          rpcError,
+        error: rpcError,
       } =
         await supabase.rpc(
-          "create_campfire",
+          "create_campfire_r2",
           {
-            p_name:
-              cleanName,
-
-            p_privacy:
-              privacy,
-
-            p_invitee_ids:
-              inviteeIds,
+            p_name: cleanName,
+            p_privacy: input.privacy,
+            p_invitee_ids: input.inviteeIds,
+            p_persistent: input.lifecycle === "permanent",
+            p_cover_kind: input.coverKind,
+            p_cover_ref: input.coverRef.trim(),
           }
         );
 
@@ -697,40 +788,41 @@ export function useCampfires(
       }
 
       if (
-        typeof data !==
-        "string"
+        typeof data !== "string"
       ) {
         throw new Error(
           "O banco não retornou o ID da Campfire."
         );
       }
 
-      await refresh(
-        true
-      );
+      await refresh(true);
 
       return {
         ok: true,
-        message:
-          "Campfire acesa!",
-
-        campfireId:
-          data,
+        message: "Campfire acesa!",
+        campfireId: data,
       };
-    } catch (
-      createError
-    ) {
+    } catch (createError) {
       console.error(
         "Erro criando Campfire:",
         createError
       );
 
+      const mapped = mapCampfireError(
+        createError
+      );
+
+      if (/create_campfire_r2/i.test(mapped)) {
+        return {
+          ok: false,
+          message:
+            "A atualização de banco Campfire R2 ainda não foi aplicada. Execute a migração R2 do Supabase.",
+        };
+      }
+
       return {
         ok: false,
-        message:
-          mapCampfireError(
-            createError
-          ),
+        message: mapped,
       };
     }
   }

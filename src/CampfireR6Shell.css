@@ -1,0 +1,1202 @@
+/* ============================================================
+   CAMPFIRE R6 — MOCKUP FIDELITY SHELL
+   One visual shell for Home + active Campfire.
+   Neutral Vista-inspired Aero Liquid Glass; theme color lives on
+   edges, glow, selection and small highlights, not panel flood.
+   ============================================================ */
+
+.blackPianoTheme{
+  --cf-left-rail-default:252px;
+  --cf-right-rail-default:308px;
+  --cf-participant-card-width:176px;
+  --cf-participant-card-height:164px;
+  --cf-radius-xl:18px;
+  --cf-radius-lg:14px;
+  --cf-radius-md:11px;
+  --cf-gap:14px;
+  min-width:980px;
+  color:var(--cf-text,#f4f7fa);
+  background:#060a0f;
+}
+
+.blackPianoTheme,
+.blackPianoTheme *{
+  scrollbar-width:thin;
+  scrollbar-color:var(--cf-edge) rgba(4,7,11,.72);
+}
+.blackPianoTheme *::-webkit-scrollbar{width:9px;height:9px}
+.blackPianoTheme *::-webkit-scrollbar-track{background:rgba(3,6,10,.72)}
+.blackPianoTheme *::-webkit-scrollbar-thumb{
+  border:2px solid rgba(3,6,10,.78);
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--cf-edge-bright),var(--cf-edge));
+  box-shadow:0 0 10px var(--cf-glow-soft);
+}
+
+/* ---------- reusable Aero glass ---------- */
+.blackPianoTheme .topbar,
+.blackPianoTheme .blackPianoMenuBar,
+.blackPianoTheme .campfireLeftRail,
+.blackPianoTheme .campfireRightRail,
+.blackPianoTheme .campfireHomeHeroMockup,
+.blackPianoTheme .campfireHomeHighlights,
+.blackPianoTheme .campfireHomeInspirationSection,
+.blackPianoTheme .campfireHomeActivityPanel,
+.blackPianoTheme .campfireHomeEventsPanel,
+.blackPianoTheme .campfireHomeFriendsPanel,
+.blackPianoTheme .campfireHomeSuggestionsPanel,
+.blackPianoTheme .campfireHomeQuotePanel,
+.blackPianoTheme .campfireRoomHeaderUnified,
+.blackPianoTheme .campfireSpotlightPrimary,
+.blackPianoTheme .campfireMoodMockup,
+.blackPianoTheme .campfireParticipantTile,
+.blackPianoTheme .campfireWorkspacePanel,
+.blackPianoTheme .campfireSettingsModal,
+.blackPianoTheme .blackPianoMenuDropdown,
+.blackPianoTheme .campfireUnifiedMenu,
+.blackPianoTheme .campfireThemePopover{
+  border:1px solid color-mix(in srgb,var(--cf-edge) 64%,rgba(255,255,255,.12));
+  background:var(--cf-glass-surface);
+  backdrop-filter:blur(24px) saturate(1.25);
+  -webkit-backdrop-filter:blur(24px) saturate(1.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -1px 0 rgba(0,0,0,.42),
+    0 0 16px color-mix(in srgb,var(--cf-glow-soft) 70%,transparent),
+    0 16px 44px rgba(0,0,0,.28);
+}
+
+/* ============================================================
+   MENU + TOP CHROME
+   ============================================================ */
+.blackPianoMenuBar{
+  position:relative;
+  z-index:7000;
+  height:34px;
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  gap:2px;
+  padding:0 8px;
+  border-left:0!important;
+  border-right:0!important;
+  border-top:0!important;
+  border-radius:0!important;
+}
+.blackPianoMenuItem{position:relative;height:100%;display:flex;align-items:center}
+.blackPianoMenuButton,
+.blackPianoPlusButton{
+  height:28px;
+  padding:0 10px;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  color:var(--cf-text);
+  font-size:12px;
+}
+.blackPianoMenuButton:hover,
+.blackPianoMenuButton[aria-expanded="true"]{
+  background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cf-edge) 45%,transparent);
+}
+.blackPianoPlusButton{margin-left:auto;color:var(--cf-accent-2);font-weight:700}
+.blackPianoMenuDropdown,
+.campfireUnifiedMenu{
+  position:absolute;
+  z-index:99990!important;
+  top:calc(100% + 3px);
+  min-width:220px;
+  padding:7px;
+  border-radius:11px;
+  transform-origin:top center;
+  animation:campfireR6RollDown .16s ease-out both;
+}
+.blackPianoMenuDropdown{left:0}
+.blackPianoMenuDropdown button,
+.campfireUnifiedMenu button{
+  width:100%;
+  min-height:34px;
+  border:0;
+  border-radius:8px;
+  padding:7px 10px;
+  background:transparent;
+  color:var(--cf-text);
+  text-align:left;
+}
+.blackPianoMenuDropdown button:hover,
+.campfireUnifiedMenu button:hover{background:rgba(255,255,255,.075)}
+@keyframes campfireR6RollDown{from{opacity:0;transform:scaleY(.72) translateY(-7px)}to{opacity:1;transform:scaleY(1) translateY(0)}}
+
+.blackPianoTheme .topbar{
+  position:relative;
+  z-index:5000;
+  height:58px!important;
+  min-height:58px!important;
+  padding:7px 14px!important;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-left:0!important;
+  border-right:0!important;
+  border-radius:0!important;
+}
+.blackPianoTheme .topbar::after{
+  content:"";
+  position:absolute;
+  left:12px;right:12px;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cf-edge-bright),transparent);
+  opacity:.7;
+  box-shadow:0 0 12px var(--cf-glow-soft);
+  pointer-events:none;
+}
+.campfireTopbarBrand{display:flex;align-items:center;gap:9px;min-width:165px}
+.campfireTopbarBrand img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 9px var(--cf-glow-soft))}
+.campfireTopbarBrand>div{display:flex;flex-direction:column;gap:2px}.campfireTopbarBrand strong{font-size:16px}.campfireTopbarBrand small{font-size:8px;letter-spacing:.18em;color:var(--cf-muted)}
+.campfireHomeTopNavigation{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+.campfireHomeTopNavigation button{
+  height:36px;padding:0 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--cf-muted);font-size:11px;font-weight:600
+}
+.campfireHomeTopNavigation button:hover,.campfireHomeTopNavigation button.active{color:var(--cf-text);border-color:color-mix(in srgb,var(--cf-edge) 45%,transparent);background:rgba(255,255,255,.055);box-shadow:0 0 13px color-mix(in srgb,var(--cf-glow-soft) 55%,transparent)}
+.campfireTopbarSearch{height:36px;flex:1;max-width:620px;margin-inline:auto;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid rgba(255,255,255,.10);border-radius:10px;background:rgba(3,7,11,.52);color:var(--cf-muted)}
+.campfireTopbarSearch input{width:100%;border:0;outline:0;background:transparent;color:var(--cf-text);font-size:11px}
+.campfireTopbarAccount{display:flex;align-items:center;gap:8px;min-width:170px;justify-content:flex-end}.campfireTopbarAccountAvatar{width:34px;height:34px;aspect-ratio:1/1;flex-shrink:0;border-radius:50%;background:rgba(255,255,255,.08) center/cover no-repeat;border:1px solid var(--cf-edge);box-shadow:0 0 12px var(--cf-glow-soft);display:grid;place-items:center}.campfireTopbarAccountCopy{display:flex;flex-direction:column;gap:2px}.campfireTopbarAccountCopy strong{font-size:11px}.campfireTopbarAccountCopy small{font-size:9px;color:var(--cf-muted)}
+.campfireTopbarBell,.campfireRailCreateTop,.topButtons button{
+  min-height:34px;border:1px solid color-mix(in srgb,var(--cf-edge) 45%,rgba(255,255,255,.10));border-radius:9px;background:rgba(255,255,255,.045);color:var(--cf-text);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 10px color-mix(in srgb,var(--cf-glow-soft) 45%,transparent)
+}
+.campfireRailCreateTop{margin-left:auto;padding:0 16px;font-size:11px;font-weight:700;white-space:nowrap}
+.blackPianoTheme .profile{min-width:180px;display:flex;align-items:center;gap:9px}.blackPianoTheme .profile .avatar{width:36px!important;height:36px!important;aspect-ratio:1/1!important;flex:0 0 36px!important;border-radius:50%!important;border:1px solid var(--cf-edge)!important;box-shadow:0 0 13px var(--cf-glow-soft)!important}.blackPianoTheme .profile .username{font-size:12px}.blackPianoTheme .profile .status{font-size:9px;color:var(--cf-muted)}
+.blackPianoTheme .topButtons{display:flex;gap:6px}.blackPianoTheme .topButtons button{width:35px;height:35px;padding:0;display:grid;place-items:center}
+
+/* ============================================================
+   APP GEOMETRY + RESIZABLE RAILS
+   ============================================================ */
+.blackPianoTheme .main{
+  position:relative;
+  flex:1;
+  min-height:0;
+  display:grid!important;
+  grid-template-columns:var(--cf-left-rail-width,var(--cf-left-rail-default)) minmax(0,1fr)!important;
+  overflow:hidden!important;
+  background:linear-gradient(180deg,#070c12,#05090e);
+}
+.blackPianoTheme .sidebar.campfireLeftRail{
+  grid-column:1;
+  width:auto!important;
+  min-width:0!important;
+  height:100%;
+  min-height:0;
+  display:flex!important;
+  flex-direction:column;
+  overflow:hidden!important;
+  padding:10px 10px 8px;
+  border-top:0;
+  border-bottom:0;
+  border-left:0;
+  border-radius:0;
+}
+.blackPianoTheme .content{
+  grid-column:2;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  background:transparent!important;
+}
+.campfireRailResizeHandle{
+  position:absolute;
+  z-index:6500;
+  top:0;
+  bottom:0;
+  width:7px;
+  cursor:col-resize;
+  background:transparent;
+}
+.campfireRailResizeHandle::after{content:"";position:absolute;top:0;bottom:0;left:3px;width:1px;background:transparent;transition:.15s ease}
+.campfireRailResizeHandle:hover::after{background:var(--cf-edge-bright);box-shadow:0 0 12px var(--cf-glow-soft)}
+.campfireRailResizeHandle.left{left:calc(var(--cf-left-rail-width) - 4px)}
+.campfireRailResizeHandle.right{right:calc(var(--cf-right-rail-width) - 3px)}
+
+/* left library */
+.campfireLeftRailBrand{height:54px;display:flex;align-items:center;gap:10px;padding:3px 7px 10px;border-bottom:1px solid rgba(255,255,255,.07);flex:0 0 auto}.campfireLeftRailBrand img{width:35px;height:35px;object-fit:contain;filter:drop-shadow(0 0 10px var(--cf-glow-soft))}.campfireLeftRailBrand>div{display:flex;flex-direction:column;gap:2px}.campfireLeftRailBrand strong{font-size:13px;letter-spacing:.10em}.campfireLeftRailBrand small{font-size:8px;letter-spacing:.18em;color:var(--cf-muted)}
+.campfireHomeNav{display:grid;gap:3px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);flex:0 0 auto}.campfireHomeNav button{min-height:34px;border:0;border-radius:8px;background:transparent;color:var(--cf-muted);display:flex;align-items:center;gap:8px;padding:0 9px;text-align:left;font-size:11px}.campfireHomeNav button:hover,.campfireHomeNav button.active{color:var(--cf-text);background:rgba(255,255,255,.055)}
+.campfireLeftHero{flex:0 0 128px;margin:7px 0 10px;border-radius:13px;background-position:center!important;background-size:cover!important;border:1px solid rgba(255,255,255,.10);overflow:hidden;display:flex;align-items:flex-end;padding:15px;box-shadow:inset 0 -55px 55px rgba(0,0,0,.42)}.campfireLeftHero span{font:italic 700 17px/1.15 Georgia,serif;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.campfireTitle{height:32px!important;min-height:32px!important;padding:0 7px!important;border:0!important;background:transparent!important;flex:0 0 auto}.campfireTitle span{font-size:9px!important;letter-spacing:.13em;color:var(--cf-muted)}
+.campfireLeftRailList{flex:1;min-height:0;overflow-y:auto!important;overflow-x:hidden;padding:2px 0 6px;display:flex!important;flex-direction:column;gap:4px;scrollbar-gutter:stable}
+.campfireLeftCard{width:100%;min-height:58px;display:grid;grid-template-columns:46px minmax(0,1fr) 8px;align-items:center;gap:9px;padding:6px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--cf-text);text-align:left}.campfireLeftCard:hover{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.08)}.campfireLeftCard.selected{border-color:var(--cf-edge);background:linear-gradient(90deg,color-mix(in srgb,var(--cf-accent) 10%,rgba(10,16,23,.68)),rgba(8,13,19,.58));box-shadow:inset 2px 0 0 var(--cf-edge-bright),0 0 14px var(--cf-glow-soft)}
+.campfireLeftCover{width:46px;height:46px;aspect-ratio:1/1;flex-shrink:0;border-radius:9px;background:center/cover no-repeat;border:1px solid rgba(255,255,255,.10)}.campfireLeftCardCopy{min-width:0;display:flex;flex-direction:column;gap:4px}.campfireLeftCardCopy strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}.campfireLeftCardCopy small{font-size:9px;color:var(--cf-muted)}.campfireLeftStatus{width:6px;height:6px;border-radius:50%;background:var(--cf-ok);box-shadow:0 0 9px color-mix(in srgb,var(--cf-ok) 70%,transparent)}
+.campfireLeftRailEmpty{padding:14px 8px;border:1px dashed rgba(255,255,255,.09);border-radius:10px;text-align:center}.campfireLeftRailEmpty strong{font-size:10px}.campfireLeftRailEmpty span,.campfireRailLoading{font-size:9px;color:var(--cf-muted)}
+
+/* ============================================================
+   CINEMATIC HOME — approved dashboard mockup
+   ============================================================ */
+.campfireHomeShell{
+  height:100%;min-height:0;display:grid!important;
+  grid-template-columns:minmax(0,1fr) var(--cf-right-rail-width,var(--cf-right-rail-default));
+  overflow:hidden;
+  background:radial-gradient(circle at 42% -14%,color-mix(in srgb,var(--cf-accent) 8%,transparent),transparent 36rem),#060a0f;
+}
+.campfireHomeBeautiful{min-width:0;min-height:0;overflow-y:auto;padding:14px 14px 22px;display:flex;flex-direction:column;gap:13px;scrollbar-gutter:stable}
+.campfireHomeHeroMockup{
+  position:relative;min-height:330px;flex:0 0 330px;border-radius:var(--cf-radius-xl);overflow:hidden;background-position:center!important;background-size:cover!important;
+}
+.campfireHomeHeroMockup::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,7,11,.88) 0%,rgba(2,7,11,.50) 48%,rgba(2,7,11,.12) 78%),linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35));pointer-events:none}
+.campfireHomeHeroCopy{position:absolute;z-index:2;left:28px;bottom:28px;max-width:440px}.campfireHomeEyebrow{font-size:9px;letter-spacing:.17em;color:var(--cf-edge-bright);font-weight:800}.campfireHomeHeroCopy h1{margin:6px 0 8px;font-size:27px;letter-spacing:-.025em}.campfireHomeOnlineLine{margin:0 0 8px;font-size:10px}.campfireHomeHeroQuote{margin:0 0 16px;font:italic 600 15px/1.35 Georgia,serif}.campfireHomeHeroActions{display:flex;gap:8px}.campfireHomeHeroActions button{height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--cf-edge) 55%,rgba(255,255,255,.12));border-radius:9px;background:rgba(8,14,20,.62);color:var(--cf-text);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.campfireHomeHeroActions button.primary{border-color:var(--cf-edge);box-shadow:0 0 15px var(--cf-glow-soft)}
+.campfireHomeHeroStatus{position:absolute;z-index:2;right:24px;top:20px;display:grid;grid-template-columns:1fr 1fr;min-width:250px;border:1px solid rgba(255,255,255,.16);border-radius:13px;background:rgba(5,10,15,.52);backdrop-filter:blur(18px);overflow:hidden}.campfireHomeHeroStatus>div{padding:13px 16px}.campfireHomeHeroStatus>div+div{border-left:1px solid rgba(255,255,255,.10)}.campfireHomeHeroStatus small{display:block;font-size:8px;letter-spacing:.14em;color:var(--cf-muted)}.campfireHomeHeroStatus strong{display:block;margin-top:5px;font-size:17px}.campfireHomeHeroServices{position:absolute;z-index:2;right:27px;bottom:26px;display:flex;flex-direction:column;align-items:flex-end;gap:5px;font:600 10px/1.1 "Segoe UI",sans-serif;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+
+.campfireHomeHighlights,.campfireHomeInspirationSection,.campfireHomeActivityPanel,.campfireHomeEventsPanel{border-radius:var(--cf-radius-lg);padding:12px}
+.campfireHomeSectionTitleRow,.campfireHomeInspirationHeading,.campfireHomeRightTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.campfireHomeSectionTitleRow h2,.campfireHomeInspirationHeading h2{margin:0;font-size:14px}.campfireHomeSectionTitleRow button,.campfireHomeRightTitle button{border:0;background:transparent;color:var(--cf-muted);font-size:9px}
+.campfireHomeFeaturedGrid{display:grid!important;grid-template-columns:repeat(6,minmax(125px,1fr));gap:9px;overflow:visible!important}
+.campfireHomeHighlightCard{min-width:0;height:176px;padding:0;border:1px solid rgba(255,255,255,.09);border-radius:11px;background:rgba(6,11,17,.46);color:var(--cf-text);overflow:hidden;text-align:left}.campfireHomeHighlightCard:hover{border-color:var(--cf-edge);box-shadow:0 0 14px var(--cf-glow-soft);transform:translateY(-1px)}.campfireHomeHighlightImage{display:block;height:103px;background:center/cover no-repeat}.campfireHomeHighlightCopy{display:flex;flex-direction:column;gap:4px;padding:8px}.campfireHomeHighlightCopy strong{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.campfireHomeHighlightCopy small{font-size:8px;color:var(--cf-muted)}.campfireHomeHighlightCopy span{display:flex;gap:4px}.campfireHomeHighlightCopy i{font-style:normal;font-size:7px;padding:2px 5px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--cf-muted)}
+
+.campfireHomeInspirationHeading small{font-size:9px;color:var(--cf-muted)}.campfireHomeInspirationRow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.campfireHomeInspirationCard{position:relative;height:118px;border:1px solid rgba(255,255,255,.09);border-radius:11px;overflow:hidden;padding:0;color:#fff;text-align:left}.campfireHomeInspirationImage,.campfireHomeInspirationShade{position:absolute;inset:0}.campfireHomeInspirationImage{background:center/cover no-repeat}.campfireHomeInspirationShade{background:linear-gradient(180deg,transparent,rgba(0,0,0,.74))}.campfireHomeInspirationCopy{position:absolute;left:10px;right:10px;bottom:9px;display:flex;flex-direction:column;gap:2px}.campfireHomeInspirationCopy strong{font-size:10px}.campfireHomeInspirationCopy small{font-size:8px;color:rgba(255,255,255,.72)}
+
+.campfireHomeActivityGrid{display:grid!important;grid-template-columns:1.15fr .85fr;gap:13px}.campfireHomeActivityList{display:grid;gap:5px}.campfireHomeActivityList button,.campfireHomeEventsPanel>button{min-height:47px;display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:8px;border:0;border-radius:8px;background:rgba(255,255,255,.025);color:var(--cf-text);text-align:left;padding:5px 7px}.campfireHomeActivityThumb,.campfireHomeEventThumb{width:36px;height:36px;aspect-ratio:1/1;border-radius:8px;background:center/cover no-repeat}.campfireHomeActivityList strong,.campfireHomeEventsPanel strong{font-size:9px}.campfireHomeActivityList small,.campfireHomeEventsPanel small{display:block;margin-top:2px;font-size:8px;color:var(--cf-muted)}.campfireHomeEventsPanel>button b{font-size:8px;color:var(--cf-edge-bright)}
+.campfireHomeUtilityGrid{display:grid!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:13px}.campfireHomeAiPanel,.campfireHomeNewsPanel{border-radius:var(--cf-radius-lg);padding:14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}.campfireHomeUtilityLead{margin:0 0 12px;font-size:10px;line-height:1.45;color:var(--cf-muted)}.campfireHomeAiResponse{display:grid;gap:9px;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(0,208,170,.10),rgba(255,255,255,.03));border:1px solid rgba(0,208,170,.22)}.campfireHomeAiResponse strong{font-size:14px}.campfireHomeAiResponse p{margin:0;font-size:11px;line-height:1.6;color:var(--cf-text-soft)}.campfireHomeAiSources{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:2px}.campfireHomeAiSources>span{font-size:9px;color:var(--cf-muted);text-transform:uppercase;letter-spacing:.08em}.campfireHomeAiSources button{min-height:28px;padding:0 9px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(255,255,255,.045);color:var(--cf-edge-bright);font-size:9px}.campfireHomeAiSources button:hover{border-color:var(--cf-edge)}.campfireHomeAiError{color:#ff9b9b!important}.campfireHomeNewsStatus button{margin-left:6px;border:0;background:transparent;color:var(--cf-edge-bright);text-decoration:underline;cursor:pointer}.campfireHomeAiComposer{margin-top:12px;display:grid;gap:10px}.campfireHomeAiComposerStack textarea{min-height:118px;resize:vertical;padding:12px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(3,7,11,.52);color:var(--cf-text);font-size:11px;line-height:1.5}.campfireHomeAiActions{display:flex;gap:8px;flex-wrap:wrap}.campfireHomeAiComposer button{height:40px;padding:0 14px;border:1px solid var(--cf-edge);border-radius:10px;background:rgba(0,208,170,.12);color:var(--cf-text);font-size:11px;font-weight:700}.campfireHomeAiSecondaryButton{border-color:rgba(255,255,255,.12)!important;background:rgba(255,255,255,.04)!important}.campfireHomeNewsStatus{margin:0 0 10px;font-size:10px;color:var(--cf-muted)}.campfireHomeNewsFeed{display:grid;gap:10px;max-height:520px;overflow-y:auto;overflow-x:hidden;padding-right:2px}.campfireHomeNewsFeatured{position:relative;min-height:240px;display:grid;align-items:end;text-align:left;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));color:var(--cf-text)}.campfireHomeNewsFeatured:hover,.campfireHomeNewsCard:hover{border-color:var(--cf-edge);box-shadow:0 0 12px var(--cf-glow-soft);transform:translateY(-1px)}.campfireHomeNewsFeaturedImage,.campfireHomeNewsThumb{background:center/cover no-repeat;background-color:rgba(255,255,255,.04);display:grid;place-items:center;font-size:34px}.campfireHomeNewsFeaturedImage{position:absolute;inset:0}.campfireHomeNewsFeaturedShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.72))}.campfireHomeNewsFeaturedCopy{position:relative;z-index:1;display:grid;gap:7px;padding:16px}.campfireHomeNewsFeaturedCopy strong{font-size:22px;line-height:1.15}.campfireHomeNewsFeaturedCopy small{font-size:11px;line-height:1.45;color:#d6dce4}.campfireHomeNewsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.campfireHomeNewsCard{display:grid;gap:7px;text-align:left;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.03);color:var(--cf-text);padding:0;overflow:hidden}.campfireHomeNewsThumb{display:block;width:100%;aspect-ratio:16/9}.campfireHomeNewsCard .campfireHomeNewsMeta,.campfireHomeNewsCard strong,.campfireHomeNewsCard small{padding-left:12px;padding-right:12px}.campfireHomeNewsCard small{padding-bottom:12px}.campfireHomeNewsMeta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:9px;color:var(--cf-muted)}.campfireHomeNewsMeta b{font-size:9px;color:var(--cf-edge-bright)}.campfireHomeNewsMeta i{font-style:normal;color:var(--cf-muted)}.campfireHomeNewsCard strong{font-size:11px;line-height:1.45}.campfireHomeNewsCard small{font-size:9px;line-height:1.45;color:var(--cf-muted)}
+
+.campfireHomeRightColumn{min-width:0;height:100%;overflow-y:auto;padding:14px 12px 20px;display:flex;flex-direction:column;gap:12px;border-left:1px solid color-mix(in srgb,var(--cf-edge) 48%,rgba(255,255,255,.06));background:rgba(5,10,15,.46);backdrop-filter:blur(24px) saturate(1.25);scrollbar-gutter:stable}
+.campfireHomeFriendsPanel,.campfireHomeSuggestionsPanel,.campfireHomeQuotePanel{border-radius:var(--cf-radius-lg);padding:12px}.campfireHomeRightTitle h3{margin:0;font-size:13px}.campfireHomeFriendList{display:grid;gap:4px}.campfireHomeFriendList button{min-height:48px;display:grid;grid-template-columns:36px minmax(0,1fr) 8px;align-items:center;gap:8px;padding:5px;border:0;border-radius:9px;background:transparent;color:var(--cf-text);text-align:left}.campfireHomeFriendList button:hover{background:rgba(255,255,255,.045)}.campfireHomeFriendAvatar{width:36px;height:36px;aspect-ratio:1/1;flex-shrink:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08) center/cover no-repeat;border:1px solid var(--cf-edge)}.campfireHomeFriendList strong{font-size:9px}.campfireHomeFriendList small{display:block;font-size:8px;color:var(--cf-muted)}.campfireHomeFriendDot{width:7px;height:7px;border-radius:50%;background:#66717c}.campfireHomeFriendDot.online{background:var(--cf-ok)}
+.campfireHomeSuggestionsPanel>button{width:100%;min-height:43px;display:grid;grid-template-columns:34px 1fr 24px;align-items:center;gap:8px;padding:4px;border:0;border-radius:8px;background:transparent;color:var(--cf-text);text-align:left}.campfireHomeSuggestionsPanel>button:hover{background:rgba(255,255,255,.045)}.campfireHomeSuggestionsPanel>button>span{width:34px;height:34px;border-radius:8px;background:center/cover no-repeat}.campfireHomeSuggestionsPanel>button strong{font-size:9px}.campfireHomeSuggestionsPanel>button b{font-size:14px;color:var(--cf-edge-bright)}.campfireHomeQuotePanel{margin-top:auto;min-height:130px;display:grid;place-items:center;text-align:center}.campfireHomeQuotePanel blockquote{margin:0;font:italic 600 13px/1.35 Georgia,serif}.campfireHomeQuotePanel>span{font-size:30px;color:var(--cf-edge)}
+
+/* ============================================================
+   ACTIVE CAMPFIRE — “ASSISTINDO FILMES” MOCKUP
+   ============================================================ */
+.campfireRoomShell{
+  position:relative;height:100%;min-height:0;display:grid!important;
+  grid-template-columns:minmax(0,1fr) var(--cf-right-rail-width,var(--cf-right-rail-default));
+  grid-template-rows:auto minmax(0,1fr);
+  gap:0;
+  overflow:hidden;
+  background:radial-gradient(circle at 48% 0,color-mix(in srgb,var(--cf-accent) 6%,transparent),transparent 30rem),#060a0f;
+}
+.campfireRoomHeader{
+  grid-column:1;grid-row:1;
+  margin:12px 12px 8px!important;
+  min-height:64px;
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  padding:8px 10px 8px 15px!important;
+  border-radius:14px!important;
+  overflow:visible;
+}
+.campfireRoomIdentity{display:flex;align-items:center;min-width:180px;flex:1}.campfireRoomIdentityText{min-width:0}.campfireRoomIdentityText h2{margin:0 0 4px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.campfireRoomIdentityText>div{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:8px;color:var(--cf-muted)}.campfireRoomIdentityText b{color:var(--cf-text);font-weight:650}
+.campfireRoomHeaderControls{margin-left:auto;min-width:0;max-width:70%;overflow-x:auto;overflow-y:visible;padding-bottom:1px;scrollbar-width:none}.campfireRoomHeaderControls::-webkit-scrollbar{display:none}.campfireQuickActions{display:flex!important;align-items:center;justify-content:flex-end;gap:6px;min-width:max-content;background:transparent!important;border:0!important;padding:0!important;margin:0!important;position:static!important}.campfireHeaderActionDivider{width:1px;height:25px;background:rgba(255,255,255,.10);margin:0 2px}
+.campfireQuickActionButton,.campfireVoiceDock.headerCompact .campfireVoiceActions button{position:relative;width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;aspect-ratio:1/1;flex:0 0 38px;border-radius:50%!important;border:1px solid rgba(255,255,255,.11)!important;background:rgba(255,255,255,.045)!important;color:var(--cf-text)!important;display:grid!important;place-items:center;padding:0!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)!important}.campfireQuickActionButton:hover,.campfireQuickActionButton.active,.campfireVoiceDock.headerCompact .campfireVoiceActions button:hover,.campfireVoiceDock.headerCompact .campfireVoiceActions button.active{border-color:var(--cf-edge)!important;box-shadow:0 0 14px var(--cf-glow-soft),inset 0 1px 0 rgba(255,255,255,.12)!important}.campfireQuickActionButton.danger{border-color:rgba(255,91,105,.46)!important;color:#ff7b88!important}.campfireQuickActionBadge{position:absolute;right:-4px;top:-5px;min-width:16px;height:16px;border-radius:999px;padding:0 4px;background:#ff5367;color:white;font-size:8px;display:grid;place-items:center}.campfireQuickActionLive{position:absolute;right:-4px;top:-5px;font-size:6px;padding:2px 3px;border-radius:4px;background:#ff5367;color:#fff}
+
+.campfireVoiceDock.headerCompact{position:relative!important;inset:auto!important;width:auto!important;min-width:0!important;transform:none!important;border:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;padding:0!important;margin:0!important;overflow:visible!important}.campfireVoiceDock.headerCompact .campfireVoiceMainRow{min-height:0!important;padding:0!important}.campfireVoiceDock.headerCompact .campfireVoiceIdentity{display:none!important}.campfireVoiceDock.headerCompact .campfireVoiceActions{display:flex!important;gap:6px!important}.campfireVoiceDock.headerCompact .campfireVoiceActions button>span:last-child{display:none!important}.campfireVoiceDock.headerCompact .campfireVoiceActions button>span:first-child{font-size:14px!important}.campfireVoiceDock.headerCompact .campfireVoiceMixer,.campfireVoiceDock.headerCompact .campfireVoicePeople,.campfireVoiceDock.headerCompact .campfireVoiceVideoGrid,.campfireVoiceDock.headerCompact .campfireVoiceMessage{position:absolute!important;z-index:99900!important;right:0!important;left:auto!important;top:46px!important;bottom:auto!important;width:min(520px,75vw)!important;max-height:min(430px,70vh)!important;overflow:auto!important;border:1px solid var(--cf-edge)!important;border-radius:13px!important;background:var(--cf-glass-surface-strong)!important;backdrop-filter:blur(26px) saturate(1.2)!important;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 20px var(--cf-glow-soft)!important}
+
+.campfireStageMockup{
+  grid-column:1;grid-row:2;
+  min-height:0;height:auto!important;
+  margin:0 12px 12px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.7fr) minmax(240px,.85fr);
+  grid-template-rows:minmax(280px,1fr) auto;
+  gap:14px;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow:auto!important;
+  scrollbar-gutter:stable;
+}
+.campfireSpotlightPrimary{grid-column:1;grid-row:1;min-height:300px;border-radius:16px!important;display:grid;place-items:center;position:relative;overflow:hidden;background:var(--cf-glass-surface)!important}.campfireSpotlightPrimary::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--cf-accent) 10%,transparent),transparent 34%),radial-gradient(circle at 15% 0,rgba(255,255,255,.035),transparent 45%);pointer-events:none}.campfireSpotlightGlow{position:absolute;width:240px;height:240px;border-radius:50%;background:var(--cf-glow-soft);filter:blur(60px);opacity:.32}.campfireSpotlightAvatar{position:relative;z-index:2;width:152px!important;height:152px!important;aspect-ratio:1/1!important;flex:0 0 152px!important;border-radius:50%!important;background:rgba(255,255,255,.08) center/cover no-repeat;border:2px solid var(--cf-edge)!important;box-shadow:0 0 0 7px rgba(0,0,0,.22),0 0 28px var(--cf-glow-soft)!important;display:grid;place-items:center;font-size:40px}.campfireSpotlightCopy{position:relative;z-index:2;margin-top:-18px;text-align:center}.campfireSpotlightCopy h3{margin:5px 0 3px;font-size:18px}.campfireSpotlightCopy p{margin:0;font-size:9px;color:var(--cf-muted)}.campfireSpotlightWave{position:absolute;right:18px;bottom:18px;display:flex;align-items:flex-end;gap:3px;height:30px}.campfireSpotlightWave span{width:3px;border-radius:3px;background:var(--cf-edge-bright);box-shadow:0 0 8px var(--cf-glow-soft)}.campfireSpotlightWave span:nth-child(1){height:10px}.campfireSpotlightWave span:nth-child(2){height:20px}.campfireSpotlightWave span:nth-child(3){height:28px}.campfireSpotlightWave span:nth-child(4){height:18px}.campfireSpotlightWave span:nth-child(5){height:12px}
+.campfireMoodMockup{grid-column:2;grid-row:1;min-height:300px;border-radius:16px!important;background-position:center!important;background-size:cover!important;position:relative;overflow:hidden;padding:24px!important;display:flex!important;flex-direction:column;justify-content:flex-end}.campfireMoodMockup::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,10,.04),rgba(2,6,10,.76));pointer-events:none}.campfireMoodMockup blockquote,.campfireMoodMockup>span{position:relative;z-index:2}.campfireMoodMockup blockquote{margin:0 0 14px;font:italic 700 22px/1.25 Georgia,serif;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.7)}.campfireMoodMockup>span{font-size:9px;font-weight:800;letter-spacing:.08em;color:rgba(255,255,255,.72);text-transform:uppercase}
+
+.campfireParticipantGrid{grid-column:1/-1;grid-row:2;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;position:static!important;overflow:visible!important;padding:0!important;margin:0!important;align-items:stretch}
+.campfireParticipantTile{inline-size:var(--cf-participant-card-width);width:100%!important;max-width:none!important;min-width:0!important;height:var(--cf-participant-card-height)!important;min-height:var(--cf-participant-card-height)!important;border-radius:14px!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px!important;position:relative;color:var(--cf-text)!important}.campfireParticipantTile:hover{border-color:var(--cf-edge);box-shadow:0 0 16px var(--cf-glow-soft)}.campfireParticipantTileAvatar,.campfireStageAvatar{width:72px!important;height:72px!important;aspect-ratio:1 / 1!important;flex-shrink:0!important;flex-basis:72px!important;border-radius:50%!important;background:rgba(255,255,255,.08) center/cover no-repeat!important;border:1px solid color-mix(in srgb,var(--cf-edge) 72%,rgba(255,255,255,.14))!important;box-shadow:0 0 14px color-mix(in srgb,var(--cf-glow-soft) 65%,transparent)!important;display:grid;place-items:center}.campfireParticipantTile strong{font-size:10px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.campfireParticipantTile small{font-size:9px;color:var(--cf-muted)}.campfireParticipantTileMic{position:absolute;right:10px;top:10px;width:25px;height:25px;aspect-ratio:1/1;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.055);font-size:10px}.campfireParticipantMore>span:first-child{width:54px;height:54px;aspect-ratio:1/1;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.14);font-size:24px;color:var(--cf-muted)}
+
+/* right rail */
+.campfireRoomShell>.campfireRightRail{grid-column:2;grid-row:1/span 2;display:block!important;width:auto!important;min-width:0!important;max-width:none!important;height:100%!important;padding:13px 11px 18px!important;border-top:0!important;border-right:0!important;border-bottom:0!important;border-radius:0!important;overflow-y:auto!important;scrollbar-gutter:stable;background:rgba(6,11,17,.48)!important;backdrop-filter:blur(24px) saturate(1.25)!important}.campfireRightRailSection+.campfireRightRailSection{margin-top:17px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}.campfireRightRailHeading{margin-bottom:7px!important;padding:0 4px!important}.campfireRightRailHeading h3{font-size:13px!important}.campfireRailPerson{min-height:46px!important;padding:5px 6px!important}.campfireRailAvatar{width:34px!important;height:34px!important;aspect-ratio:1/1!important;flex-shrink:0!important;border-radius:50%!important}.campfireRailPersonCopy strong{font-size:10px!important}.campfireRailPersonCopy small{font-size:8px!important}
+
+/* workspace overlay */
+.campfireWorkspaceOverlay{position:absolute;z-index:8000;left:12px;right:calc(var(--cf-right-rail-width) + 12px);top:84px;bottom:12px;pointer-events:none;opacity:0;transition:.16s ease}.campfireWorkspaceOverlay.open{pointer-events:auto;opacity:1}.campfireWorkspacePanel{position:absolute;inset:0;display:none!important;min-width:0;min-height:0;border-radius:15px!important;overflow:hidden}.campfireWorkspacePanel.active{display:flex!important;flex-direction:column}.campfireWorkspaceChrome{height:42px;flex:0 0 42px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;border-bottom:1px solid rgba(255,255,255,.08)}.campfireWorkspaceChrome strong{font-size:10px}.campfireWorkspaceChrome button{width:29px;height:29px;border:1px solid rgba(255,255,255,.10);border-radius:8px;background:rgba(255,255,255,.045);color:var(--cf-text)}.campfireChatOverlay .campfireChatRoot{flex:1;min-height:0}
+
+/* theme picker always above */
+.campfireThemePopover{position:absolute!important;z-index:99980!important;top:80px!important;right:calc(var(--cf-right-rail-width) + 18px)!important;width:min(590px,calc(100% - var(--cf-right-rail-width) - 36px))!important;max-height:min(520px,76vh)!important;overflow:auto!important;padding:13px!important;border-radius:14px!important}
+
+/* ============================================================
+   HIGH-HUD / NARROW VIEW: scroll, never hide functions
+   ============================================================ */
+@media(max-width:1180px){
+  .blackPianoTheme{min-width:900px}
+  .campfireHomeFeaturedGrid{grid-template-columns:repeat(3,minmax(140px,1fr))}
+  .campfireHomeInspirationRow{grid-template-columns:repeat(2,1fr)}
+  .campfireParticipantGrid{grid-template-columns:repeat(3,minmax(130px,1fr))}
+  .campfireRoomHeaderControls{max-width:62%}
+}
+@media(max-width:920px){
+  .blackPianoTheme .main{overflow:auto!important;min-width:900px}
+  .campfireRoomShell,.campfireHomeShell{min-width:calc(900px - var(--cf-left-rail-width))}
+}
+
+/* footer stays tiny and unobtrusive */
+.blackPianoTheme footer{height:20px!important;min-height:20px!important;padding:0 9px!important;background:#05080c!important;color:var(--cf-muted)!important;border-top:1px solid rgba(255,255,255,.06)!important;font-size:8px!important}
+
+/* ============================================================
+   CAMPFIRE R6.3 — explicit Dashboard return + product identity
+   ============================================================ */
+.campfireRoomProfile{
+  min-width:0!important;
+  gap:7px!important;
+}
+.campfireRoomHomeBrand,
+.campfireReturnHomeButton{
+  height:36px;
+  min-width:0;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:1px solid color-mix(in srgb,var(--cf-edge) 58%,rgba(255,255,255,.12));
+  border-radius:10px;
+  background:var(--cf-glass-surface);
+  color:var(--cf-text);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 0 13px color-mix(in srgb,var(--cf-glow-soft) 55%,transparent);
+  backdrop-filter:blur(20px) saturate(1.2);
+  cursor:pointer;
+}
+.campfireRoomHomeBrand{padding:0 10px 0 7px;font-weight:700;font-size:11px}
+.campfireRoomHomeBrand img{width:27px;height:27px;aspect-ratio:1/1;object-fit:contain;filter:drop-shadow(0 0 7px var(--cf-glow-soft))}
+.campfireReturnHomeButton{padding:0 11px;font-size:10px;font-weight:650;white-space:nowrap}
+.campfireRoomHomeBrand:hover,.campfireReturnHomeButton:hover{
+  border-color:var(--cf-edge-bright);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 20px var(--cf-glow-soft);
+}
+@media(max-width:980px){
+  .campfireRoomHomeBrand span{display:none}
+  .campfireRoomHomeBrand{width:36px;padding:0}
+}
+
+/* R6.4: interior chrome stays Liquid Glass; textured material is reserved for the outer window frame. */
+
+/* ============================================================
+   R6.5 — workspace stretch + control polish
+   ============================================================ */
+.blackPianoTheme .content{
+  display:block!important;
+  width:100%!important;
+  place-items:stretch!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+}
+.campfireHomeShell,
+.campfireRoomShell{
+  width:100%!important;
+  max-width:none!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+}
+
+/* The wrapper is layout-only. The actual button owns the glass material. */
+.campfireRailCreateTop{
+  margin-left:auto!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.campfireRailCreateTop > .campfireTopbarCreateButton{
+  min-height:40px;
+  padding:0 18px;
+  border:1px solid color-mix(in srgb,var(--cf-edge-bright) 72%,rgba(255,255,255,.2));
+  border-radius:13px;
+  background:var(--cf-glass-surface);
+  color:var(--cf-text);
+  font-weight:750;
+  font-size:12px;
+  letter-spacing:.01em;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.20),
+    inset 0 -1px 0 rgba(0,0,0,.28),
+    0 0 18px color-mix(in srgb,var(--cf-glow-soft) 76%,transparent);
+  backdrop-filter:blur(22px) saturate(1.25);
+}
+.campfireRailCreateTop > .campfireTopbarCreateButton:hover{
+  border-color:var(--cf-edge-bright);
+  transform:translateY(-1px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 26px var(--cf-glow-soft);
+}
+
+/* Slightly larger call controls, still inside the single continuous header. */
+.campfireQuickActionButton,
+.campfireVoiceDock.headerCompact .campfireVoiceActions button{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  flex:0 0 44px!important;
+}
+.campfireQuickActionButton > span:first-child,
+.campfireVoiceDock.headerCompact .campfireVoiceActions button > span:first-child{
+  font-size:16px!important;
+}
+.campfireRoomHeader{min-height:70px!important}
+
+/* R6.6: mood artwork no longer consumes central workspace. */
+.blackPianoTheme .campfireStageMockup {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+.blackPianoTheme .campfireSpotlightPrimary,
+.blackPianoTheme .campfireParticipantGrid {
+  grid-column: 1 !important;
+}
+/* R6.6 definitive right-rail geometry. This sits after the legacy R6 block so
+   the 156px mood panel cannot be turned back into a central card. */
+.campfireRoomShell > .campfireRightRail {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+.campfireRoomShell > .campfireRightRail > .campfireRightRailScroll {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 13px 11px 12px !important;
+}
+.campfireRoomShell > .campfireRightRail > .campfireRightRailMood {
+  flex: 0 0 156px !important;
+  height: 156px !important;
+  width: 100% !important;
+}
+
+/* ============================================================
+   R6.6.2 — ACTIVE CALL WAVEFORM
+   The five bars are intentionally animated in the currently imported R6
+   stylesheet; the old definition lived in an unimported legacy R2 sheet.
+   ============================================================ */
+.campfireSpotlightWave{
+  position:absolute;
+  right:24px;
+  bottom:22px;
+  display:flex;
+  align-items:flex-end;
+  gap:3px;
+  height:28px;
+  transform-origin:50% 100%;
+}
+.campfireSpotlightWave span{
+  width:3px;
+  border-radius:6px;
+  background:var(--cf-accent,#7ce4b9);
+  box-shadow:0 0 8px var(--cf-glow,rgba(124,228,185,.5));
+  transform-origin:50% 100%;
+  animation:campfireWave .82s ease-in-out infinite;
+  will-change:transform,opacity;
+}
+.campfireSpotlightWave span:nth-child(1){height:8px;animation-delay:-.08s}
+.campfireSpotlightWave span:nth-child(2){height:19px;animation-delay:-.25s}
+.campfireSpotlightWave span:nth-child(3){height:28px;animation-delay:-.42s}
+.campfireSpotlightWave span:nth-child(4){height:17px;animation-delay:-.18s}
+.campfireSpotlightWave span:nth-child(5){height:10px;animation-delay:-.34s}
+@keyframes campfireWave{
+  0%,100%{transform:scaleY(.32);opacity:.48}
+  35%{transform:scaleY(1);opacity:1}
+  65%{transform:scaleY(.62);opacity:.76}
+}
+
+/* R6.6.3 modal glass: do not black out the selected theme behind Create/Settings. */
+.blackPianoTheme .modalOverlay{
+  background:rgba(2,5,9,.22)!important;
+  backdrop-filter:blur(10px) saturate(1.32)!important;
+  -webkit-backdrop-filter:blur(10px) saturate(1.32)!important;
+}
+
+/* ============================================================
+   R6.6.4 — THEME VISIBILITY + REAL GLASS
+   Legacy R6 containers used opaque #060a0f fills that completely covered the
+   theme texture. These layout layers are now transparent; only actual chrome
+   surfaces receive vitreous glass.
+   ============================================================ */
+.blackPianoTheme .main{
+  background:transparent!important;
+}
+.blackPianoTheme .content{
+  background:transparent!important;
+}
+.blackPianoTheme .campfireHomeShell,
+.blackPianoTheme .campfireRoomShell,
+.blackPianoTheme .campfireStageMockup{
+  background:transparent!important;
+}
+.blackPianoTheme .campfireHomeRightColumn,
+.blackPianoTheme .campfireRoomShell>.campfireRightRail,
+.blackPianoTheme .campfireSpotlightPrimary,
+.blackPianoTheme .campfireParticipantTile,
+.blackPianoTheme .campfireHomeHighlights,
+.blackPianoTheme .campfireHomeInspirationSection,
+.blackPianoTheme .campfireHomeActivityPanel,
+.blackPianoTheme .campfireHomeEventsPanel,
+.blackPianoTheme .campfireHomeFriendsPanel,
+.blackPianoTheme .campfireHomeSuggestionsPanel,
+.blackPianoTheme .campfireHomeQuotePanel{
+  background:linear-gradient(145deg,rgb(255 255 255 / .035),rgb(var(--cf-glass-rgb) / .15))!important;
+  backdrop-filter:blur(14px) saturate(1.50) brightness(1.06)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.50) brightness(1.06)!important;
+}
+.blackPianoTheme footer{
+  background:rgb(5 8 12 / .34)!important;
+  backdrop-filter:blur(12px) saturate(1.4)!important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.4)!important;
+}
+.blackPianoTheme .modalOverlay{
+  background:rgb(2 5 9 / .10)!important;
+  backdrop-filter:blur(5px) saturate(1.22)!important;
+  -webkit-backdrop-filter:blur(5px) saturate(1.22)!important;
+}
+
+/* Entire LEFT-room status card moves down together; its internal layout is not
+   separately offset. */
+.campfireInactiveCard--left{
+  transform:translateY(8vh);
+  width:min(520px,86vw)!important;
+  max-width:86vw!important;
+  padding:28px 34px 26px!important;
+  border:1px solid color-mix(in srgb,var(--cf-edge-bright) 58%,rgba(255,255,255,.20))!important;
+  border-radius:18px!important;
+  background:
+    linear-gradient(145deg,rgb(255 255 255 / .09),rgb(var(--cf-glass-rgb) / .20) 40%,rgb(var(--cf-glass-rgb) / .12))!important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .26),
+    inset 0 -1px 0 rgb(0 0 0 / .28),
+    0 24px 70px rgb(0 0 0 / .30),
+    0 0 26px color-mix(in srgb,var(--cf-glow) 50%,transparent)!important;
+  backdrop-filter:blur(18px) saturate(1.55) brightness(1.08)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.55) brightness(1.08)!important;
+}
+.campfireInactiveCard--left .campfireInactiveFlame{font-size:54px}
+.campfireInactiveCard--left h2{font-size:22px!important;margin:5px 0 6px!important}
+.campfireInactiveCard--left>p{font-size:12px!important;color:rgb(232 239 247 / .86)!important}
+
+/* Twenty Four requested countdown treatment. The exact font family is first;
+   monospace fallbacks keep the timer stable if it is not installed locally. */
+.campfireExpiryCountdown{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  margin:12px 0 2px;
+}
+.campfireExpiryCountdownValue{
+  min-width:5.2ch;
+  font-family:"Twenty Four","DSEG7 Classic","Digital-7 Mono","Consolas",monospace;
+  font-size:clamp(68px,7vw,116px);
+  font-weight:400;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.035em;
+  line-height:.88;
+  text-align:center;
+  color:var(--campfire-countdown-color);
+  text-shadow:
+    0 0 3px currentColor,
+    0 0 12px currentColor,
+    0 0 28px color-mix(in srgb,currentColor 78%,transparent);
+  filter:drop-shadow(0 6px 12px rgb(0 0 0 / .32));
+}
+.campfireExpiryCountdownLabel{
+  margin:0!important;
+  font-size:11px!important;
+  color:rgb(232 239 247 / .82)!important;
+}
+.campfireExpiryCountdown--green{--campfire-countdown-color:#43ff5b}
+.campfireExpiryCountdown--yellow{--campfire-countdown-color:#ffe044}
+.campfireExpiryCountdown--red{--campfire-countdown-color:#ff3d48}
+
+@media(max-height:700px){
+  .campfireInactiveCard--left{transform:translateY(4vh);padding-block:20px!important}
+  .campfireExpiryCountdownValue{font-size:clamp(58px,6.3vw,92px)}
+}
+
+/* R6.6.4 — faithful digital fallback. If Twenty Four is installed, the exact
+   requested face is used. Otherwise a CSS seven-segment display preserves the
+   24-style timer instead of falling back to an ordinary monospace font. */
+.campfireExpiryCountdownText{
+  display:inline-block;
+  font-family:"Twenty Four","DSEG7 Classic","Digital-7 Mono","Consolas",monospace;
+  transform:scaleX(.94);
+  transform-origin:center;
+}
+.campfireTwentyFourSegments{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.085em;
+  height:.92em;
+  vertical-align:middle;
+}
+.campfireTwentyFourDigit{
+  position:relative;
+  display:inline-block;
+  width:.54em;
+  height:.90em;
+  filter:drop-shadow(0 0 .035em currentColor);
+}
+.campfireTwentyFourSegment{
+  position:absolute;
+  display:block;
+  margin:0;
+  padding:0;
+  opacity:.075;
+  background:currentColor;
+  box-shadow:none;
+  transition:opacity 120ms linear,filter 120ms linear;
+}
+.campfireTwentyFourSegment.is-on{
+  opacity:1;
+  filter:drop-shadow(0 0 .035em currentColor) drop-shadow(0 0 .085em currentColor);
+}
+.campfireTwentyFourSegment--a,
+.campfireTwentyFourSegment--d,
+.campfireTwentyFourSegment--g{
+  left:.085em;
+  width:.37em;
+  height:.075em;
+  clip-path:polygon(9% 0,91% 0,100% 50%,91% 100%,9% 100%,0 50%);
+}
+.campfireTwentyFourSegment--a{top:0}
+.campfireTwentyFourSegment--g{top:.412em}
+.campfireTwentyFourSegment--d{bottom:0}
+.campfireTwentyFourSegment--b,
+.campfireTwentyFourSegment--c,
+.campfireTwentyFourSegment--e,
+.campfireTwentyFourSegment--f{
+  width:.075em;
+  height:.34em;
+  clip-path:polygon(50% 0,100% 9%,100% 91%,50% 100%,0 91%,0 9%);
+}
+.campfireTwentyFourSegment--f{left:0;top:.055em}
+.campfireTwentyFourSegment--b{right:0;top:.055em}
+.campfireTwentyFourSegment--e{left:0;bottom:.055em}
+.campfireTwentyFourSegment--c{right:0;bottom:.055em}
+.campfireTwentyFourColon{
+  display:inline-flex;
+  width:.16em;
+  height:.90em;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:.17em;
+  margin-inline:.005em;
+}
+.campfireTwentyFourColon i{
+  width:.075em;
+  height:.075em;
+  margin:0;
+  padding:0;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 .04em currentColor,0 0 .10em currentColor;
+}
+
+/* ============================================================
+   R6.6.6 — SIMPLE DARK REFERENCE MODE
+   One restrained Campfire appearance. No wallpaper themes, no textured
+   window frames, no visual picker. The reference language is a matte dark
+   shell with teal presence accents and warm amber action highlights.
+   ============================================================ */
+.blackPianoTheme,
+.blackPianoTheme[data-campfire-theme]{
+  --cf-left-rail-default:288px;
+  --cf-right-rail-default:320px;
+  --cf-simple-teal:#27d9c4;
+  --cf-simple-amber:#d99a4e;
+  --cf-text:#eef3f6;
+  --cf-muted:#8b98a4;
+  --cf-bg:#070b10;
+  --cf-bg-2:#090e14;
+  --cf-panel:#0d141b;
+  --cf-panel-2:#111922;
+  --cf-accent:var(--cf-simple-teal);
+  --cf-accent-2:var(--cf-simple-amber);
+  --cf-edge:#26333d;
+  --cf-edge-bright:var(--cf-simple-teal);
+  --cf-glow:rgba(39,217,196,.16);
+  --cf-glow-soft:rgba(39,217,196,.12);
+  --cf-ok:#30d79b;
+  --cf-warn:#e8ad52;
+  --cf-danger:#ef5c62;
+  --cf-glass-rgb:13 20 27;
+  --cf-glass-alpha:.92;
+  --cf-glass-surface:rgba(13,20,27,.92);
+  --cf-glass-surface-strong:rgba(11,17,23,.98);
+  background:#070b10!important;
+  background-image:none!important;
+}
+
+/* Remove the legacy desktop menu strip and all theme/frame affordances. */
+.blackPianoTheme .blackPianoMenuBar{display:none!important;}
+.blackPianoTheme button[aria-label="Tema desta Campfire"]{display:none!important;}
+.blackPianoTheme .campfireThemePopover{display:none!important;}
+.blackPianoTheme .campfireRailResizeHandle{opacity:.18;}
+
+/* App chrome: flat, quiet, readable. */
+.blackPianoTheme .topbar{
+  height:56px!important;
+  min-height:56px!important;
+  padding:7px 16px!important;
+  border:0!important;
+  border-bottom:1px solid #202a33!important;
+  border-radius:0!important;
+  background:#0a1016!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .topbar::after{display:none!important;}
+.blackPianoTheme .campfireTopbarBrand img,
+.blackPianoTheme .campfireLeftRailBrand img{
+  filter:none!important;
+}
+.blackPianoTheme .topButtons button,
+.blackPianoTheme .campfireTopbarCreateButton,
+.blackPianoTheme .campfireReturnHomeButton,
+.blackPianoTheme .campfireRoomHomeBrand{
+  border-color:#27323d!important;
+  background:#0f161e!important;
+  color:#e9eef2!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireTopbarCreateButton:hover,
+.blackPianoTheme .campfireReturnHomeButton:hover,
+.blackPianoTheme .topButtons button:hover{
+  border-color:#435463!important;
+  background:#151e27!important;
+}
+
+/* Main three-column frame inspired by the approved reference. */
+.blackPianoTheme .main{
+  background:#070b10!important;
+  grid-template-columns:var(--cf-left-rail-width,288px) minmax(0,1fr)!important;
+}
+.blackPianoTheme .sidebar.campfireLeftRail{
+  padding:12px 12px 10px!important;
+  border:0!important;
+  border-right:1px solid #202a33!important;
+  background:#0a1016!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireLeftRailBrand{
+  height:58px!important;
+  padding:4px 8px 12px!important;
+  border-bottom:1px solid #1d2730!important;
+}
+.blackPianoTheme .campfireLeftRailBrand strong{
+  font-size:14px!important;
+  letter-spacing:.16em!important;
+}
+.blackPianoTheme .campfireLeftHero{
+  flex-basis:144px!important;
+  margin:10px 0 14px!important;
+  border:1px solid #25303a!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireTitle span{
+  color:#7f8b96!important;
+  font-size:10px!important;
+  letter-spacing:.15em!important;
+}
+.blackPianoTheme .campfireLeftCard{
+  min-height:62px!important;
+  grid-template-columns:48px minmax(0,1fr) 8px!important;
+  gap:10px!important;
+  padding:7px!important;
+  border-radius:10px!important;
+  background:transparent!important;
+}
+.blackPianoTheme .campfireLeftCard:hover{
+  background:#0f171f!important;
+  border-color:#283540!important;
+}
+.blackPianoTheme .campfireLeftCard.selected{
+  border-color:#34504f!important;
+  background:linear-gradient(90deg,rgba(217,154,78,.16),rgba(39,217,196,.09))!important;
+  box-shadow:inset 2px 0 0 var(--cf-simple-amber)!important;
+}
+.blackPianoTheme .campfireLeftCover{width:48px!important;height:48px!important;border-radius:8px!important;}
+.blackPianoTheme .campfireLeftStatus{background:#2dd99b!important;box-shadow:0 0 8px rgba(45,217,155,.45)!important;}
+
+/* Room header becomes the reference's compact activity bar. */
+.blackPianoTheme .campfireRoomShell{
+  grid-template-columns:minmax(0,1fr) var(--cf-right-rail-width,320px)!important;
+  grid-template-rows:92px minmax(0,1fr)!important;
+  background:#070b10!important;
+}
+.blackPianoTheme .campfireRoomHeader{
+  grid-column:1!important;
+  grid-row:1!important;
+  min-height:92px!important;
+  margin:0!important;
+  padding:16px 18px!important;
+  border:0!important;
+  border-bottom:1px solid #202a33!important;
+  border-radius:0!important;
+  background:#0a1016!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireRoomIdentityText h2{
+  margin:0 0 6px!important;
+  font-size:22px!important;
+  letter-spacing:-.02em!important;
+}
+.blackPianoTheme .campfireRoomIdentityText>div{
+  color:#83909b!important;
+  font-size:11px!important;
+}
+.blackPianoTheme .campfireRoomIdentityText>div b{color:var(--cf-simple-teal)!important;}
+.blackPianoTheme .campfireRoomHeaderControls{max-width:64%!important;}
+.blackPianoTheme .campfireQuickActions{gap:8px!important;}
+.blackPianoTheme .campfireQuickActionButton{
+  width:44px!important;
+  height:38px!important;
+  min-width:44px!important;
+  min-height:38px!important;
+  flex-basis:44px!important;
+  border:1px solid #27323d!important;
+  border-radius:10px!important;
+  background:#0f161e!important;
+  color:#d7dee4!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireQuickActionButton.active,
+.blackPianoTheme .campfireQuickActionButton:hover{
+  border-color:#7b5a2f!important;
+  color:#f4c57d!important;
+  background:#17140f!important;
+  box-shadow:none!important;
+}
+
+/* Center stage: large focus card, secondary story card, participant row. */
+.blackPianoTheme .campfireStageMockup{
+  grid-column:1!important;
+  grid-row:2!important;
+  margin:18px 18px 96px!important;
+  grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr)!important;
+  grid-template-rows:minmax(300px,1fr) auto!important;
+  gap:16px!important;
+  background:transparent!important;
+  overflow:auto!important;
+}
+.blackPianoTheme .campfireSpotlightPrimary{
+  min-height:330px!important;
+  border:1px solid #2b3a43!important;
+  border-radius:14px!important;
+  background:#0d141b!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireSpotlightPrimary.speaking{border-color:#239f91!important;}
+.blackPianoTheme .campfireSpotlightGlow{
+  background:rgba(39,217,196,.13)!important;
+  filter:blur(72px)!important;
+  opacity:.65!important;
+}
+.blackPianoTheme .campfireSpotlightAvatar{
+  width:164px!important;
+  height:164px!important;
+  flex-basis:164px!important;
+  border:2px solid var(--cf-simple-teal)!important;
+  box-shadow:0 0 0 5px #091015,0 0 22px rgba(39,217,196,.24)!important;
+}
+.blackPianoTheme .campfireSpotlightWave span{
+  background:var(--cf-simple-teal)!important;
+  box-shadow:0 0 6px rgba(39,217,196,.28)!important;
+}
+.blackPianoTheme .campfireParticipantTile{
+  height:176px!important;
+  min-height:176px!important;
+  border:1px solid #26323b!important;
+  border-radius:12px!important;
+  background:#0d141b!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireParticipantTile:hover{
+  border-color:#3a4a55!important;
+  background:#101922!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireParticipantTileAvatar,
+.blackPianoTheme .campfireStageAvatar{
+  border-color:#394751!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireParticipantTile.speaking .campfireParticipantTileAvatar{
+  border-color:var(--cf-simple-teal)!important;
+}
+
+/* Right rail: friends and participants remain dense and readable. */
+.blackPianoTheme .campfireRoomShell>.campfireRightRail{
+  grid-column:2!important;
+  grid-row:1/span 2!important;
+  padding:16px 14px 92px!important;
+  border:0!important;
+  border-left:1px solid #202a33!important;
+  background:#0a1016!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireRightRailSection+.campfireRightRailSection{
+  border-top-color:#202a33!important;
+}
+.blackPianoTheme .campfireRailPerson{
+  min-height:50px!important;
+  border-radius:9px!important;
+}
+.blackPianoTheme .campfireRailPerson:hover{background:#0f171f!important;}
+
+/* Voice controls live in a compact bottom command bar like the reference. */
+.blackPianoTheme .campfireVoiceDock.headerCompact{
+  position:fixed!important;
+  z-index:9000!important;
+  left:50%!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:22px!important;
+  width:auto!important;
+  transform:translateX(-50%)!important;
+  padding:9px 12px!important;
+  border:1px solid #26323c!important;
+  border-radius:16px!important;
+  background:#0b1117!important;
+  box-shadow:0 12px 36px rgba(0,0,0,.38)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions{gap:10px!important;}
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions button{
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  min-height:58px!important;
+  flex:0 0 58px!important;
+  border:1px solid #2b3741!important;
+  border-radius:50%!important;
+  background:#111922!important;
+  color:#dbe2e7!important;
+  box-shadow:none!important;
+}
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions button:hover,
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions button.active{
+  border-color:var(--cf-simple-teal)!important;
+  color:#eafffb!important;
+  box-shadow:0 0 14px rgba(39,217,196,.16)!important;
+}
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions button.danger{
+  border-color:#6e3135!important;
+  background:#311416!important;
+  color:#ff8b90!important;
+}
+.blackPianoTheme .campfireVoiceDock.headerCompact .campfireVoiceActions button>span:last-child{display:none!important;}
+
+/* Home and settings keep the same restrained surfaces. */
+.blackPianoTheme .campfireHomeShell,
+.blackPianoTheme .campfireHomeBeautiful{background:#070b10!important;}
+.blackPianoTheme .campfireHomeHeroMockup,
+.blackPianoTheme .campfireHomeHighlights,
+.blackPianoTheme .campfireHomeInspirationSection,
+.blackPianoTheme .campfireHomeActivityPanel,
+.blackPianoTheme .campfireHomeEventsPanel,
+.blackPianoTheme .campfireHomeFriendsPanel,
+.blackPianoTheme .campfireHomeSuggestionsPanel,
+.blackPianoTheme .campfireHomeQuotePanel{
+  border-color:#26323c!important;
+  background-color:#0d141b!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+
+/* Old theme images/variables can remain in persisted data, but never paint the shell. */
+.blackPianoTheme[data-campfire-theme],
+.blackPianoTheme[data-campfire-theme] .blackPianoMenuBar,
+.blackPianoTheme[data-campfire-theme] .topbar,
+.blackPianoTheme[data-campfire-theme] .sidebar,
+.blackPianoTheme[data-campfire-theme] .campfireLeftRail,
+.blackPianoTheme[data-campfire-theme] .campfireRightRail,
+.blackPianoTheme[data-campfire-theme] .campfireRoomHeader,
+.blackPianoTheme[data-campfire-theme] .campfireTabs,
+.blackPianoTheme[data-campfire-theme] .campfireVoiceDock,
+.blackPianoTheme[data-campfire-theme] .campfireWorkspacePanel{
+  background-image:none!important;
+}
+
+@media (max-width: 1200px){.campfireHomeUtilityGrid{grid-template-columns:1fr}.campfireHomeNewsFeed{max-height:none}.campfireHomeNewsGrid{grid-template-columns:1fr}}
+
+/* R6.6.6.7 — active webcam belongs to the room stage, not a hidden header popover. */
+.campfireSpotlightCamera{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  background:#060a0f;
+}
+.campfireSpotlightPrimary:has(.campfireSpotlightCamera)::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.04) 48%,rgba(0,0,0,.68) 100%);
+}
+.campfireSpotlightPrimary:has(.campfireSpotlightCamera) .campfireSpotlightGlow{display:none}
+.campfireSpotlightPrimary:has(.campfireSpotlightCamera) .campfireSpotlightCopy,
+.campfireSpotlightPrimary:has(.campfireSpotlightCamera) .campfireSpotlightWave{z-index:3}
+.campfireParticipantCamera{
+  width:88px;
+  height:88px;
+  aspect-ratio:1/1;
+  flex:0 0 88px;
+  display:block;
+  object-fit:cover;
+  border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--cf-edge) 72%,rgba(255,255,255,.14));
+  box-shadow:0 0 14px color-mix(in srgb,var(--cf-glow-soft) 65%,transparent);
+  background:#081017;
+}
+
+/* R6.6.6.7 — header voice feedback is brief and never becomes a permanent overlay. */
+.campfireVoiceDock.headerCompact .campfireVoiceMixer,
+.campfireVoiceDock.headerCompact .campfireVoicePeople,
+.campfireVoiceDock.headerCompact .campfireVoiceVideoGrid{
+  display:none!important;
+}
+@keyframes campfireVoiceTransientMessage{
+  0%,62%{opacity:1;transform:translateY(0);visibility:visible}
+  100%{opacity:0;transform:translateY(-4px);visibility:hidden}
+}
+.campfireVoiceDock.headerCompact .campfireVoiceMessage{
+  position:absolute!important;
+  z-index:99920!important;
+  top:48px!important;
+  right:0!important;
+  left:auto!important;
+  width:max-content!important;
+  max-width:min(360px,70vw)!important;
+  min-height:0!important;
+  padding:7px 10px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:9px!important;
+  background:rgba(9,15,21,.94)!important;
+  color:#dbe5ec!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.34)!important;
+  pointer-events:none!important;
+  animation:campfireVoiceTransientMessage 1.8s ease forwards!important;
+}
+
+
+/* ============================================================
+   R6.6.6.8 — reference call layout + free AI copy + real action dock
+   ============================================================ */
+.campfireHomeAiResponse p{font-size:12px!important}
+.campfireStageMockup{padding-bottom:120px!important}
+.campfireRoomModeButtons{display:flex!important;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;min-width:max-content}
+.campfireRoomModeButton{position:relative;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 16px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(13,20,29,.82);color:var(--cf-text);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(18px) saturate(1.15);font-size:12px;font-weight:700;cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.campfireRoomModeButton:hover,.campfireRoomModeButton.active{border-color:rgba(255,174,102,.55);background:linear-gradient(180deg,rgba(255,168,100,.18),rgba(29,22,16,.92));box-shadow:0 0 16px rgba(255,168,100,.18),inset 0 1px 0 rgba(255,255,255,.12);color:#fff3e5;transform:translateY(-1px)}
+.campfireRoomModeButton > span:first-child{font-size:15px;line-height:1}
+.campfireRoomModeButton > span:last-child{white-space:nowrap}
+.campfireRoomActionDockWrap{position:absolute;left:24px;right:calc(var(--cf-right-rail-width) + 24px);bottom:24px;z-index:7900;display:grid;justify-items:center;gap:12px;pointer-events:none}
+.campfireRoomActionDock,.campfireVoiceMixerPanel,.campfireRoomActionFeedback{pointer-events:auto}
+.campfireRoomActionDock{display:flex;align-items:flex-start;justify-content:center;gap:18px;flex-wrap:wrap;padding:18px 22px;border:1px solid rgba(255,255,255,.10);border-radius:24px;background:rgba(4,10,16,.78);backdrop-filter:blur(22px) saturate(1.2);box-shadow:0 18px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06)}
+.campfireRoomActionButton{min-width:90px;display:grid;justify-items:center;gap:9px;border:0;background:transparent;color:var(--cf-text);cursor:pointer}
+.campfireRoomActionButton[disabled]{opacity:.45;cursor:not-allowed}
+.campfireRoomActionButton > span{width:64px;height:64px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(33,41,55,.98),rgba(10,14,18,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.08);font-size:24px;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.campfireRoomActionButton strong{font-size:12px;font-weight:700;color:var(--cf-text-soft);white-space:nowrap}
+.campfireRoomActionButton:hover > span,.campfireRoomActionButton.isActive > span{border-color:rgba(0,224,209,.62);box-shadow:0 0 18px rgba(0,224,209,.18),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(-1px)}
+.campfireRoomActionButton.accent > span,.campfireRoomActionButton.isCameraOn > span{border-color:rgba(0,224,209,.48)}
+.campfireRoomActionButton.danger > span{border-color:rgba(255,110,105,.48);background:linear-gradient(180deg,rgba(255,94,94,.95),rgba(196,30,30,.94));color:#fff;box-shadow:0 0 18px rgba(255,77,77,.18)}
+.campfireRoomActionButton.danger strong{color:#ffe6e6}
+.campfireRoomActionButton.isMuted > span,.campfireRoomActionButton.isDeafened > span{border-color:rgba(255,174,102,.56);box-shadow:0 0 14px rgba(255,168,100,.12),inset 0 1px 0 rgba(255,255,255,.08)}
+.campfireVoiceMixerPanel{width:min(780px,100%);padding:16px 18px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(5,12,18,.95);box-shadow:0 22px 48px rgba(0,0,0,.42);backdrop-filter:blur(24px) saturate(1.18)}
+.campfireVoiceMixerPanelHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.campfireVoiceMixerPanelHeader strong{display:block;font-size:15px}
+.campfireVoiceMixerPanelHeader small{display:block;margin-top:3px;color:var(--cf-muted);font-size:11px}
+.campfireVoiceMixerPanelHeader button{width:34px;height:34px;border:1px solid rgba(255,255,255,.10);border-radius:10px;background:rgba(255,255,255,.04);color:var(--cf-text);font-size:20px;cursor:pointer}
+.campfireVoiceMixerPanelGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.campfireVoiceMixerField,.campfireVoiceMixerToggle{min-width:0;display:grid;gap:8px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.03)}
+.campfireVoiceMixerField > span{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--cf-text-soft)}
+.campfireVoiceMixerField > span b{color:var(--cf-text)}
+.campfireVoiceMixerField select,.campfireVoiceMixerField input[type="range"]{width:100%}
+.campfireVoiceMeterCard small{color:var(--cf-muted);font-size:11px}
+.campfireVoiceMixerToggle{grid-template-columns:auto 1fr;align-items:center}
+.campfireVoiceMixerToggle input{margin:0}
+.campfireRoomActionFeedback{padding:10px 18px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(7,14,21,.94);color:#e7eef5;box-shadow:0 12px 26px rgba(0,0,0,.28);animation:campfireActionToast 1.8s ease forwards}
+@keyframes campfireActionToast{0%,68%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(4px)}}
+@media (max-width: 1180px){.campfireRoomActionDockWrap{left:18px;right:18px}.campfireVoiceMixerPanelGrid{grid-template-columns:1fr}}
+
+/* R6.6.6.10 — real detachable desktop workspaces. */
+.campfireDetachedWindowRoot {
+  width: 100vw;
+  height: 100vh;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #080a0e;
+}
+
+.campfireDetachedLoading {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #dce5ef;
+  font-size: 15px;
+  letter-spacing: .01em;
+  background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.06), transparent 42%), #080a0e;
+}
+
+.campfireDetachedWorkspace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: rgba(6,9,13,.98);
+}
+
+.campfireDetachedWorkspace > * {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.campfireDetachedWorkspace-messages .campfireChat,
+.campfireDetachedWorkspace-screen > *,
+.campfireDetachedWorkspace-anime > * {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+
+/* CampfireWeb: same R6.6.6.15 Simple Dark material, browser-responsive shell. */
+html[data-campfire-runtime="web"] .blackPianoTheme {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  html[data-campfire-runtime="web"] .blackPianoTheme .main {
+    min-width: 0;
+  }
+  html[data-campfire-runtime="web"] .campfireRoomShell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  html[data-campfire-runtime="web"] .campfireRoomShell > .campfireRightRail {
+    display: none !important;
+  }
+}

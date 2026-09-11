@@ -9,14 +9,23 @@ import {
   supabase,
 } from "./lib/supabase";
 
+import {
+  playCampfireNotificationChime,
+  showCampfireSystemNotification,
+} from "./campfireAppPreferences";
+
 type UseCampfireRoomEventsOptions = {
   campfireId: string | null;
   messagesTabActive: boolean;
+  roomName?: string;
+  currentUserId?: string;
 };
 
 export function useCampfireRoomEvents({
   campfireId,
   messagesTabActive,
+  roomName = "Campfire",
+  currentUserId,
 }: UseCampfireRoomEventsOptions) {
   const [
     unreadMessages,
@@ -63,6 +72,8 @@ export function useCampfireRoomEvents({
     );
   }, [
     campfireId,
+    currentUserId,
+    roomName,
   ]);
 
   const markMessagesRead =
@@ -113,7 +124,12 @@ export function useCampfireRoomEvents({
             filter:
               `campfire_id=eq.${campfireId}`,
           },
-          () => {
+          (payload) => {
+            const inserted = payload.new as { sender_id?: string | null; content?: string | null };
+            if (currentUserId && inserted.sender_id === currentUserId) {
+              return;
+            }
+
             /*
              * Se a pessoa JÁ está olhando
              * Mensagens, não criamos unread.
@@ -143,6 +159,12 @@ export function useCampfireRoomEvents({
                     1,
                   999
                 )
+            );
+
+            playCampfireNotificationChime();
+            showCampfireSystemNotification(
+              `Nova mensagem em ${roomName}`,
+              inserted.content?.trim() || "Você recebeu uma nova mensagem no Campfire."
             );
           }
         )

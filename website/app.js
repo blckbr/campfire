@@ -1,18 +1,42 @@
 const siteConfig = window.CAMPFIRE_SITE_CONFIG || {};
-const repositoryUrl = String(
-  siteConfig.githubUrl ||
-  window.CAMPFIRE_REPOSITORY_URL ||
-  "https://github.com"
-).replace(/\/$/, "");
-const isRepo = /github\.com\/[^/]+\/[^/]+/i.test(repositoryUrl);
-const releaseUrl = String(
-  siteConfig.releaseUrl ||
-  (isRepo ? `${repositoryUrl}/releases/latest` : "#download")
-);
-const downloadUrl = String(siteConfig.downloadUrl || releaseUrl);
+const downloads = window.CAMPFIRE_DOWNLOADS || siteConfig.downloads || {};
+const repositoryUrl = String(siteConfig.githubUrl || window.CAMPFIRE_REPOSITORY_URL || "https://github.com/blckbr/campfire").replace(/\/$/, "");
+const releaseUrl = String(siteConfig.releaseUrl || `${repositoryUrl}/releases/latest`);
+const campfireWebUrl = String(siteConfig.campfireWebUrl || "#campfireweb");
+
+const userAgent = String(navigator.userAgent || navigator.platform || "").toLowerCase();
+const isLinux = /linux|x11/.test(userAgent) && !/android/.test(userAgent);
+const isWindows = /windows|win32|win64/.test(userAgent);
+const recommendedDownloadKind = isLinux ? "linuxRpm" : isWindows ? "windowsSetup" : null;
+
+function validDownloadUrl(value) {
+  return typeof value === "string" && /^(https?:\/\/|#)/i.test(value);
+}
+
+function downloadUrlFor(kind) {
+  const value = downloads[kind];
+  return validDownloadUrl(value) ? value : "#download";
+}
 
 document.querySelectorAll("[data-github-link]").forEach((el) => { el.href = repositoryUrl; });
-document.querySelectorAll("[data-download-link]").forEach((el) => { el.href = downloadUrl; });
+document.querySelectorAll("[data-release-link]").forEach((el) => { el.href = releaseUrl; });
+document.querySelectorAll("[data-campfireweb-link]").forEach((el) => { el.href = campfireWebUrl; });
+document.querySelectorAll("[data-download-kind]").forEach((el) => {
+  const kind = el.dataset.downloadKind;
+  el.href = downloadUrlFor(kind);
+  const recommended = kind === recommendedDownloadKind;
+  el.classList.toggle("recommended", recommended);
+  if (recommended) {
+    el.setAttribute("aria-label", `${el.textContent.trim()} — recomendado para este sistema`);
+    const badge = el.querySelector(".recommendation-label");
+    if (badge) badge.textContent = "Recomendado";
+  }
+});
+
+const genericDownloadUrl = recommendedDownloadKind
+  ? downloadUrlFor(recommendedDownloadKind)
+  : "#download";
+document.querySelectorAll("[data-download-link]").forEach((el) => { el.href = genericDownloadUrl; });
 
 const header = document.querySelector("#site-header");
 const ambient = document.querySelector(".ambient-pointer");
@@ -38,7 +62,6 @@ let target = 0;
 let last = performance.now();
 
 function applyFireEnergy() {
-  // The base never scales. The captured real flame is the only layer that grows.
   const scaleY = 1 + energy * 0.62;
   const scaleX = 1 + energy * 0.045;
   if (realFire) {
@@ -46,8 +69,6 @@ function applyFireEnergy() {
     realFire.style.filter = `brightness(${(1.04 + energy * .34).toFixed(2)}) saturate(${(1.10 + energy * .28).toFixed(2)}) contrast(${(1.05 + energy * .08).toFixed(2)}) drop-shadow(0 0 ${18 + energy * 34}px rgba(255,89,0,${.36 + energy * .31}))`;
     realFire.playbackRate = 1 + energy * .16;
   }
-
-  // At the apex, the name emerges from the fire and dissolves as energy decays.
   const nameLevel = Math.max(0, Math.min(1, (energy - .43) / .25));
   fireApexName?.style.setProperty("--name-level", nameLevel.toFixed(3));
   fireStage?.classList.toggle("is-apex", nameLevel > .68);
@@ -68,15 +89,15 @@ if (!reduceMotion) requestAnimationFrame(tick);
 function spawnSpark(x, y, amount = 1) {
   if (!sparkLayer || reduceMotion) return;
   for (let i = 0; i < amount; i += 1) {
-    const s = document.createElement("i");
-    s.className = `spark${Math.random() > .78 ? " big" : ""}`;
-    s.style.left = `${x + (Math.random() - .5) * 80}px`;
-    s.style.top = `${y + (Math.random() - .5) * 32}px`;
-    s.style.setProperty("--x", `${(Math.random() - .5) * 110}px`);
-    s.style.setProperty("--y", `${-90 - Math.random() * 210}px`);
-    s.style.setProperty("--d", `${.8 + Math.random() * 1.2}s`);
-    sparkLayer.appendChild(s);
-    setTimeout(() => s.remove(), 2200);
+    const spark = document.createElement("i");
+    spark.className = `spark${Math.random() > .78 ? " big" : ""}`;
+    spark.style.left = `${x + (Math.random() - .5) * 80}px`;
+    spark.style.top = `${y + (Math.random() - .5) * 32}px`;
+    spark.style.setProperty("--x", `${(Math.random() - .5) * 110}px`);
+    spark.style.setProperty("--y", `${-90 - Math.random() * 210}px`);
+    spark.style.setProperty("--d", `${.8 + Math.random() * 1.2}s`);
+    sparkLayer.appendChild(spark);
+    setTimeout(() => spark.remove(), 2200);
   }
 }
 
@@ -88,7 +109,6 @@ document.addEventListener("pointerdown", (event) => {
   if (rect) spawnSpark(rect.left + rect.width * .5, rect.top + rect.height * .55, 10 + Math.round(target * 12));
 });
 
-// Constant subtle real-fire sparks near the campfire, without drawing synthetic flames.
 if (!reduceMotion) setInterval(() => {
   const rect = fireStage?.getBoundingClientRect();
   if (!rect || rect.bottom < 0 || rect.top > innerHeight) return;
@@ -97,21 +117,8 @@ if (!reduceMotion) setInterval(() => {
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("visible"); });
-}, { threshold: .13 });
+}, { threshold: .12 });
 document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
-
-// Subtle card parallax. The fire is never scaled as a whole.
-if (!reduceMotion) {
-  document.querySelectorAll(".floating-shot").forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const r = card.getBoundingClientRect();
-      const x = (event.clientX - r.left) / r.width - .5;
-      const y = (event.clientY - r.top) / r.height - .5;
-      card.style.translate = `${x * 5}px ${y * 4}px`;
-    });
-    card.addEventListener("pointerleave", () => { card.style.translate = "0 0"; });
-  });
-}
 
 const dialog = document.querySelector("#preview-dialog");
 const dialogImg = document.querySelector("#preview-image");

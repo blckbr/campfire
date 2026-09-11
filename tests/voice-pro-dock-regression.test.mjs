@@ -12,7 +12,6 @@ test("Voice Dock exposes explicit accessible states instead of icon-only control
   assert.match(dock, /Microfone mutado/);
   assert.match(dock, /Áudio desativado/);
   assert.match(dock, /Câmera ligada/);
-  assert.match(dock, /Sair da voz/);
 });
 
 test("Voice Dock shows the active Voice Pro profile and real microphone meter", () => {

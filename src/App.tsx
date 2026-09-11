@@ -23,11 +23,24 @@ import ProfileSetup, {
 } from "./ProfileSetup";
 
 import CampfireHome from "./CampfireHome";
+import GuestCampfire from "./GuestCampfire";
+import WebInstallControls from "./web/WebInstallControls";
+
+import {
+  isCampfireDesktop,
+  installCampfireRuntimeMarker,
+  webInviteToken,
+  webOAuthCallbackUrl,
+} from "./web/platform";
 
 import "./App.css";
 import campfireIcon from "./assets/campfire-icon.png";
 
 function App() {
+  useEffect(() => {
+    installCampfireRuntimeMarker();
+  }, []);
+
   /*
    * =========================================================
    * AUTH
@@ -125,14 +138,17 @@ function App() {
         return;
       }
 
-      if (
-        url.hostname !==
-          "127.0.0.1" ||
-        url.port !==
-          "54321" ||
-        url.pathname !==
-          "/auth/callback"
-      ) {
+      const isDesktopCallback =
+        url.hostname === "127.0.0.1" &&
+        url.port === "54321" &&
+        url.pathname === "/auth/callback";
+
+      const isWebCallback =
+        !isCampfireDesktop() &&
+        url.origin === window.location.origin &&
+        url.pathname === "/auth/callback";
+
+      if (!isDesktopCallback && !isWebCallback) {
         return;
       }
 
@@ -290,6 +306,14 @@ function App() {
           }
         );
 
+      const browserCallback =
+        webOAuthCallbackUrl();
+
+      if (browserCallback) {
+        await processCallback(browserCallback);
+        window.history.replaceState({}, "", "/");
+      }
+
       const {
         data,
         error,
@@ -397,7 +421,7 @@ function App() {
       false;
 
     async function loadProfile() {
-      if (!session) {
+      if (!session || session.user.is_anonymous) {
         setProfile(
           null
         );
@@ -596,16 +620,29 @@ function App() {
     );
   }
 
-  if (!session) {
+  const inviteToken =
+    !isCampfireDesktop()
+      ? webInviteToken()
+      : null;
+
+  if (inviteToken) {
     return (
-      <AuthScreen
-        authMessage={
-          authMessage
-        }
-        authError={
-          authError
-        }
-      />
+      <>
+        <GuestCampfire token={inviteToken} />
+        <WebInstallControls />
+      </>
+    );
+  }
+
+  if (!session || session.user.is_anonymous) {
+    return (
+      <>
+        <AuthScreen
+          authMessage={authMessage}
+          authError={authError}
+        />
+        <WebInstallControls />
+      </>
     );
   }
 
@@ -662,11 +699,10 @@ function App() {
   }
 
   return (
-    <CampfireHome
-      profile={
-        profile
-      }
-    />
+    <>
+      <CampfireHome profile={profile} />
+      <WebInstallControls allowNotifications />
+    </>
   );
 }
 

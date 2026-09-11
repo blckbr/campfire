@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#050505">
+  <meta name="theme-color" content="#060a0f">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Campfire Black Piano — converse, entre em voz, compartilhe sua tela e assista junto em uma experiência desktop feita para comunidades.">
-  <meta property="og:title" content="Campfire Black Piano">
+  <meta name="description" content="Campfire Black Piano 1.1.0 — chat, voz, vídeo, compartilhamento de tela, Watch Together e CampfireWeb para Windows e Linux.">
+  <meta property="og:title" content="Campfire Black Piano 1.1.0">
   <meta property="og:description" content="Mais do que conversar. Reúna-se ao redor da fogueira.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="./assets/screenshots/site-01-home.png">
+  <meta property="og:image" content="./assets/screenshots/current-home-r66615.png">
   <link rel="canonical" href="https://campfire-br.pages.dev/">
-  <title>Campfire Black Piano — Reúna-se ao redor da fogueira</title>
+  <title>Campfire Black Piano 1.1.0 — Reúna-se ao redor da fogueira</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='54'>🔥</text></svg>">
   <link rel="stylesheet" href="./styles.css">
   <script src="./config.js"></script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Campfire Black Piano","applicationCategory":"CommunicationApplication","operatingSystem":"Windows","softwareVersion":"1.0.0","author":{"@type":"Person","name":"Deivison Santos"}}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Campfire Black Piano","applicationCategory":"CommunicationApplication","operatingSystem":"Windows 10/11, Linux x86_64","softwareVersion":"1.1.0","author":{"@type":"Person","name":"Deivison Santos"}}
   </script>
 </head>
 <body>
@@ -25,145 +25,148 @@
   <div id="spark-layer" class="spark-layer" aria-hidden="true"></div>
 
   <header class="site-header" id="site-header">
-    <a class="brand" href="#top" aria-label="Campfire, início"><span class="brand-flame">🔥</span><span>CAMPFIRE</span></a>
+    <a class="brand" href="#top" aria-label="Campfire, início">
+      <span class="brand-flame">🔥</span>
+      <span class="brand-copy"><strong>Campfire</strong><small>BLACK PIANO</small></span>
+    </a>
     <nav aria-label="Navegação principal">
       <a href="#recursos">Recursos</a>
-      <a href="#voz">Voice Pro</a>
-      <a href="#screenshots">Screenshots</a>
-      <a href="#download">Download</a>
+      <a href="#campfireweb">CampfireWeb</a>
+      <a href="#interface">Interface</a>
+      <a href="#download">Downloads</a>
       <a data-github-link href="#">GitHub</a>
     </nav>
-    <a class="nav-download" data-download-link href="#download"><span>⊞</span> Baixar</a>
+    <a class="nav-download" data-download-link href="#download"><span aria-hidden="true">↓</span> Baixar</a>
   </header>
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-atmosphere" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">CAMPFIRE BLACK PIANO · 1.1.0</p>
+          <h1 id="hero-title">Sua conversa.<br><span>Sua fogueira.</span></h1>
+          <p class="tagline">Chat, voz, vídeo e momentos compartilhados em uma interface escura, limpa e feita para deixar a comunidade no centro.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" data-download-link href="#download"><span aria-hidden="true">↓</span> Baixar Campfire</a>
+            <a class="button button-ghost" href="#campfireweb"><span aria-hidden="true">◎</span> Conhecer CampfireWeb</a>
+          </div>
+          <div class="hero-status" aria-label="Plataformas suportadas">
+            <span><i></i> Windows 10/11</span>
+            <span><i></i> Linux x86_64</span>
+            <span><i></i> Web</span>
+          </div>
+        </div>
 
-      <div class="hero-copy reveal">
-        <p class="eyebrow">CAMPFIRE BLACK PIANO · 1.0.0</p>
-        <h1 id="hero-title">CAMPFIRE</h1>
-        <p class="tagline">Mais do que conversar. <strong>Reúna-se ao redor da fogueira.</strong></p>
-        <p class="feed-hint"><span>✦</span> Clique em qualquer lugar e alimente o fogo</p>
-        <div class="hero-actions">
-          <a class="button button-primary" data-download-link href="#download"><span aria-hidden="true">⊞</span> Baixar para Windows</a>
-          <a class="button button-ghost" data-github-link href="#"><span aria-hidden="true">◉</span> Ver no GitHub</a>
+        <div class="hero-fire reveal">
+          <div class="fire-stage fire-stage-v3" id="fire-stage" aria-label="Fogueira hiper-realista interativa">
+            <div class="fire-aura" aria-hidden="true"></div>
+            <img class="fire-base" id="fire-base" src="./assets/fire/campfire-base-hyperreal.webp" alt="Toras, brasas e cinzas hiper-realistas da fogueira do Campfire" draggable="false">
+            <video class="real-fire-video" id="real-fire-video" autoplay muted loop playsinline preload="auto" aria-label="Chamas reais em movimento">
+              <source src="./assets/fire/real-fire-alpha.webm" type="video/webm">
+            </video>
+            <div class="fire-apex-name" id="fire-apex-name" aria-hidden="true">CAMPFIRE</div>
+            <div class="fire-reflection" aria-hidden="true"></div>
+          </div>
+          <p class="feed-hint"><span>✦</span> Clique fora dos controles e alimente o fogo</p>
         </div>
       </div>
 
-      <div class="fire-stage fire-stage-v3" id="fire-stage" aria-label="Fogueira hiper-realista interativa">
-        <div class="fire-aura" aria-hidden="true"></div>
-        <img class="fire-base" id="fire-base" src="./assets/fire/campfire-base-hyperreal.webp" alt="Toras, brasas e cinzas hiper-realistas da fogueira do Campfire" draggable="false">
-        <video class="real-fire-video" id="real-fire-video" autoplay muted loop playsinline preload="auto" aria-label="Chamas reais em movimento">
-          <source src="./assets/fire/real-fire-alpha.webm" type="video/webm">
-        </video>
-        <div class="fire-apex-name" id="fire-apex-name" aria-hidden="true">CAMPFIRE</div>
-        <div class="fire-reflection" aria-hidden="true"></div>
-      </div>
-
-      <button class="floating-shot floating-left-top" type="button" data-preview-src="./assets/screenshots/site-01-home.png" data-preview="Tela principal do Campfire">
-        <img src="./assets/screenshots/site-01-home.png" alt="Tela principal do Campfire">
-        <span>Comunidade em um só lugar</span>
-      </button>
-      <button class="floating-shot floating-left-bottom" type="button" data-preview-src="./assets/screenshots/site-07-idioma-escala.png" data-preview="Configurações de aparência e idioma">
-        <img src="./assets/screenshots/site-07-idioma-escala.png" alt="Configurações de aparência e idioma">
-        <span>Do seu jeito</span>
-      </button>
-      <button class="floating-shot floating-right-top" type="button" data-preview-src="./assets/screenshots/site-10-voz-video.png" data-preview="Campfire Voice Pro">
-        <img src="./assets/screenshots/site-10-voz-video.png" alt="Campfire Voice Pro">
-        <span>Voz clara e estável</span>
-      </button>
-      <button class="floating-shot floating-right-bottom" type="button" data-preview-src="./assets/screenshots/site-08-animes.png" data-preview="Área de Animes">
-        <img src="./assets/screenshots/site-08-animes.png" alt="Área de Animes do Campfire">
-        <span>Assista junto</span>
-      </button>
-
-      <div class="hero-feature-strip reveal">
-        <article><i>◉</i><div><strong>Reúna-se</strong><span>Chat, amizades e Campfires.</span></div></article>
-        <article><i>▣</i><div><strong>Assista juntos</strong><span>Tela, mídia e Watch Together.</span></div></article>
-        <article><i>◍</i><div><strong>Voice Pro</strong><span>Voz limpa, forte ou Studio / Hi-Fi.</span></div></article>
-        <article><i>◇</i><div><strong>Feito para comunidades</strong><span>Presença, cargos e controle.</span></div></article>
-      </div>
-
-      <a class="discover-link" href="#recursos"><span>DESCUBRA MAIS</span><b>↓</b></a>
-    </section>
-
-    <section class="section section-editorial" id="recursos">
-      <div class="section-number">01 / RECURSOS</div>
-      <div class="section-title-row reveal">
-        <h2>Uma fogueira<br>para <em>tudo.</em></h2>
-        <p>O Campfire une conversa, presença, mídia e comunidade em uma experiência desktop que não parece um site embrulhado em uma janela.</p>
-      </div>
-      <div class="editorial-grid">
-        <article class="editorial-card wide reveal">
-          <div class="copy"><span>CHAT &amp; CAMPFIRES</span><h3>Entre. Converse. Fique.</h3><p>Campfires organizam pessoas, mensagens, liderança e presença sem transformar a comunidade em uma pilha de menus.</p></div>
-          <button class="shot-frame" data-preview-src="./assets/screenshots/site-01-home.png" data-preview="Tela principal"><img src="./assets/screenshots/site-01-home.png" alt="Tela principal do Campfire" loading="lazy"></button>
-        </article>
-        <article class="editorial-card reveal">
-          <button class="shot-frame" data-preview-src="./assets/screenshots/site-05-criar-campfire.png" data-preview="Criar Campfire"><img src="./assets/screenshots/site-05-criar-campfire.png" alt="Criação de uma Campfire" loading="lazy"></button>
-          <div class="copy"><span>SEU ESPAÇO</span><h3>Crie a sua Campfire.</h3><p>Privada, entre amigos ou por convite — você decide quem se aproxima da fogueira.</p></div>
-        </article>
-        <article class="editorial-card reveal">
-          <button class="shot-frame" data-preview-src="./assets/screenshots/site-09-tela-compartilhamento.png" data-preview="Compartilhamento de tela"><img src="./assets/screenshots/site-09-tela-compartilhamento.png" alt="Compartilhamento de tela" loading="lazy"></button>
-          <div class="copy"><span>TELA &amp; WATCH TOGETHER</span><h3>Compartilhe o momento.</h3><p>Transmita tela e mídia para que cada participante escolha quando quer assistir junto.</p></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section voice-section" id="voz">
-      <div class="voice-glow" aria-hidden="true"></div>
-      <div class="section-number">02 / VOICE PRO</div>
-      <div class="voice-layout">
-        <div class="voice-copy reveal">
-          <p class="eyebrow">CAMPFIRE VOICE PRO</p>
-          <h2>Ouça a pessoa.<br><em>Não o ruído.</em></h2>
-          <p>Perfis de voz pensados para conversar, suprimir ruído e preservar música com controles claros de microfone, retorno e dispositivo.</p>
-          <div class="voice-pills"><span>Voz limpa</span><span>Supressão forte</span><span>Studio / Hi-Fi</span><span>Deafen</span></div>
+      <div class="product-window reveal" aria-label="Prévia da interface atual do Campfire">
+        <div class="product-window-topbar">
+          <div class="mini-brand"><span>🔥</span><strong>Campfire</strong></div>
+          <div class="mini-nav"><span class="active">⌂ Início</span><span>Explorar</span><span>Biblioteca</span><span>Criar</span></div>
+          <div class="mini-account"><i></i><strong>@blackbeard</strong></div>
         </div>
-        <button class="voice-shot reveal" data-preview-src="./assets/screenshots/site-10-voz-video.png" data-preview="Campfire Voice Pro">
-          <img src="./assets/screenshots/site-10-voz-video.png" alt="Voice Pro do Campfire" loading="lazy">
+        <button class="product-window-shot" type="button" data-preview-src="./assets/screenshots/current-home-r66615.png" data-preview="Campfire R6.6.6.15 — Home atual">
+          <img src="./assets/screenshots/current-home-r66615.png" alt="Interface atual do Campfire R6.6.6.15 na tela Home">
         </button>
       </div>
     </section>
 
-    <section class="section anime-section">
-      <div class="section-number">03 / ASSISTA JUNTO</div>
-      <div class="anime-layout">
-        <button class="anime-shot reveal" data-preview-src="./assets/screenshots/site-08-animes.png" data-preview="Área de Animes"><img src="./assets/screenshots/site-08-animes.png" alt="Área de Animes do Campfire" loading="lazy"></button>
-        <div class="anime-copy reveal"><h2>De uma mensagem<br>para uma <em>experiência.</em></h2><p>Navegue por fontes integradas, abra conteúdo e mantenha o encontro dentro da mesma Campfire.</p><a href="#screenshots">Ver todas as telas →</a></div>
+    <section class="section" id="recursos">
+      <div class="section-kicker"><span>01</span> O CAMPFIRE ATUAL</div>
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">SIMPLE DARK</p><h2>O mesmo visual que você usa no desktop.</h2></div>
+        <p>A versão 1.1.0 preserva a aparência atual da R6.6.6.15: fundo quase preto, painéis discretos, bordas finas, acentos teal para presença e âmbar apenas onde a fogueira pede atenção.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal"><span class="feature-icon">◌</span><h3>Conversa e presença</h3><p>Campfires, amigos, participantes e mensagens organizados sem poluir a área central.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">◉</span><h3>Voz e vídeo</h3><p>LiveKit, Voice Pro, microfone, câmera, deafen e controles de volume dentro da mesma experiência.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">▣</span><h3>Tela e Animes</h3><p>Compartilhamento, janelas destacáveis e Watch Together sem abandonar a Campfire.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">⌛</span><h3>Campfires temporárias</h3><p>Quando todos saem, o countdown de cinco minutos permite rejoin antes da limpeza automática.</p></article>
       </div>
     </section>
 
-    <section class="section screenshots-section" id="screenshots">
-      <div class="section-number">04 / SCREENSHOTS</div>
-      <div class="section-title-row reveal"><h2>O Campfire<br><em>por dentro.</em></h2><p>Doze capturas reais da interface: menus, amigos, criação de salas, configurações, áudio, compartilhamento e muito mais.</p></div>
-      <div class="screens-grid">
-        <button data-preview-src="./assets/screenshots/site-01-home.png" data-preview="Tela principal"><img src="./assets/screenshots/site-01-home.png" alt="Tela principal" loading="lazy"><span>01 · Home</span></button>
-        <button data-preview-src="./assets/screenshots/site-02-menu-arquivo.png" data-preview="Menu Arquivo"><img src="./assets/screenshots/site-02-menu-arquivo.png" alt="Menu Arquivo" loading="lazy"><span>02 · Arquivo</span></button>
-        <button data-preview-src="./assets/screenshots/site-03-menu-contatos.png" data-preview="Menu Contatos"><img src="./assets/screenshots/site-03-menu-contatos.png" alt="Menu Contatos" loading="lazy"><span>03 · Contatos</span></button>
-        <button data-preview-src="./assets/screenshots/site-04-amigos.png" data-preview="Amigos"><img src="./assets/screenshots/site-04-amigos.png" alt="Amigos" loading="lazy"><span>04 · Amigos</span></button>
-        <button data-preview-src="./assets/screenshots/site-05-criar-campfire.png" data-preview="Criar Campfire"><img src="./assets/screenshots/site-05-criar-campfire.png" alt="Criar Campfire" loading="lazy"><span>05 · Criar Campfire</span></button>
-        <button data-preview-src="./assets/screenshots/site-06-configuracoes.png" data-preview="Configurações"><img src="./assets/screenshots/site-06-configuracoes.png" alt="Configurações" loading="lazy"><span>06 · Configurações</span></button>
-        <button data-preview-src="./assets/screenshots/site-07-idioma-escala.png" data-preview="Idioma e escala"><img src="./assets/screenshots/site-07-idioma-escala.png" alt="Idioma e escala" loading="lazy"><span>07 · Aparência</span></button>
-        <button data-preview-src="./assets/screenshots/site-08-animes.png" data-preview="Animes"><img src="./assets/screenshots/site-08-animes.png" alt="Animes" loading="lazy"><span>08 · Animes</span></button>
-        <button data-preview-src="./assets/screenshots/site-09-tela-compartilhamento.png" data-preview="Compartilhamento"><img src="./assets/screenshots/site-09-tela-compartilhamento.png" alt="Compartilhamento" loading="lazy"><span>09 · Tela</span></button>
-        <button data-preview-src="./assets/screenshots/site-10-voz-video.png" data-preview="Voz e vídeo"><img src="./assets/screenshots/site-10-voz-video.png" alt="Voz e vídeo" loading="lazy"><span>10 · Voz</span></button>
-        <button data-preview-src="./assets/screenshots/site-11-fechamento.png" data-preview="Fechamento"><img src="./assets/screenshots/site-11-fechamento.png" alt="Fechamento" loading="lazy"><span>11 · Fechamento</span></button>
-        <button data-preview-src="./assets/screenshots/site-12-sobre.png" data-preview="Sobre"><img src="./assets/screenshots/site-12-sobre.png" alt="Sobre o Campfire" loading="lazy"><span>12 · Sobre</span></button>
+    <section class="section web-section" id="campfireweb">
+      <div class="section-kicker"><span>02</span> CAMPFIREWEB</div>
+      <div class="web-layout">
+        <div class="web-copy reveal">
+          <p class="eyebrow">MESMA IDENTIDADE · OUTRO AMBIENTE</p>
+          <h2>O Campfire também vive no navegador.</h2>
+          <p>CampfireWeb compartilha o mesmo shell Simple Dark, os mesmos painéis e a mesma hierarquia visual. Recursos exclusivos do Electron usam equivalentes apropriados ao navegador em vez de imitar janelas nativas.</p>
+          <div class="web-pills"><span>Responsivo</span><span>PWA</span><span>Supabase</span><span>LiveKit</span></div>
+          <a class="button button-ghost" data-campfireweb-link href="#campfireweb">CampfireWeb estará disponível aqui</a>
+        </div>
+        <button class="current-shot reveal" type="button" data-preview-src="./assets/screenshots/current-call-r66615.png" data-preview="Campfire R6.6.6.15 — chamada atual">
+          <img src="./assets/screenshots/current-call-r66615.png" alt="Visual atual da chamada do Campfire R6.6.6.15" loading="lazy">
+          <span><b>Conversa · Animes · Tela · Participantes</b><small>Estrutura que orienta também o CampfireWeb.</small></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section interface-section" id="interface">
+      <div class="section-kicker"><span>03</span> INTERFACE</div>
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">R6.6.6.15</p><h2>Três estados. Uma única linguagem visual.</h2></div>
+        <p>Estas são as capturas de referência da versão que serve de base para a 1.1.0. Elas não são mockups: representam o visual que estamos preservando.</p>
+      </div>
+      <div class="current-gallery">
+        <button class="current-shot wide reveal" type="button" data-preview-src="./assets/screenshots/current-home-r66615.png" data-preview="Home atual do Campfire R6.6.6.15">
+          <img src="./assets/screenshots/current-home-r66615.png" alt="Home atual do Campfire" loading="lazy">
+          <span><b>Home</b><small>Campfires, IA, notícias e amigos.</small></span>
+        </button>
+        <button class="current-shot reveal" type="button" data-preview-src="./assets/screenshots/current-call-r66615.png" data-preview="Chamada atual do Campfire R6.6.6.15">
+          <img src="./assets/screenshots/current-call-r66615.png" alt="Chamada atual do Campfire" loading="lazy">
+          <span><b>Call</b><small>Palco, participantes e controles.</small></span>
+        </button>
+        <button class="current-shot reveal" type="button" data-preview-src="./assets/screenshots/current-countdown-r66615.png" data-preview="Countdown e Rejoin do Campfire R6.6.6.15">
+          <img src="./assets/screenshots/current-countdown-r66615.png" alt="Countdown para apagar Campfire vazia" loading="lazy">
+          <span><b>Countdown / Rejoin</b><small>Última chance antes da fogueira apagar.</small></span>
+        </button>
       </div>
     </section>
 
     <section class="section download-section" id="download">
-      <div class="download-fire" aria-hidden="true">🔥</div>
-      <p class="eyebrow">CAMPFIRE BLACK PIANO 1.0.0</p>
-      <h2>Acenda a sua<br><em>própria fogueira.</em></h2>
-      <p>Versão para Windows. Sem assinatura paga, sem interface genérica, feita para reunir pessoas.</p>
-      <div class="hero-actions"><a class="button button-primary" data-download-link href="#"><span>⊞</span> Baixar para Windows</a><a class="button button-ghost" data-github-link href="#">Ver código no GitHub</a></div>
-      <small>Windows · Release 1.0.0 · Criado e desenvolvido por Deivison Santos / @devsaex</small>
+      <div class="download-heading reveal">
+        <div class="download-fire" aria-hidden="true">🔥</div>
+        <p class="eyebrow">CAMPFIRE BLACK PIANO · 1.1.0</p>
+        <h2>Escolha como entrar na fogueira.</h2>
+        <p>O site destaca a opção mais provável para o seu sistema, mas nunca esconde os outros formatos.</p>
+      </div>
+      <div class="download-grid" aria-label="Downloads do Campfire 1.1.0">
+        <a class="download-card" data-download-kind="windowsSetup" href="#">
+          <span class="platform-icon">⊞</span><div><small>WINDOWS · x64</small><h3>Windows Setup</h3><p>Instalador NSIS com atalhos e escolha de pasta.</p></div><b>Baixar ↓</b><em class="recommendation-label" aria-hidden="true"></em>
+        </a>
+        <a class="download-card" data-download-kind="windowsPortable" href="#">
+          <span class="platform-icon">⊞</span><div><small>WINDOWS · x64</small><h3>Windows Portable</h3><p>Executável portátil, sem instalação tradicional.</p></div><b>Baixar ↓</b><em class="recommendation-label" aria-hidden="true"></em>
+        </a>
+        <a class="download-card" data-download-kind="linuxRpm" href="#">
+          <span class="platform-icon">◆</span><div><small>LINUX · x86_64</small><h3>Linux RPM</h3><p>Pacote principal para RHEL, Red Hat, Rocky, Alma e Fedora.</p></div><b>Baixar ↓</b><em class="recommendation-label" aria-hidden="true"></em>
+        </a>
+        <a class="download-card" data-download-kind="linuxAppImage" href="#">
+          <span class="platform-icon">◇</span><div><small>LINUX · x86_64</small><h3>Linux AppImage</h3><p>Alternativa portátil para distribuições Linux compatíveis.</p></div><b>Baixar ↓</b><em class="recommendation-label" aria-hidden="true"></em>
+        </a>
+      </div>
+      <div class="release-links reveal"><a data-github-link href="#">Código no GitHub</a><a data-release-link href="#">Notas e arquivos da release</a></div>
+      <small class="release-note">Release 1.1.0 · Criado e desenvolvido por Deivison Santos / @devsaex</small>
     </section>
   </main>
 
-  <footer id="about"><a class="brand" href="#top"><span class="brand-flame">🔥</span><span>CAMPFIRE</span></a><p>Mais do que conversar. Reúna-se ao redor da fogueira.</p><p>© 2026 Deivison Santos / @devsaex</p></footer>
+  <footer id="about">
+    <a class="brand" href="#top"><span class="brand-flame">🔥</span><span class="brand-copy"><strong>Campfire</strong><small>BLACK PIANO</small></span></a>
+    <p>Mais do que conversar. Reúna-se ao redor da fogueira.</p>
+    <p>© 2026 Deivison Santos / @devsaex</p>
+  </footer>
 
   <dialog id="preview-dialog" class="preview-dialog">
     <button class="dialog-close" type="button" aria-label="Fechar">×</button>

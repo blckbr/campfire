@@ -22,15 +22,27 @@ export type CampfireMicrophoneTestController = {
   listening: boolean;
   monitorSource: CampfireMicrophoneMonitorSource;
   rnnoiseActive: boolean;
+  processedStream: MediaStream | null;
   error: string;
   start(): Promise<void>;
   stop(): Promise<void>;
   setListening(enabled: boolean): void;
   setMonitorSource(source: CampfireMicrophoneMonitorSource): void;
+  getProcessedStream(): MediaStream | null;
 };
 
+function isUnavailableSelectedMicrophone(error: unknown): boolean {
+  return (
+    error instanceof DOMException &&
+    (error.name === "NotFoundError" ||
+      error.name === "OverconstrainedError")
+  );
+}
+
 export function useCampfireMicrophoneTest(
-  settings: CampfireMediaSettings
+  settings: CampfireMediaSettings,
+  outgoingVolume = 100,
+  monitorVolume = 100
 ): CampfireMicrophoneTestController {
   const [testing, setTesting] = useState(false);
   const [originalLevel, setOriginalLevel] = useState(0);
@@ -39,18 +51,28 @@ export function useCampfireMicrophoneTest(
   const [monitorSource, setMonitorSourceState] =
     useState<CampfireMicrophoneMonitorSource>("processed");
   const [rnnoiseActive, setRnnoiseActive] = useState(false);
+  const [processedStream, setProcessedStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState("");
 
+  const settingsSignature = JSON.stringify([
+    settings.audioInputId,
+    settings.voiceProfile,
+    settings.echoCancellation,
+    settings.nativeNoiseSuppression,
+    settings.autoGainControl,
+    settings.gateMode,
+    settings.gateSensitivity,
+  ]);
   const settingsRef = useRef(settings);
+  const settingsSignatureRef = useRef(settingsSignature);
+  const activeSettingsSignatureRef = useRef("");
+  settingsRef.current = settings;
+  settingsSignatureRef.current = settingsSignature;
   const pipelineRef = useRef<CampfireVoicePipeline | null>(null);
   const meterFrameRef = useRef(0);
   const listeningRef = useRef(false);
   const monitorSourceRef =
     useRef<CampfireMicrophoneMonitorSource>("processed");
-
-  useEffect(() => {
-    settingsRef.current = settings;
-  }, [settings]);
 
   const stop = useCallback(async () => {
     if (meterFrameRef.current) {
@@ -64,6 +86,7 @@ export function useCampfireMicrophoneTest(
     setOriginalLevel(0);
     setProcessedLevel(0);
     setRnnoiseActive(false);
+    setProcessedStream(null);
     setTesting(false);
   }, []);
 
@@ -72,18 +95,43 @@ export function useCampfireMicrophoneTest(
     setError("");
 
     try {
-      const pipeline = await createCampfireVoicePipeline({
-        settings: settingsRef.current,
-        outgoingVolume: 100,
-        monitorEnabled: listeningRef.current,
-        monitorVolume: 100,
-      });
+      activeSettingsSignatureRef.current = settingsSignatureRef.current;
+      const requestedSettings = settingsRef.current;
+      let pipeline: CampfireVoicePipeline;
+      try {
+        pipeline = await createCampfireVoicePipeline({
+          settings: requestedSettings,
+          outgoingVolume,
+          monitorEnabled: listeningRef.current,
+          monitorVolume,
+        });
+      } catch (pipelineError) {
+        if (
+          !requestedSettings.audioInputId ||
+          !isUnavailableSelectedMicrophone(pipelineError)
+        ) {
+          throw pipelineError;
+        }
+
+        // Um ID salvo pode deixar de existir após trocar/desconectar um headset.
+        // Nesse caso, recupere o microfone padrão em vez de deixar o teste morto.
+        pipeline = await createCampfireVoicePipeline({
+          settings: {
+            ...requestedSettings,
+            audioInputId: "",
+          },
+          outgoingVolume,
+          monitorEnabled: listeningRef.current,
+          monitorVolume,
+        });
+      }
       pipeline.setMonitor(
         listeningRef.current,
-        100,
+        monitorVolume,
         monitorSourceRef.current
       );
       pipelineRef.current = pipeline;
+      setProcessedStream(new MediaStream([pipeline.processedTrack]));
       setRnnoiseActive(pipeline.rnnoiseActive);
       setTesting(true);
 
@@ -117,17 +165,24 @@ export function useCampfireMicrophoneTest(
       await stop();
       throw startError;
     }
-  }, [stop]);
+  }, [monitorVolume, outgoingVolume, stop]);
+
+  useEffect(() => {
+    if (!pipelineRef.current) return;
+    if (activeSettingsSignatureRef.current === settingsSignature) return;
+    activeSettingsSignatureRef.current = settingsSignature;
+    void start().catch(() => undefined);
+  }, [settingsSignature, start]);
 
   const setListening = useCallback((enabled: boolean) => {
     listeningRef.current = enabled;
     setListeningState(enabled);
     pipelineRef.current?.setMonitor(
       enabled,
-      100,
+      monitorVolume,
       monitorSourceRef.current
     );
-  }, []);
+  }, [monitorVolume]);
 
   const setMonitorSource = useCallback(
     (source: CampfireMicrophoneMonitorSource) => {
@@ -135,12 +190,29 @@ export function useCampfireMicrophoneTest(
       setMonitorSourceState(source);
       pipelineRef.current?.setMonitor(
         listeningRef.current,
-        100,
+        monitorVolume,
         source
       );
     },
-    []
+    [monitorVolume]
   );
+
+  useEffect(() => {
+    pipelineRef.current?.setOutgoingVolume(outgoingVolume);
+  }, [outgoingVolume]);
+
+  useEffect(() => {
+    pipelineRef.current?.setMonitor(
+      listeningRef.current,
+      monitorVolume,
+      monitorSourceRef.current
+    );
+  }, [monitorVolume]);
+
+  const getProcessedStream = useCallback(() => {
+    const track = pipelineRef.current?.processedTrack;
+    return track ? new MediaStream([track]) : null;
+  }, []);
 
   useEffect(() => () => {
     if (meterFrameRef.current) {
@@ -157,10 +229,12 @@ export function useCampfireMicrophoneTest(
     listening,
     monitorSource,
     rnnoiseActive,
+    processedStream,
     error,
     start,
     stop,
     setListening,
     setMonitorSource,
+    getProcessedStream,
   };
 }

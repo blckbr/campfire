@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Room, RoomEvent, Track, type LocalTrackPublication, type RemoteTrack } from "livekit-client";
 import { supabase } from "./lib/supabase";
 import { requestCampfireMediaToken } from "./media/livekitToken";
+import { campfireConnectionId } from "./web/platform";
 
 export type CampfireScreenSession = {
   id: string;
@@ -50,6 +51,9 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
   const publicationsRef = useRef<LocalTrackPublication[]>([]);
   const activeSessionRef = useRef<CampfireScreenSession | null>(null);
   const currentUserIdRef = useRef<string | null>(null);
+  const leaseHeartbeatRef = useRef<number | null>(null);
+  const leasePurposeRef = useRef<"screen" | "watch" | null>(null);
+  const mediaConnectionIdRef = useRef(campfireConnectionId());
 
   useEffect(() => { activeSessionRef.current = activeSession; }, [activeSession]);
   useEffect(() => { currentUserIdRef.current = currentUserId; }, [currentUserId]);
@@ -88,11 +92,24 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
   }, [campfireId, refreshSession]);
 
   const closeRoom = useCallback(() => {
+    if (leaseHeartbeatRef.current !== null) {
+      window.clearInterval(leaseHeartbeatRef.current);
+      leaseHeartbeatRef.current = null;
+    }
+    const leasePurpose = leasePurposeRef.current;
+    leasePurposeRef.current = null;
+    if (leasePurpose) {
+      void supabase.rpc("release_campfire_media_lease", {
+        p_campfire_id: campfireId,
+        p_purpose: leasePurpose,
+        p_connection_id: mediaConnectionIdRef.current,
+      });
+    }
     const room = roomRef.current; roomRef.current = null;
     if (room) room.disconnect();
     publicationsRef.current = [];
     setRemoteStream(null); setViewerCount(0); setViewerState("idle");
-  }, []);
+  }, [campfireId]);
 
   const addRemoteTrack = useCallback((track: RemoteTrack) => {
     setRemoteStream((current) => {
@@ -103,9 +120,9 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
     setViewerState("connected");
   }, []);
 
-  const connectRoom = useCallback(async (purpose: "screen" | "watch") => {
+  const connectRoom = useCallback(async (purpose: "screen" | "watch", publishing: boolean) => {
     closeRoom();
-    const credentials = await requestCampfireMediaToken({ campfireId, purpose });
+    const credentials = await requestCampfireMediaToken({ campfireId, purpose, publishing });
     const room = new Room({ adaptiveStream: true, dynacast: true, disconnectOnPageLeave: true });
     roomRef.current = room;
     room.on(RoomEvent.TrackSubscribed, (track) => addRemoteTrack(track));
@@ -118,6 +135,16 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
     room.on(RoomEvent.Reconnected, () => setViewerState("connected"));
     room.on(RoomEvent.Disconnected, () => setViewerState("disconnected"));
     await room.connect(credentials.url, credentials.token);
+    if (publishing && credentials.publishingLease) {
+      leasePurposeRef.current = purpose;
+      leaseHeartbeatRef.current = window.setInterval(() => {
+        void supabase.rpc("refresh_campfire_media_lease", {
+          p_campfire_id: campfireId,
+          p_purpose: purpose,
+          p_connection_id: mediaConnectionIdRef.current,
+        });
+      }, 60_000);
+    }
     setViewerCount(room.remoteParticipants.size);
     return room;
   }, [addRemoteTrack, campfireId, closeRoom]);
@@ -132,7 +159,7 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
       });
       if (rpcError) throw rpcError;
       if (typeof data !== "string") throw new Error("O banco não retornou o ID da transmissão.");
-      const room = await connectRoom(purpose);
+      const room = await connectRoom(purpose, true);
       for (const track of stream.getTracks()) {
         const source = track.kind === "audio" ? Track.Source.ScreenShareAudio : Track.Source.ScreenShare;
         const publication = await room.localParticipant.publishTrack(track, { source, simulcast: track.kind === "video" } as never);
@@ -160,7 +187,7 @@ export function useCampfireLiveKitBroadcast(campfireId: string) {
     if (session.hostId === userId) return { ok: false, message: "Você é o apresentador." };
     try {
       setViewerState("connecting");
-      await connectRoom(session.sessionType === "watch" ? "watch" : "screen");
+      await connectRoom(session.sessionType === "watch" ? "watch" : "screen", false);
       return { ok: true, message: "Conectado à transmissão SFU." };
     } catch (joinError) { setViewerState("failed"); return { ok: false, message: errorMessage(joinError) }; }
   }

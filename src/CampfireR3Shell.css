@@ -1,0 +1,454 @@
+/* ============================================================
+   CAMPFIRE R3 — cinematic shell / compact room controls
+   ============================================================ */
+
+.blackPianoTheme {
+  --cf-top-menu-height: 30px;
+  --cf-topbar-height: 54px;
+  --cf-right-rail-width: 308px;
+}
+
+/* Main menus: always above app/native surfaces and animate like a roll blind. */
+.blackPianoTheme .blackPianoMenuBar {
+  display: flex !important;
+  position: relative !important;
+  z-index: 30000 !important;
+  height: var(--cf-top-menu-height) !important;
+  min-height: var(--cf-top-menu-height) !important;
+  align-items: stretch !important;
+  gap: 2px !important;
+  padding: 0 10px !important;
+  overflow: visible !important;
+  border-bottom: 1px solid rgba(255,255,255,.07) !important;
+  background: linear-gradient(180deg,rgba(23,27,32,.99),rgba(9,11,14,.99)) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.22) !important;
+}
+.blackPianoTheme .blackPianoMenuButton {
+  min-height: var(--cf-top-menu-height) !important;
+  padding: 0 11px !important;
+  color: #dce2e7 !important;
+  font-size: 12px !important;
+  border-radius: 0 !important;
+}
+.blackPianoTheme .blackPianoMenuButton:hover,
+.blackPianoTheme .blackPianoMenuButton[aria-expanded="true"] {
+  color: #fff !important;
+  background: color-mix(in srgb,var(--cf-accent,#7ce4b9) 9%,transparent) !important;
+  box-shadow: inset 0 -2px 0 var(--cf-accent,#7ce4b9) !important;
+}
+.blackPianoMenuDropdown {
+  z-index: 30020 !important;
+  min-width: 252px !important;
+  border-radius: 0 0 13px 13px !important;
+  border-color: color-mix(in srgb,var(--cf-accent,#7ce4b9) 18%,rgba(255,255,255,.12)) !important;
+  background: rgba(11,15,20,.985) !important;
+  backdrop-filter: blur(26px) saturate(125%) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,.62),0 0 32px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.18)) 46%,transparent) !important;
+  transform-origin: top center;
+  animation: campfireRollDown .18s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes campfireRollDown {
+  from { opacity: 0; transform: scaleY(.12) translateY(-5px); clip-path: inset(0 0 88% 0 round 0 0 13px 13px); }
+  to   { opacity: 1; transform: scaleY(1) translateY(0); clip-path: inset(0 0 0 0 round 0 0 13px 13px); }
+}
+
+/* Header + available viewport. */
+.blackPianoTheme .topbar {
+  height: var(--cf-topbar-height) !important;
+  min-height: var(--cf-topbar-height) !important;
+  padding: 6px 14px !important;
+  background: linear-gradient(180deg,rgba(17,21,26,.99),rgba(8,11,15,.99)) !important;
+  border-bottom: 1px solid rgba(255,255,255,.06) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.24) !important;
+}
+.blackPianoTheme .main {
+  height: calc(100vh - var(--cf-top-menu-height) - var(--cf-topbar-height)) !important;
+}
+.blackPianoTheme footer { display: none !important; }
+
+/* Global overlay law: interactive UI must sit in front. */
+.blackPianoTheme .modalOverlay,
+.blackPianoTheme .campfireThemePopover,
+.blackPianoTheme .campfireUnifiedMenu,
+.blackPianoTheme .cfUserContextMenu,
+.blackPianoTheme .cfUserContextSubmenu,
+.blackPianoTheme .friendsModalOverlay,
+.blackPianoTheme .campfireSettingsOverlay {
+  z-index: 30050 !important;
+}
+
+/* Home: image-first, rich cards, friends rail. */
+.campfireHomeShell {
+  grid-template-columns: minmax(0,1fr) var(--cf-right-rail-width) !important;
+  background:
+    radial-gradient(circle at 42% -8%,color-mix(in srgb,var(--cf-accent,#7ce4b9) 9%,transparent),transparent 40%),
+    #070a0e !important;
+}
+.campfireHomeBeautiful {
+  padding: 16px 18px 28px !important;
+}
+.campfireHomeHero {
+  min-height: 338px !important;
+  border-radius: 20px !important;
+  border-color: rgba(255,255,255,.1) !important;
+  background-position: center 58% !important;
+  box-shadow: 0 26px 70px rgba(0,0,0,.4),0 0 44px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.18)) 45%,transparent) !important;
+}
+.campfireHomeHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,rgba(4,6,9,.88),rgba(4,6,9,.43) 48%,rgba(4,6,9,.08) 78%),
+    linear-gradient(180deg,rgba(4,6,9,.04),rgba(4,6,9,.3));
+  pointer-events: none;
+}
+.campfireHomeHeroCopy { position: relative; z-index: 2; }
+.campfireHomeCampfireGrid { grid-template-columns: repeat(auto-fit,minmax(205px,1fr)) !important; gap: 13px !important; }
+.campfireHomeCampfireImage,.campfireHomeSampleImage { aspect-ratio: 16/9 !important; }
+.campfireHomeFeatureStrip { margin-top: 18px !important; }
+.campfireHomeRightRail > .campfireRightRail { width: var(--cf-right-rail-width) !important; }
+
+/* Left rail keeps real images visible and dense. */
+.campfireLeftHero { height: 150px !important; min-height: 150px !important; }
+.campfireLeftCover { background-position: center !important; background-size: cover !important; }
+
+/* Internal Campfire = one call. */
+.campfireRoomShell {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) var(--cf-right-rail-width) !important;
+  grid-template-rows: 72px minmax(0,1fr) !important;
+  align-content: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 36% -8%,color-mix(in srgb,var(--cf-accent,#7ce4b9) 8%,transparent),transparent 38%),
+    #070a0e !important;
+}
+.campfireRoomShell > :not(.campfireRightRail) { grid-column: 1 !important; }
+.blackPianoTheme .campfireRoomHeader {
+  grid-row: 1 !important;
+  align-self: center !important;
+  margin: 10px 318px 8px 18px !important;
+  min-height: 54px !important;
+  padding: 10px 14px !important;
+  border-radius: 15px !important;
+  background: rgba(13,18,23,.83) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.2) !important;
+  z-index: 10 !important;
+}
+.blackPianoTheme .campfireRoomHeaderActions { display: none !important; }
+.blackPianoTheme .campfireRoomIdentityText h2 { margin: 0 0 4px !important; font-size: 18px !important; }
+.blackPianoTheme .campfireRoomIdentityText > div { font-size: 9px !important; }
+
+.campfireStage {
+  grid-row: 2 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1.72fr) minmax(250px,.82fr) !important;
+  grid-template-rows: minmax(260px,1fr) 150px !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 6px 18px 92px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+.campfireSpotlightCard,.campfireMoodCard,.campfireParticipantTile {
+  border-color: rgba(255,255,255,.095) !important;
+  background-color: #0d1217 !important;
+}
+.campfireSpotlightAvatar { width: 154px !important; height: 154px !important; }
+.campfireParticipantTileAvatar { width: 72px !important; height: 72px !important; }
+
+/* Compact controls: top-right, low visual noise. */
+.campfireQuickActions {
+  position: absolute;
+  z-index: 28;
+  top: 14px;
+  right: calc(var(--cf-right-rail-width) + 14px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 15px;
+  background: rgba(10,14,18,.72);
+  backdrop-filter: blur(20px) saturate(130%);
+  box-shadow: 0 12px 30px rgba(0,0,0,.28);
+}
+.campfireQuickActionButton {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 50%;
+  background: linear-gradient(180deg,#20262d,#151a20);
+  color: #dbe3e9;
+  cursor: pointer;
+  transition: transform .14s ease,border-color .14s ease,box-shadow .14s ease,background .14s ease;
+}
+.campfireQuickActionButton:hover:not(:disabled),.campfireQuickActionButton.active {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb,var(--cf-accent,#7ce4b9) 58%,transparent);
+  background: color-mix(in srgb,var(--cf-accent,#7ce4b9) 13%,#192027);
+  box-shadow: 0 0 20px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.2)) 66%,transparent);
+  color: #fff;
+}
+.campfireQuickActionButton.danger {
+  border-color: rgba(255,93,106,.36);
+  color: #ff8b96;
+}
+.campfireQuickActionBadge {
+  position: absolute;
+  right: -5px;
+  top: -6px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #0c1116;
+  border-radius: 999px;
+  background: #ff5c68;
+  color: #fff;
+  font: 800 8px/1 "Segoe UI",sans-serif;
+  box-shadow: 0 0 13px rgba(255,92,104,.46);
+}
+.campfireQuickActionLive {
+  position: absolute;
+  right: -7px;
+  bottom: -6px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: #ff5b68;
+  color: #fff;
+  font: 800 6px/1 "Segoe UI",sans-serif;
+}
+
+/* Chat / screen / Anime stay invisible until explicitly opened. */
+.campfireWorkspaceOverlay {
+  position: absolute;
+  z-index: 22;
+  top: 76px;
+  left: 18px;
+  right: calc(var(--cf-right-rail-width) + 18px);
+  bottom: 88px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px) scale(.995);
+  transition: opacity .16s ease,transform .16s ease;
+}
+.campfireWorkspaceOverlay.open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.campfireWorkspacePanel {
+  position: absolute;
+  inset: 0;
+  display: none;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 18px;
+  background: rgba(11,15,20,.985);
+  box-shadow: 0 24px 70px rgba(0,0,0,.5),0 0 32px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.16)) 40%,transparent);
+  backdrop-filter: blur(24px);
+}
+.campfireWorkspacePanel.active { display: flex; }
+.campfireWorkspaceChrome {
+  height: 42px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px 0 15px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  background: linear-gradient(180deg,#151b22,#0e1318);
+}
+.campfireWorkspaceChrome strong { color: #eaf0f4; font: 650 11px/1 "Segoe UI",sans-serif; }
+.campfireWorkspaceChrome button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 9px;
+  background: #171d23;
+  color: #9ea8b1;
+  cursor: pointer;
+}
+.campfireWorkspacePanel > .campfireChat,
+.campfireWorkspacePanel > .campfireScreenShare,
+.campfireWorkspacePanel > .animeBrowser {
+  flex: 1;
+  min-height: 0;
+}
+.blackPianoTheme .campfireTabs,.blackPianoTheme .campfireTabPanels { display: none !important; }
+
+/* Theme popup is never allowed behind video/native content. */
+.campfireThemePopover {
+  position: fixed !important;
+  z-index: 30060 !important;
+  top: calc(var(--cf-top-menu-height) + var(--cf-topbar-height) + 18px) !important;
+  right: calc(var(--cf-right-rail-width) + 18px) !important;
+  width: min(600px,calc(100vw - var(--cf-right-rail-width) - 340px)) !important;
+}
+
+/* Voice dock sits at the base-right of the room, not across the whole stage. */
+.campfireRoomShell > .campfireVoiceDock {
+  left: auto !important;
+  right: calc(var(--cf-right-rail-width) + 18px) !important;
+  bottom: 14px !important;
+  transform: none !important;
+  width: min(640px,calc(100% - var(--cf-right-rail-width) - 350px)) !important;
+  min-width: 520px !important;
+  z-index: 26 !important;
+}
+.campfireRoomShell > .campfireRightRail {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2 !important;
+  width: var(--cf-right-rail-width) !important;
+  z-index: 16 !important;
+}
+
+@media (max-width: 1220px) {
+  .blackPianoTheme { --cf-right-rail-width: 276px; }
+  .campfireQuickActions { right: calc(var(--cf-right-rail-width) + 10px); }
+  .campfireRoomShell > .campfireVoiceDock { right: calc(var(--cf-right-rail-width) + 12px) !important; width: min(580px,calc(100% - var(--cf-right-rail-width) - 300px)) !important; }
+  .campfireWorkspaceOverlay { right: calc(var(--cf-right-rail-width) + 12px); }
+}
+@media (max-width: 1050px) {
+  .campfireHomeShell,.campfireRoomShell { grid-template-columns: minmax(0,1fr) !important; }
+  .campfireHomeRightRail,.campfireRoomShell > .campfireRightRail { display: none !important; }
+  .blackPianoTheme .campfireRoomHeader { margin-right: 18px !important; }
+  .campfireQuickActions { right: 14px; }
+  .campfireWorkspaceOverlay { right: 18px; }
+  .campfireRoomShell > .campfireVoiceDock { right: 18px !important; width: min(640px,calc(100% - 36px)) !important; min-width: 0 !important; }
+}
+@media (max-width: 760px) {
+  .blackPianoTheme .blackPianoMenuBar { overflow-x: auto !important; }
+  .blackPianoTheme .main { height: calc(100vh - var(--cf-top-menu-height) - var(--cf-topbar-height)) !important; }
+  .campfireStage { grid-template-columns: 1fr !important; grid-template-rows: 260px auto !important; }
+  .campfireMoodCard { display: none !important; }
+  .campfireParticipantTiles { grid-column: 1 !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .campfireQuickActions { top: auto; bottom: 82px; left: 10px; right: 10px; justify-content: center; }
+  .campfireWorkspaceOverlay { top: 70px; left: 10px; right: 10px; bottom: 132px; }
+}
+
+/* Restore compact profile header; R2 hid it while the cinematic shell was being prototyped. */
+.blackPianoTheme .topbar { justify-content: space-between !important; }
+.blackPianoTheme .topbar .profile { display: flex !important; }
+.blackPianoTheme .topbar .campfireBrandBadge { display: none !important; }
+.blackPianoTheme .topbar .avatar { width: 38px !important; height: 38px !important; border-radius: 50% !important; }
+.blackPianoTheme .topbar .username { font-size: 13px !important; }
+.blackPianoTheme .topbar .status { font-size: 9px !important; }
+
+/* Every functional surface must outrank the room stage and native media surface. */
+.blackPianoTheme .campfireMembersOverlay,
+.blackPianoTheme .friendsModalOverlay,
+.blackPianoTheme .campfireSettingsOverlay,
+.blackPianoTheme .cfDmBackdrop,
+.blackPianoTheme .cfDirectCallOverlay,
+.blackPianoTheme .cfVerificationBackdrop,
+.blackPianoTheme .campfireUserProfileBackdrop,
+.blackPianoTheme .cfUserContextBackdrop,
+.blackPianoTheme .cfUserContextMenu {
+  z-index: 30100 !important;
+}
+
+/* Home inspiration: keeps the landing page cinematic even with only one or two real Campfires. */
+.campfireHomeInspirationSection {
+  margin-top: 18px;
+  padding: 15px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 18px;
+  background: linear-gradient(180deg,rgba(16,21,27,.88),rgba(9,13,18,.88));
+  box-shadow: 0 18px 44px rgba(0,0,0,.22);
+}
+.campfireHomeInspirationHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+.campfireHomeInspirationHeading h2 {
+  margin: 4px 0 0;
+  color: var(--cf-text,#f4f7f9);
+  font: 700 17px/1.2 "Segoe UI",sans-serif;
+}
+.campfireHomeInspirationHeading > small {
+  max-width: 330px;
+  color: var(--cf-muted,#8f98a2);
+  font: 500 10px/1.35 "Segoe UI",sans-serif;
+  text-align: right;
+}
+.campfireHomeInspirationRow {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 11px;
+}
+.campfireHomeInspirationCard {
+  position: relative;
+  min-height: 132px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  background: #0d1217;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+  box-shadow: 0 12px 26px rgba(0,0,0,.24);
+  transition: transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.campfireHomeInspirationCard:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb,var(--cf-accent,#7ce4b9) 52%,transparent);
+  box-shadow: 0 18px 34px rgba(0,0,0,.32),0 0 24px color-mix(in srgb,var(--cf-glow,rgba(124,228,185,.18)) 58%,transparent);
+}
+.campfireHomeInspirationImage,
+.campfireHomeInspirationShade {
+  position: absolute;
+  inset: 0;
+}
+.campfireHomeInspirationImage {
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  transform: scale(1.015);
+  transition: transform .28s ease;
+}
+.campfireHomeInspirationCard:hover .campfireHomeInspirationImage { transform: scale(1.055); }
+.campfireHomeInspirationShade {
+  z-index: -1;
+  background: linear-gradient(180deg,rgba(4,6,9,.04) 28%,rgba(4,6,9,.86) 100%);
+}
+.campfireHomeInspirationCopy {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.campfireHomeInspirationCopy strong { font: 700 12px/1.2 "Segoe UI",sans-serif; }
+.campfireHomeInspirationCopy small { color: #b7c0c8; font: 500 9px/1.2 "Segoe UI",sans-serif; }
+@media (max-width: 1180px) { .campfireHomeInspirationRow { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 680px) {
+  .campfireHomeInspirationHeading { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .campfireHomeInspirationHeading > small { text-align: left; }
+  .campfireHomeInspirationRow { grid-template-columns: 1fr; }
+}

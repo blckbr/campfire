@@ -8,6 +8,8 @@ import {
   supabase,
 } from "./lib/supabase";
 
+import { showCampfireNotification } from "./web/pwa";
+
 /*
  * ============================================================
  * FONTES DISPONÍVEIS NO CAMPFIRE
@@ -563,7 +565,7 @@ export function useCampfireChat(
               rpcError,
           } =
             await supabase.rpc(
-              "get_campfire_messages",
+              "get_campfire_web_messages",
               {
                 p_campfire_id:
                   campfireId,
@@ -800,7 +802,39 @@ export function useCampfireChat(
             filter:
               `campfire_id=eq.${campfireId}`,
           },
-          () => {
+          (payload) => {
+            if (document.hidden) {
+              const row = payload.new as { content?: unknown };
+              const body = typeof row.content === "string" ? row.content.slice(0, 140) : "Nova mensagem";
+              void showCampfireNotification("Nova mensagem no Campfire", { body });
+            }
+            void refresh(
+              true
+            );
+          }
+        )
+
+        .on(
+          "postgres_changes",
+          {
+            event:
+              "INSERT",
+
+            schema:
+              "public",
+
+            table:
+              "campfire_guest_messages",
+
+            filter:
+              `campfire_id=eq.${campfireId}`,
+          },
+          (payload) => {
+            if (document.hidden) {
+              const row = payload.new as { content?: unknown };
+              const body = typeof row.content === "string" ? row.content.slice(0, 140) : "Nova mensagem";
+              void showCampfireNotification("Nova mensagem no Campfire", { body });
+            }
             void refresh(
               true
             );

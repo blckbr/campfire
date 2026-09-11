@@ -26,6 +26,7 @@ import "./CampfireVoiceDock.css";
 
 type Props = {
   campfireId: string;
+  variant?: "dock" | "header";
   voice: CampfireVoiceController;
   members: CampfireMember[];
   currentUserId: string;
@@ -43,6 +44,31 @@ function memberName(
   return member?.username
     ? `@${member.username}`
     : "Usuário";
+}
+
+function voicePhaseLabel(phase: CampfireVoiceController["phase"]): string {
+  switch (phase) {
+    case "disconnected": return "Desconectado";
+    case "connecting": return "Conectando…";
+    case "connected-listener": return "Na voz • ouvindo";
+    case "publishing-microphone": return "Conectado • ativando microfone…";
+    case "connected-speaking": return "Na voz";
+    case "reconnecting": return "Reconectando…";
+    case "microphone-unavailable": return "Na voz • Microfone indisponível";
+    case "error": return "Erro de voz";
+  }
+}
+
+function voiceErrorLabel(code: CampfireVoiceController["errorCode"]): string {
+  switch (code) {
+    case "token": return "Falha de autenticação de voz";
+    case "network": return "Falha de rede de voz";
+    case "microphone-permission": return "Permissão de microfone negada";
+    case "microphone-device": return "Microfone indisponível";
+    case "playback-subscription": return "Falha ao reproduzir áudio remoto";
+    case "unknown": return "Erro de voz";
+    case null: return "";
+  }
 }
 
 function RemoteVideo({
@@ -89,6 +115,7 @@ function RemoteVideo({
 
 function CampfireVoiceDock({
   campfireId,
+  variant = "dock",
   voice,
   members,
   currentUserId,
@@ -100,6 +127,7 @@ function CampfireVoiceDock({
   const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
   const [moderatorTargetId, setModeratorTargetId] = useState<string | null>(null);
   const [localMediaRevision, setLocalMediaRevision] = useState(0);
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const moderation = useCampfireModeration(campfireId, memberSystem.isCurrentUserOwner);
   const contextTarget = contextTargetId
     ? members.find((member) => member.id === contextTargetId) ?? null
@@ -119,16 +147,6 @@ function CampfireVoiceDock({
     window.addEventListener(CAMPFIRE_USER_MEDIA_PREFERENCES_EVENT, handler);
     return () => window.removeEventListener(CAMPFIRE_USER_MEDIA_PREFERENCES_EVENT, handler);
   }, []);
-
-  async function join() {
-    const result = await voice.joinVoice();
-    setActionMessage(result.message);
-  }
-
-  async function leave() {
-    const result = await voice.leaveVoice();
-    setActionMessage(result.message);
-  }
 
   async function camera() {
     const result = await voice.toggleCamera();
@@ -154,11 +172,8 @@ function CampfireVoiceDock({
         ? "Studio / Hi-Fi"
         : "Voz limpa • Supressão nativa";
 
-  const connectionStatus = voice.reconnecting
-    ? "Reconectando"
-    : voice.signalingReady
-      ? "Conectada"
-      : "Conectando";
+  const connectionStatus = voicePhaseLabel(voice.phase);
+  const diagnosticStatus = voiceErrorLabel(voice.errorCode);
 
   const remoteVideoEntries = Object.entries(
     voice.remoteStreams as Record<string, MediaStream>
@@ -176,11 +191,12 @@ function CampfireVoiceDock({
 
   return (
     <section
-      className={
-        voice.joined
-          ? "campfireVoiceDock joined"
-          : "campfireVoiceDock"
-      }
+      className={[
+        "campfireVoiceDock",
+        voice.joined ? "joined" : "",
+        variant === "header" ? "headerCompact" : "",
+      ].filter(Boolean).join(" ")}
+      title={`${connectionStatus}${diagnosticStatus ? ` • ${diagnosticStatus}` : ""}`}
     >
       <div className="campfireVoiceMainRow">
         <div className="campfireVoiceIdentity">
@@ -189,84 +205,76 @@ function CampfireVoiceDock({
           </span>
 
           <div>
-            <strong>{voice.joined ? "VOZ — Campfire" : "Voz da Campfire"}</strong>
+            <strong>VOZ — Campfire</strong>
             <small>
-              {voice.signalingReady
-                ? `${voice.voiceMembers.length} pessoa(s) na voz • Conexão: ${connectionStatus}`
-                : "Conectando voz..."}
+              {voice.voiceMembers.length} pessoa(s) na voz • {connectionStatus}
             </small>
+            {diagnosticStatus ? (
+              <small className="campfireVoiceDiagnostic">{diagnosticStatus}</small>
+            ) : null}
           </div>
         </div>
 
-        {!voice.joined ? (
+        <div className="campfireVoiceActions" aria-label="Controles de voz">
           <button
             type="button"
-            className="campfireVoiceJoin"
-            disabled={!voice.signalingReady || voice.joining}
-            onClick={() => void join()}
+            className={voice.muted ? "active isMuted" : ""}
+            aria-pressed={voice.muted}
+            aria-label={voice.muted ? "Microfone mutado" : "Microfone ativo"}
+            disabled={!voice.joined || voice.phase === "microphone-unavailable"}
+            onClick={() => void mute()}
+            title={voice.muted ? "Microfone mutado" : "Mutar microfone"}
           >
-            {voice.joining ? "Conectando..." : "🎙 Entrar na voz"}
+            <span aria-hidden="true">{voice.muted ? "🔇" : "🎙"}</span>
+            <span>{voice.muted ? "Mutado" : "Microfone"}</span>
           </button>
-        ) : (
-          <div className="campfireVoiceActions" aria-label="Controles de voz">
-            <button
-              type="button"
-              className={voice.muted ? "active isMuted" : ""}
-              aria-pressed={voice.muted}
-              aria-label={voice.muted ? "Microfone mutado" : "Microfone ativo"}
-              onClick={() => void mute()}
-              title={voice.muted ? "Microfone mutado" : "Mutar microfone"}
-            >
-              <span aria-hidden="true">{voice.muted ? "🔇" : "🎙"}</span>
-              <span>{voice.muted ? "Mutado" : "Microfone"}</span>
-            </button>
 
-            <button
-              type="button"
-              className={voice.cameraEnabled ? "active isCameraOn" : ""}
-              aria-pressed={voice.cameraEnabled}
-              aria-label={voice.cameraEnabled ? "Câmera ligada" : "Câmera desligada"}
-              disabled={!voice.hasCamera}
-              onClick={() => void camera()}
-              title={
-                voice.cameraEnabled
-                  ? "Câmera ligada"
-                  : voice.hasCamera
-                    ? "Ligar câmera"
-                    : "Nenhuma webcam detectada"
-              }
-            >
-              <span aria-hidden="true">📹</span>
-              <span>{voice.cameraEnabled ? "Câmera ligada" : "Câmera"}</span>
-            </button>
+          <button
+            type="button"
+            className={voice.cameraEnabled ? "active isCameraOn" : ""}
+            aria-pressed={voice.cameraEnabled}
+            aria-label={voice.cameraEnabled ? "Câmera ligada" : "Câmera desligada"}
+            disabled={!voice.joined || !voice.hasCamera}
+            onClick={() => void camera()}
+            title={
+              voice.cameraEnabled
+                ? "Câmera ligada"
+                : voice.hasCamera
+                  ? "Ligar câmera"
+                  : "Nenhuma webcam detectada"
+            }
+          >
+            <span aria-hidden="true">📹</span>
+            <span>{voice.cameraEnabled ? "Câmera ligada" : "Câmera"}</span>
+          </button>
 
-            <button
-              type="button"
-              className={voice.deafened ? "active isDeafened" : ""}
-              aria-pressed={voice.deafened}
-              aria-label={voice.deafened ? "Áudio desativado" : "Áudio ativo"}
-              onClick={() => void deafen()}
-              title={voice.deafened ? "Áudio desativado" : "Desativar áudio para mim"}
-            >
-              <span aria-hidden="true">{voice.deafened ? "🔕" : "🔊"}</span>
-              <span>{voice.deafened ? "Áudio desativado" : "Deafen"}</span>
-            </button>
+          <button
+            type="button"
+            className={voice.deafened ? "active isDeafened" : ""}
+            aria-pressed={voice.deafened}
+            aria-label={voice.deafened ? "Áudio desativado" : "Áudio ativo"}
+            disabled={!voice.joined}
+            onClick={() => void deafen()}
+            title={voice.deafened ? "Áudio desativado" : "Desativar áudio para mim"}
+          >
+            <span aria-hidden="true">{voice.deafened ? "🔕" : "🔊"}</span>
+            <span>{voice.deafened ? "Áudio desativado" : "Deafen"}</span>
+          </button>
 
-            <button
-              type="button"
-              className="danger"
-              onClick={() => void leave()}
-              title="Sair da voz"
-              aria-label="Sair da voz"
-            >
-              <span aria-hidden="true">☎</span>
-              <span>Sair</span>
-            </button>
-          </div>
-        )}
+          <button
+            type="button"
+            className={showAdvanced ? "active" : ""}
+            aria-pressed={showAdvanced}
+            onClick={() => setShowAdvanced((open) => !open)}
+            title="Configurações avançadas da voz"
+          >
+            <span aria-hidden="true">⚙</span>
+            <span>Configurações</span>
+          </button>
+        </div>
       </div>
 
-      {voice.joined && (
+      {showAdvanced && voice.joined && (
         <div className="campfireVoiceMixer">
           <div className="campfireVoiceAudioProfile">
             <div>
@@ -363,29 +371,74 @@ function CampfireVoiceDock({
         </div>
       )}
 
-      {voice.joined && voice.voiceMembers.length > 0 && (
+      {showAdvanced && voice.joined && voice.voiceMembers.length > 0 && (
         <div className="campfireVoicePeople">
-          {voice.voiceMembers.map((member) => (
-            <span
-              key={member.userId}
-              onContextMenu={(event) => openContext(event, member.userId)}
-              className={
-                member.userId === currentUserId
-                  ? "self"
-                  : ""
-              }
-            >
-              {member.micEnabled ? "🎙" : "🔇"}
-              {member.cameraEnabled ? " 📹" : ""}
-              {" "}
-              {memberName(members, member.userId)}
-            </span>
-          ))}
+          {voice.voiceMembers.map((member) => {
+            const isSelf = member.userId === currentUserId;
+            const isSpeaking = voice.speakingParticipantIds.has(member.userId);
+            const locallyMuted = voice.isParticipantLocallyMuted(member.userId);
+            const participantVolume = voice.getUserVolume(member.userId);
+
+            return (
+              <div
+                key={member.userId}
+                onContextMenu={(event) => openContext(event, member.userId)}
+                className={[
+                  "campfireVoicePerson",
+                  isSelf ? "self" : "",
+                  isSpeaking ? "isSpeaking" : "",
+                ].filter(Boolean).join(" ")}
+              >
+                <div className="campfireVoicePersonHeader">
+                  <span className="campfireVoicePersonState" aria-hidden="true">
+                    {member.micEnabled ? "🎙" : "🔇"}
+                    {member.cameraEnabled ? " 📹" : ""}
+                  </span>
+                  <strong>{memberName(members, member.userId)}</strong>
+                  {isSpeaking ? <em>Falando</em> : null}
+                </div>
+
+                {!isSelf ? (
+                  <div className="campfireVoiceParticipantMixer">
+                    <label>
+                      <span>Volume <b>{participantVolume}%</b></span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        step="5"
+                        value={participantVolume}
+                        onChange={(event) =>
+                          voice.setParticipantVolume(
+                            member.userId,
+                            Number(event.target.value)
+                          )
+                        }
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className={locallyMuted ? "active" : ""}
+                      aria-pressed={locallyMuted}
+                      onClick={() =>
+                        voice.setParticipantLocallyMuted(
+                          member.userId,
+                          !locallyMuted
+                        )
+                      }
+                    >
+                      {locallyMuted ? "Reativar local" : "Silenciar local"}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       )}
 
-      {(
-        voice.cameraEnabled &&
+      {showAdvanced && (
+        (voice.cameraEnabled &&
         voice.localCameraStream
       ) || remoteVideoEntries.length > 0 ? (
         <div className="campfireVoiceVideoGrid">
@@ -408,11 +461,11 @@ function CampfireVoiceDock({
             )
           )}
         </div>
-      ) : null}
+      ) : null)}
 
-      {(actionMessage || voice.error) && (
+      {(actionMessage || voice.errorMessage) && (
         <div className="campfireVoiceMessage">
-          {voice.error || actionMessage}
+          {voice.errorMessage || actionMessage}
         </div>
       )}
 

@@ -27,6 +27,8 @@ import {
   stopAnimeWatchCapture,
 } from "./desktop";
 
+import { isCampfireWeb } from "./web/platform";
+
 import {
   CAMPFIRE_NATIVE_OVERLAY_EVENT,
   isCampfireNativeOverlayBlocked,
@@ -119,6 +121,8 @@ class AnimeBrowserErrorBoundary extends Component<
 
 
 type NativeWebviewHandle = {
+  label: string;
+
   close: () => Promise<void>;
 
   hide: () => Promise<void>;
@@ -141,6 +145,10 @@ type NativeWebviewHandle = {
   ) => Promise<void>;
 
   setFocus: () => Promise<void>;
+
+  setPlayerFullscreen: (
+    enabled: boolean
+  ) => Promise<boolean>;
 
   once: (
     event:
@@ -1202,83 +1210,49 @@ function AnimeBrowserRuntime({
           return;
         }
 
+        const webview =
+          nativeWebviewRef.current;
+
+        if (!webview) {
+          return;
+        }
 
         try {
-          const {
-            getCurrentWindow,
-          } =
-            await import(
-              "./desktop"
+          await webview
+            .setPlayerFullscreen(
+              enabled
             );
-
-
-          const appWindow =
-            getCurrentWindow();
-
-
-          /*
-           * Primeiro muda o estado visual React.
-           */
 
           setBrowserFullscreen(
             enabled
           );
 
-
-          /*
-           * Depois muda a janela nativa.
-           */
-
-          await appWindow
-            .setFullscreen(
-              enabled
+          if (!enabled) {
+            await new Promise<void>(
+              resolve => {
+                window.requestAnimationFrame(
+                  () => resolve()
+                );
+              }
             );
 
-
-          /*
-           * Esperamos dois frames:
-           * 1. o Windows redimensiona a janela
-           * 2. o React recalcula o viewport
-           */
-
-          await new Promise<void>(
-            resolve => {
-              window
-                .requestAnimationFrame(
-                  () => {
-                    window
-                      .requestAnimationFrame(
-                        () =>
-                          resolve()
-                      );
-                  }
-                );
-            }
-          );
-
-
-          await updateNativeBounds();
-
-
-          if (enabled) {
+            await updateNativeBounds();
             await focusNativeWebview();
           }
         } catch (
           fullscreenError
         ) {
           console.error(
-            "[Campfire Anime Browser] fullscreen:",
+            "[Campfire Anime Browser] fullscreen do player:",
             fullscreenError
           );
-
 
           setBrowserFullscreen(
             false
           );
 
-
           setBrowserError(
-            "Não foi possível ativar a tela cheia do Campfire."
+            "Não foi possível abrir somente o player em tela cheia."
           );
         }
       },
@@ -1478,27 +1452,11 @@ function AnimeBrowserRuntime({
     }
 
 
-    /*
-     * IMPORTANTE:
-     *
-     * O seletor nativo do getDisplayMedia precisa aparecer ANTES
-     * do fullscreen. Quando a janela Campfire entra em fullscreen
-     * primeiro, o seletor "Escolha o que transmitir" pode ficar
-     * visualmente atrás dela no Windows/WebView2.
-     *
-     * Portanto:
-     *   1. garante modo janela;
-     *   2. abre o seletor;
-     *   3. só depois da escolha entra em fullscreen.
-     */
-    const wasFullscreenBeforePicker =
-      browserFullscreen;
-
-
-    if (wasFullscreenBeforePicker) {
-      await setAnimeFullscreen(
-        false
-      );
+    /* A transmissão deve permanecer dentro do Campfire.
+     * Se o usuário estava em player fullscreen, saímos desse modo
+     * antes de preparar a captura isolada do vídeo. */
+    if (browserFullscreen) {
+      await setAnimeFullscreen(false);
     }
 
 
@@ -1555,18 +1513,8 @@ function AnimeBrowserRuntime({
       }
 
 
-      /*
-       * A fonte já foi escolhida no seletor nativo. Agora podemos
-       * ocupar a tela toda sem esconder as opções de compartilhamento.
-       * O stream de captura acompanha o redimensionamento da janela.
-       */
-      if (!browserFullscreen) {
-        await setAnimeFullscreen(
-          true
-        );
-      }
-
-
+      /* O frame já foi isolado pelo backend para capturar somente
+       * o player. Mantemos a janela no layout normal da Campfire. */
       await focusNativeWebview();
 
 
@@ -1639,12 +1587,6 @@ function AnimeBrowserRuntime({
           "A transmissão foi cancelada."
         );
 
-
-        if (wasFullscreenBeforePicker) {
-          await setAnimeFullscreen(
-            true
-          );
-        }
 
         return;
       }
@@ -1836,6 +1778,31 @@ function AnimeBrowserRuntime({
   }
 
 
+  useEffect(() => {
+    let unlisten: () => void = () => undefined;
+    let disposed = false;
+
+    void import("./desktop")
+      .then(({ onAnimePlayerFullscreenChanged }) => {
+        if (disposed) return;
+        unlisten = onAnimePlayerFullscreenChanged((payload) => {
+          const webview = nativeWebviewRef.current;
+          if (!webview || payload.label !== webview.label) return;
+          setBrowserFullscreen(payload.enabled);
+          if (!payload.enabled) {
+            void updateNativeBounds().then(() => focusNativeWebview()).catch(() => undefined);
+          }
+        });
+      })
+      .catch(() => undefined);
+
+    return () => {
+      disposed = true;
+      unlisten();
+    };
+  }, [focusNativeWebview, updateNativeBounds]);
+
+
   /* ==========================================================
      SESSION CHANGE
      ========================================================== */
@@ -1874,23 +1841,12 @@ function AnimeBrowserRuntime({
 
 
         if (
-          browserFullscreenRef.current
+          browserFullscreenRef.current &&
+          nativeWebviewRef.current
         ) {
-          void import(
-            "./desktop"
-          )
-            .then(
-              ({
-                getCurrentWindow,
-              }) =>
-                getCurrentWindow()
-                  .setFullscreen(
-                    false
-                  )
-            )
-            .catch(
-              () => undefined
-            );
+          void nativeWebviewRef.current
+            .setPlayerFullscreen(false)
+            .catch(() => undefined);
         }
       };
     },
@@ -1951,6 +1907,202 @@ function AnimeBrowserRuntime({
   /* ==========================================================
      RENDER
      ========================================================== */
+
+  if (isCampfireWeb()) {
+    const webSource =
+      selectedSource;
+
+    const webCanEmbed =
+      Boolean(
+        webSource &&
+        webSource.homeUrl
+          .toLowerCase()
+          .startsWith("https://")
+      );
+
+    return (
+      <div className="animeSitesBrowser animeSitesBrowserWeb">
+        <header className="animeSitesHeader">
+          <div>
+            <h2>📺 Animes</h2>
+            <p>
+              As fontes HTTPS são abertas primeiro dentro do CampfireWeb.
+              Se uma fonte bloquear incorporação por política própria, use o botão externo somente para ela.
+            </p>
+          </div>
+
+          {onWatchTogether && (
+            <button
+              type="button"
+              className="animeSitesWebShareButton"
+              onClick={onWatchTogether}
+            >
+              🔴 Compartilhar tela
+            </button>
+          )}
+        </header>
+
+        <section className="animeSitesSourceBar">
+          {sortedSources.map((source) => {
+            const active =
+              webSource?.id ===
+              source.id;
+
+            return (
+              <button
+                key={source.id}
+                type="button"
+                className={
+                  active
+                    ? "animeSitesSource active"
+                    : "animeSitesSource"
+                }
+                onClick={() => {
+                  setSelectedSource(
+                    source
+                  );
+
+                  setBrowserError(
+                    ""
+                  );
+
+                  setStatusText(
+                    source.homeUrl
+                      .toLowerCase()
+                      .startsWith("https://")
+                      ? `Abrindo ${source.name} dentro do CampfireWeb...`
+                      : `${source.name} usa HTTP e não pode ser incorporado em uma página HTTPS.`
+                  );
+                }}
+              >
+                <span className="animeSitesSourceEmoji">
+                  {source.emoji}
+                </span>
+
+                <span>
+                  <strong>{source.shortName}</strong>
+                  <small>{source.domain}</small>
+                </span>
+
+                <span>
+                  {active
+                    ? "Aberto"
+                    : "Abrir aqui"}
+                </span>
+              </button>
+            );
+          })}
+        </section>
+
+        {webSource ? (
+          <section className="animeSitesWebFrameShell">
+            <div className="animeSitesWebFrameToolbar">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedSource(
+                    null
+                  );
+
+                  setStatusText(
+                    "Escolha uma fonte para começar."
+                  );
+                }}
+              >
+                ← Fontes
+              </button>
+
+              <div className="animeSitesWebFrameIdentity">
+                <strong>
+                  {webSource.emoji} {webSource.name}
+                </strong>
+
+                <span>
+                  {webSource.domain}
+                </span>
+              </div>
+
+              <a
+                className="animeSitesWebExternal"
+                href={webSource.homeUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                ↗ Abrir externamente
+              </a>
+            </div>
+
+            <div className="animeSitesWebFrameStatus">
+              <span>
+                {statusText}
+              </span>
+
+              <small>
+                O CampfireWeb não tenta contornar CSP ou X-Frame-Options.
+                Se a fonte recusar o quadro, use “Abrir externamente”.
+              </small>
+            </div>
+
+            {webCanEmbed ? (
+              <iframe
+                key={webSource.id}
+                className="animeSitesWebFrame"
+                src={webSource.homeUrl}
+                title={`Campfire Animes — ${webSource.name}`}
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; clipboard-read; clipboard-write"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                onLoad={() => {
+                  setStatusText(
+                    `${webSource.name} carregado dentro do CampfireWeb. Se o site exibir um bloqueio de incorporação, use o botão externo.`
+                  );
+                }}
+              />
+            ) : (
+              <div className="animeSitesWebFrameBlocked">
+                <span>🔒</span>
+
+                <strong>
+                  Esta fonte não pode ser incorporada por HTTPS.
+                </strong>
+
+                <p>
+                  O endereço atual usa HTTP. Navegadores bloqueiam esse tipo de conteúdo misto dentro de páginas HTTPS.
+                </p>
+
+                <a
+                  href={webSource.homeUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Abrir externamente
+                </a>
+              </div>
+            )}
+          </section>
+        ) : (
+          <section className="animeSitesWelcome">
+            <div className="animeSitesWelcomeIcon">
+              🖥️
+            </div>
+
+            <h3>
+              Escolha uma fonte
+            </h3>
+
+            <p>
+              O CampfireWeb tentará abrir a fonte aqui dentro primeiro.
+              Nenhuma fonte será enviada para outra aba automaticamente.
+            </p>
+
+            <small>
+              Watch Together continua disponível pela opção Compartilhar tela.
+            </small>
+          </section>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div

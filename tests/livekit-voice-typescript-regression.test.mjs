@@ -22,10 +22,10 @@ test('LiveKit TrackSubscribed handlers use the v2 three-argument event signature
   assert.match(source, /type RemoteTrackPublication/);
   assert.match(
     source,
-    /const upsertRemoteTrack = useCallback\(\(track: RemoteTrack, _publication: RemoteTrackPublication, participant: RemoteParticipant\)/
+    /const upsertRemoteTrack = useCallback\(\(track: RemoteTrack, \w+: RemoteTrackPublication, participant: RemoteParticipant\)/
   );
   assert.match(
     source,
-    /const removeRemoteTrack = useCallback\(\(track: RemoteTrack, _publication: RemoteTrackPublication, participant: RemoteParticipant\)/
+    /const removeRemoteTrack = useCallback\(\(track: RemoteTrack, \w+: RemoteTrackPublication, participant: RemoteParticipant\)/
   );
 });

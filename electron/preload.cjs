@@ -413,6 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
 contextBridge.exposeInMainWorld('campfireDesktop', {
   app: {
     onAuthCallback: (callback) => on('campfire-auth-callback', callback),
+    onFireOutStart: (callback) => on('campfire:fire-out-start', callback),
+    onFireOutStop: (callback) => on('campfire:fire-out-stop', callback),
   },
   desktop: {
     getPreferences: () => ipcRenderer.invoke('desktop:get-preferences'),
@@ -428,6 +430,12 @@ contextBridge.exposeInMainWorld('campfireDesktop', {
   shell: {
     openExternal: (url) => ipcRenderer.invoke('shell:open-external', String(url || '')),
   },
+  assistant: {
+    query: (query) => ipcRenderer.invoke('campfire:assistant-query', String(query || '')),
+  },
+  news: {
+    get: (query = '') => ipcRenderer.invoke('campfire:news-feed', String(query || '')),
+  },
   clipboard: {
     writeText: (text) => ipcRenderer.invoke('clipboard:write-text', String(text ?? '')),
   },
@@ -436,6 +444,9 @@ contextBridge.exposeInMainWorld('campfireDesktop', {
     unminimize: () => ipcRenderer.invoke('window:unminimize'),
     focus: () => ipcRenderer.invoke('window:focus'),
     setFullscreen: (enabled) => ipcRenderer.invoke('window:set-fullscreen', Boolean(enabled)),
+  },
+  workspace: {
+    open: (payload) => ipcRenderer.invoke('workspace:open', payload || {}),
   },
   anime: {
     create: (payload) => ipcRenderer.invoke('anime:create', payload),
@@ -446,6 +457,8 @@ contextBridge.exposeInMainWorld('campfireDesktop', {
     setBounds: (label, bounds) => ipcRenderer.invoke('anime:set-bounds', label, bounds),
     getUrl: (label) => ipcRenderer.invoke('anime:get-url', label),
     eval: (label, script) => ipcRenderer.invoke('anime:eval', label, script),
+    setPlayerFullscreen: (label, enabled) => ipcRenderer.invoke('anime:set-player-fullscreen', label, Boolean(enabled)),
+    onPlayerFullscreenChanged: (callback) => on('anime:player-fullscreen-changed', callback),
   },
   screen: {
     setPreference: (mode) => ipcRenderer.invoke('screen:set-preference', mode),

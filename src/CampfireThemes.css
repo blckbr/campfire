@@ -1,0 +1,154 @@
+/* Campfire R6.6.2 — raster-material theme system.
+   Theme identity comes from real PNG material assets. No procedural stripes,
+   facet fallbacks or synthetic diagonal texture generators are used here. */
+.blackPianoTheme[data-campfire-theme]{
+  --cf-bg:#050608;--cf-bg-2:#0a0c10;--cf-panel:#11141a;--cf-panel-2:#171b22;
+  --cf-border:rgba(255,255,255,.11);--cf-text:#f3f5f7;--cf-muted:#929ca7;
+  --cf-accent:#f1f1f4;--cf-accent-2:#9ba7b4;--cf-glow:rgba(255,255,255,.13);
+  --cf-danger:#ff6874;--cf-ok:#69d699;
+  --cf-edge:color-mix(in srgb,var(--cf-accent) 56%,rgba(255,255,255,.28));
+  --cf-edge-bright:color-mix(in srgb,var(--cf-accent) 82%,white 18%);
+  --cf-glow-soft:color-mix(in srgb,var(--cf-accent) 34%,transparent);
+  --cf-glass-neutral:#0b1118;
+  --cf-glass-tint:var(--cf-glass-neutral);
+  --cf-glass-opacity:.52;
+  --cf-glass-alpha:.52;
+  --cf-glass-rgb:10 15 21;
+  --cf-active-theme-texture:none;
+  --cf-material-texture:var(--cf-active-theme-texture);
+  --cf-glass-texture:var(--cf-active-theme-texture);
+  --cf-theme-background-texture:var(--cf-active-theme-texture);
+  --cf-material-surface:color-mix(in srgb,var(--cf-panel) 68%,transparent);
+  --cf-liquid-glass:color-mix(in srgb,var(--cf-glass-tint) 52%,transparent);
+  --cf-chrome-surface:var(--cf-liquid-glass);
+  --cf-glass-surface:rgb(var(--cf-glass-rgb) / .52);
+  color:var(--cf-text);
+  background-color:var(--cf-bg);
+  background-image:
+    radial-gradient(circle at 66% -10%,color-mix(in srgb,var(--cf-accent) 15%,transparent),transparent 36rem),
+    linear-gradient(180deg,rgb(5 8 12 / .34),rgb(4 7 10 / .50)),
+    var(--cf-theme-background-texture);
+  background-size:auto,auto,cover;
+  background-position:center,center,center;
+  background-attachment:fixed;
+}
+
+/* R6.3 compatibility token retained, now backed by raster material rather than generated lines. */
+.blackPianoTheme[data-campfire-theme]{--cf-glass-alpha:.50}
+
+.blackPianoTheme[data-campfire-theme="black-piano-glow"]{--cf-bg:#040507;--cf-bg-2:#0b0d11;--cf-panel:#111318;--cf-panel-2:#191c22;--cf-accent:#f1f1f4;--cf-accent-2:#a3acb7;--cf-glow:rgba(255,255,255,.14);--cf-glass-rgb:8 10 14;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="silver-glow"]{--cf-bg:#080a0d;--cf-bg-2:#14181d;--cf-panel:#1a1e24;--cf-panel-2:#252b32;--cf-accent:#cbd3dc;--cf-accent-2:#8795a5;--cf-glow:rgba(203,211,220,.2);--cf-glass-rgb:22 25 30;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="emerald-glow"]{--cf-bg:#030b08;--cf-bg-2:#071710;--cf-panel:#0b1e16;--cf-panel-2:#102a20;--cf-accent:#42e39b;--cf-accent-2:#75bfa0;--cf-glow:rgba(66,227,155,.22);--cf-glass-rgb:7 22 17;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="blood-red-glow"]{--cf-bg:#0a0204;--cf-bg-2:#190509;--cf-panel:#21070c;--cf-panel-2:#2c0b12;--cf-accent:#ff455a;--cf-accent-2:#c86570;--cf-glow:rgba(255,69,90,.24);--cf-glass-rgb:24 7 10;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="topaz-glow"]{--cf-bg:#0c0802;--cf-bg-2:#1c1105;--cf-panel:#251707;--cf-panel-2:#32200a;--cf-accent:#ffba59;--cf-accent-2:#d68c3f;--cf-glow:rgba(255,186,89,.24);--cf-glass-rgb:29 19 7;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="white-marshmallow-glow"]{--cf-bg:#171717;--cf-bg-2:#242322;--cf-panel:#302f2d;--cf-panel-2:#3a3835;--cf-accent:#fff9f4;--cf-accent-2:#d9d2ca;--cf-glow:rgba(255,249,244,.2);--cf-glass-rgb:38 38 38;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="toasted-marshmallow-glow"]{--cf-bg:#0c0704;--cf-bg-2:#1c110b;--cf-panel:#25160e;--cf-panel-2:#332014;--cf-accent:#e6ad7d;--cf-accent-2:#b67549;--cf-glow:rgba(230,173,125,.23);--cf-glass-rgb:31 20 13;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="color-marshmallow-glow"]{--cf-bg:#080611;--cf-bg-2:#121025;--cf-panel:#181532;--cf-panel-2:#211b41;--cf-accent:#ff8bd7;--cf-accent-2:#72c9ff;--cf-glow:rgba(255,139,215,.22);--cf-glass-rgb:24 21 40;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="electric-sapphire"]{--cf-bg:#020713;--cf-bg-2:#071225;--cf-panel:#0a1933;--cf-panel-2:#0f2245;--cf-accent:#3f8cff;--cf-accent-2:#67c8ff;--cf-glow:rgba(63,140,255,.25);--cf-glass-rgb:5 16 38;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="neon-amethyst"]{--cf-bg:#07020d;--cf-bg-2:#130720;--cf-panel:#1c0b2e;--cf-panel-2:#27103e;--cf-accent:#aa68ff;--cf-accent-2:#e085ff;--cf-glow:rgba(170,104,255,.26);--cf-glass-rgb:22 8 34;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="onyx-glow"]{--cf-bg:#020304;--cf-bg-2:#07080a;--cf-panel:#0d0f12;--cf-panel-2:#14171c;--cf-accent:#777f91;--cf-accent-2:#a6adbb;--cf-glow:rgba(119,127,145,.18);--cf-glass-rgb:5 7 10;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="royal-ruby"]{--cf-bg:#090205;--cf-bg-2:#17050a;--cf-panel:#200710;--cf-panel-2:#2a0a15;--cf-accent:#e9416c;--cf-accent-2:#ff7296;--cf-glow:rgba(233,65,108,.25);--cf-glass-rgb:27 6 13;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="golden-amber"]{--cf-bg:#0a0601;--cf-bg-2:#1a1004;--cf-panel:#231607;--cf-panel-2:#31200a;--cf-accent:#f3a83d;--cf-accent-2:#ffd17a;--cf-glow:rgba(243,168,61,.25);--cf-glass-rgb:28 18 6;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="jade-frost"]{--cf-bg:#020a08;--cf-bg-2:#081713;--cf-panel:#0c211b;--cf-panel-2:#123129;--cf-accent:#7de3c1;--cf-accent-2:#b4f4df;--cf-glow:rgba(125,227,193,.22);--cf-glass-rgb:7 25 20;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="lunar-pearl"]{--cf-bg:#080810;--cf-bg-2:#12121e;--cf-panel:#191929;--cf-panel-2:#222238;--cf-accent:#e8e6ff;--cf-accent-2:#aaa6d7;--cf-glow:rgba(232,230,255,.2);--cf-glass-rgb:24 24 38;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="copper-lux"]{--cf-bg:#0b0502;--cf-bg-2:#1a0c06;--cf-panel:#251009;--cf-panel-2:#32170d;--cf-accent:#d9824f;--cf-accent-2:#f1b08a;--cf-glow:rgba(217,130,79,.24);--cf-glass-rgb:32 15 8;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="blue-obsidian"]{--cf-bg:#02050b;--cf-bg-2:#071020;--cf-panel:#0a1629;--cf-panel-2:#0e1d37;--cf-accent:#4f79c9;--cf-accent-2:#7ca5ef;--cf-glow:rgba(79,121,201,.24);--cf-glass-rgb:6 12 26;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="crystal-rose"]{--cf-bg:#0b0508;--cf-bg-2:#1b0d13;--cf-panel:#25131a;--cf-panel-2:#321a23;--cf-accent:#ffa1bb;--cf-accent-2:#ffd0dc;--cf-glow:rgba(255,161,187,.23);--cf-glass-rgb:30 15 21;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="polar-ice"]{--cf-bg:#01070a;--cf-bg-2:#06151c;--cf-panel:#0a2029;--cf-panel-2:#0d2c38;--cf-accent:#8fe7ff;--cf-accent-2:#c7f4ff;--cf-glow:rgba(143,231,255,.23);--cf-glass-rgb:7 23 30;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="lavender-dream"]{--cf-bg:#08060c;--cf-bg-2:#171020;--cf-panel:#21162d;--cf-panel-2:#2d1e3b;--cf-accent:#c5a3ff;--cf-accent-2:#eadcff;--cf-glow:rgba(197,163,255,.23);--cf-glass-rgb:27 20 38;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="caramel-glow"]{--cf-bg:#0b0703;--cf-bg-2:#1a1007;--cf-panel:#24170b;--cf-panel-2:#322011;--cf-accent:#d99b5d;--cf-accent-2:#f1c18e;--cf-glow:rgba(217,155,93,.24);--cf-glass-rgb:31 20 9;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="pink-marshmallow"]{--cf-bg:#0b0509;--cf-bg-2:#1c0d16;--cf-panel:#27131f;--cf-panel-2:#351a2a;--cf-accent:#ff9fc9;--cf-accent-2:#ffc8df;--cf-glow:rgba(255,159,201,.24);--cf-glass-rgb:35 17 28;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+.blackPianoTheme[data-campfire-theme="night-marshmallow"]{--cf-bg:#03040c;--cf-bg-2:#0b0d1e;--cf-panel:#11142a;--cf-panel-2:#181c39;--cf-accent:#7c8ef7;--cf-accent-2:#b4bfff;--cf-glow:rgba(124,142,247,.25);--cf-glass-rgb:10 12 28;--cf-material-texture:var(--cf-active-theme-texture);--cf-glass-texture:var(--cf-active-theme-texture)}
+
+/* R6.6.2 transparency: the raster material is the backdrop; chrome is glass over it. */
+.blackPianoTheme[data-campfire-theme]{
+  --cf-glass-alpha:.36;
+  --cf-glass-surface:rgb(var(--cf-glass-rgb) / var(--cf-glass-alpha));
+  --cf-chrome-surface:color-mix(in srgb,var(--cf-glass-tint) 36%,transparent);
+  --cf-theme-background-texture:var(--cf-active-theme-texture);
+}
+.blackPianoTheme[data-campfire-theme] .blackPianoMenuBar,
+.blackPianoTheme[data-campfire-theme] .topbar,
+.blackPianoTheme[data-campfire-theme] .sidebar,
+.blackPianoTheme[data-campfire-theme] .campfireLeftRail,
+.blackPianoTheme[data-campfire-theme] .campfireRightRail,
+.blackPianoTheme[data-campfire-theme] .campfireRoomHeader,
+.blackPianoTheme[data-campfire-theme] .campfireTabs,
+.blackPianoTheme[data-campfire-theme] .campfireSettingsModal,
+.blackPianoTheme[data-campfire-theme] .campfireVoiceDock,
+.blackPianoTheme[data-campfire-theme] .campfireWorkspacePanel{
+  border-color:var(--cf-border);
+  background-color:rgb(var(--cf-glass-rgb) / var(--cf-glass-alpha)) !important;
+  color:var(--cf-text);
+  backdrop-filter:blur(22px) saturate(1.25) !important;
+}
+.blackPianoTheme[data-campfire-theme] button:focus-visible,
+.blackPianoTheme[data-campfire-theme] input:focus-visible,
+.blackPianoTheme[data-campfire-theme] select:focus-visible{outline:2px solid var(--cf-accent);outline-offset:2px}
+.blackPianoTheme[data-campfire-theme] .campfire.selected,
+.blackPianoTheme[data-campfire-theme] .active,
+.blackPianoTheme[data-campfire-theme] [aria-pressed="true"]{border-color:color-mix(in srgb,var(--cf-accent) 60%,transparent);box-shadow:0 0 18px var(--cf-glow)}
+
+/* R6.6.3 — real vitreous transparency. HD theme art is the visible backdrop;
+   major chrome is intentionally translucent instead of opaque tinted panels. */
+.blackPianoTheme[data-campfire-theme]{
+  --cf-glass-alpha:.28;
+  --cf-glass-surface:rgb(var(--cf-glass-rgb) / var(--cf-glass-alpha));
+  --cf-chrome-surface:rgb(var(--cf-glass-rgb) / .26);
+}
+.blackPianoTheme[data-campfire-theme] .blackPianoMenuBar,
+.blackPianoTheme[data-campfire-theme] .topbar,
+.blackPianoTheme[data-campfire-theme] .sidebar,
+.blackPianoTheme[data-campfire-theme] .campfireLeftRail,
+.blackPianoTheme[data-campfire-theme] .campfireRightRail,
+.blackPianoTheme[data-campfire-theme] .campfireRoomHeader,
+.blackPianoTheme[data-campfire-theme] .campfireTabs,
+.blackPianoTheme[data-campfire-theme] .campfireSettingsModal,
+.blackPianoTheme[data-campfire-theme] .campfireVoiceDock,
+.blackPianoTheme[data-campfire-theme] .campfireWorkspacePanel{
+  background-color:rgb(var(--cf-glass-rgb) / .28) !important;
+  backdrop-filter:blur(18px) saturate(1.48) brightness(1.04) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.48) brightness(1.04) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.26),0 10px 36px rgba(0,0,0,.18),0 0 14px var(--cf-glow-soft);
+}
+
+/* ============================================================
+   R6.6.4 — VITREOUS TRANSPARENCY
+   The selected UHD theme is the real backdrop. Chrome floats above it as
+   neutral glass instead of painting opaque theme-colored slabs over it.
+   ============================================================ */
+.blackPianoTheme[data-campfire-theme]{
+  --cf-glass-alpha:.18;
+  --cf-glass-surface:rgb(var(--cf-glass-rgb) / var(--cf-glass-alpha));
+  --cf-chrome-surface:rgb(var(--cf-glass-rgb) / .16);
+  background-color:var(--cf-bg);
+  background-image:
+    linear-gradient(180deg,rgb(3 6 10 / .06),rgb(3 6 10 / .14)),
+    var(--cf-theme-background-texture);
+  background-size:auto,cover;
+  background-position:center,center;
+  background-repeat:no-repeat,no-repeat;
+  background-attachment:fixed,fixed;
+}
+
+.blackPianoTheme[data-campfire-theme] .blackPianoMenuBar,
+.blackPianoTheme[data-campfire-theme] .topbar,
+.blackPianoTheme[data-campfire-theme] .sidebar,
+.blackPianoTheme[data-campfire-theme] .campfireLeftRail,
+.blackPianoTheme[data-campfire-theme] .campfireRightRail,
+.blackPianoTheme[data-campfire-theme] .campfireRoomHeader,
+.blackPianoTheme[data-campfire-theme] .campfireTabs,
+.blackPianoTheme[data-campfire-theme] .campfireSettingsModal,
+.blackPianoTheme[data-campfire-theme] .campfireVoiceDock,
+.blackPianoTheme[data-campfire-theme] .campfireWorkspacePanel{
+  background:linear-gradient(145deg,rgb(255 255 255 / .045),rgb(var(--cf-glass-rgb) / .17) 34%,rgb(var(--cf-glass-rgb) / .11)) !important;
+  border-color:color-mix(in srgb,var(--cf-edge) 42%,rgba(255,255,255,.12)) !important;
+  backdrop-filter:blur(16px) saturate(1.55) brightness(1.08) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.55) brightness(1.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .20),
+    inset 1px 0 0 rgb(255 255 255 / .055),
+    inset 0 -1px 0 rgb(0 0 0 / .24),
+    0 10px 34px rgb(0 0 0 / .16),
+    0 0 16px color-mix(in srgb,var(--cf-glow) 42%,transparent) !important;
+}

@@ -1,0 +1,83 @@
+name: Build Campfire 1.1.0
+
+# Manual-only: the official v1.1.0 binaries are built and validated before tagging.
+# A tag push must not rebuild or replace those approved native artifacts.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows x64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify source
+        run: npm run verify
+      - name: Build NSIS installer
+        run: npm run dist:win
+      - name: Build portable executable
+        run: npm run dist:win:portable
+      - name: Hash and verify Windows artifacts
+        run: node scripts/verify-release-artifacts.mjs --platform windows --write-checksums
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: campfire-1.1.0-windows-x64
+          path: |
+            release/Campfire-Setup-*.exe
+            release/Campfire-Setup-*.exe.sha256.txt
+            release/Campfire-Portable-*.exe
+            release/Campfire-Portable-*.exe.sha256.txt
+          if-no-files-found: error
+
+  linux:
+    name: Linux x86_64 (RPM + AppImage)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install RPM and AppImage runtime tooling
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm
+          sudo apt-get install -y libfuse2t64 || sudo apt-get install -y libfuse2
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify source
+        run: npm run verify
+      - name: Build RPM
+        run: npm run dist:linux:rpm
+      - name: Build AppImage
+        run: npm run dist:linux:appimage
+      - name: Hash and verify Linux artifacts
+        run: node scripts/verify-release-artifacts.mjs --platform linux --write-checksums
+      - name: Inspect RPM metadata
+        shell: bash
+        run: rpm -qip release/*.rpm && rpm -qlp release/*.rpm
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: campfire-1.1.0-linux-x86_64
+          path: |
+            release/*.rpm
+            release/*.rpm.sha256.txt
+            release/*.AppImage
+            release/*.AppImage.sha256.txt
+          if-no-files-found: error

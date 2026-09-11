@@ -11,7 +11,10 @@
 
 .campfireSettingsModal {
   width: min(920px, 96vw);
+  height: min(760px, 88vh);
   max-height: 88vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid #bfcdd2;
   border-radius: 12px;
@@ -76,12 +79,17 @@
 }
 
 .campfireSettingsBody {
-  min-height: 420px;
+  min-height: 0;
+  height: 100%;
   display: grid;
-  grid-template-columns: 210px 1fr;
+  grid-template-columns: 210px minmax(0, 1fr);
+  overflow: hidden;
 }
 
 .campfireSettingsBody > aside {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -118,7 +126,11 @@
 }
 
 .campfireSettingsBody > main {
-  overflow: auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   padding: 18px;
 }
 
@@ -565,4 +577,820 @@
   background: #fff3e7;
   color: #82562f;
   font-weight: 700;
+}
+
+.campfireVoiceInputSettings {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid #d7e0e3;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.campfireVoiceInputSettings > label {
+  display: grid;
+  gap: 5px;
+}
+
+.campfireVoiceInputSettings > label > span,
+.campfirePushToTalkSettings > div:first-child > span {
+  color: #566f79;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campfireVoiceInputHint,
+.campfirePushToTalkSettings small {
+  color: #7f9299;
+  font-size: 13px;
+}
+
+.campfirePushToTalkSettings {
+  display: grid;
+  gap: 8px;
+}
+
+.campfirePushToTalkSettings > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.campfirePushToTalkSettings strong {
+  color: #425d68;
+  font-size: 13px;
+}
+
+.campfirePushToTalkActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.campfirePushToTalkActions button {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid #c8d6db;
+  border-radius: 7px;
+  background: #fff;
+  color: #607780;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.campfirePushToTalkActions button.active {
+  border-color: #d89f6b;
+  background: #fff3e7;
+  color: #82562f;
+  font-weight: 700;
+}
+
+.blackPianoTheme .campfireVoiceInputSettings {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.blackPianoTheme .campfirePushToTalkActions button {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, #30353d, #15191e);
+  color: #edf2f7;
+}
+
+/* ============================================================
+   CAMPFIRE R6.4 — APPROVED SETTINGS / THEMES / TEXTURED FRAMES
+   ============================================================ */
+.blackPianoTheme .campfireSettingsOverlay {
+  padding: 10px;
+  background: rgba(1, 4, 9, .54);
+  backdrop-filter: blur(10px) saturate(1.12);
+}
+
+.blackPianoTheme .campfireSettingsModal {
+  width: min(1640px, calc(100vw - 20px));
+  height: min(900px, calc(100vh - 20px));
+  max-height: calc(100vh - 20px);
+  border: 1px solid color-mix(in srgb, var(--cf-edge) 64%, rgba(255,255,255,.28));
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 72% -14%, rgba(95,165,255,.12), transparent 34%),
+    linear-gradient(180deg, rgba(12,19,31,.84), rgba(5,9,16,.94));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.20),
+    inset 0 0 42px rgba(255,255,255,.025),
+    0 0 26px var(--cf-glow-soft),
+    0 28px 90px rgba(0,0,0,.62);
+  color: #f4f7ff;
+  backdrop-filter: blur(28px) saturate(1.26);
+}
+
+.blackPianoTheme .campfireSettingsModal > header {
+  min-height: 64px;
+  padding: 10px 18px;
+  border-bottom-color: rgba(255,255,255,.10);
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.018));
+}
+
+.blackPianoTheme .campfireSettingsModal > header > div > span {
+  width: 40px;
+  height: 40px;
+  border-color: color-mix(in srgb, var(--cf-edge) 58%, rgba(255,255,255,.18));
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  box-shadow: inset 0 1px rgba(255,255,255,.16), 0 0 15px var(--cf-glow-soft);
+}
+
+.blackPianoTheme .campfireSettingsModal h2 {
+  font-size: 20px;
+  color: #fff;
+}
+
+.blackPianoTheme .campfireSettingsBody {
+  grid-template-columns: 292px minmax(0, 1fr);
+  background: transparent;
+}
+
+.blackPianoTheme .campfireSettingsBody > aside {
+  gap: 10px;
+  padding: 18px 14px;
+  border-right-color: rgba(255,255,255,.10);
+  background:
+    radial-gradient(ellipse at 40% 72%, rgba(255,226,111,.10), transparent 24%),
+    radial-gradient(ellipse at 15% 42%, rgba(91,187,255,.10), transparent 28%),
+    linear-gradient(180deg, rgba(12,25,43,.84), rgba(7,14,26,.92));
+  backdrop-filter: blur(26px) saturate(1.18);
+}
+
+.blackPianoTheme .campfireSettingsBody > aside::before {
+  content: "CONFIGURAÇÕES";
+  display: block;
+  margin: 2px 8px 10px;
+  color: #c7dcff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.blackPianoTheme .campfireSettingsBody > aside button {
+  min-height: 54px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: #d9e4f7;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.blackPianoTheme .campfireSettingsBody > aside button:hover {
+  background: rgba(255,255,255,.045);
+}
+
+.blackPianoTheme .campfireSettingsBody > aside button.active {
+  border-color: color-mix(in srgb, var(--cf-edge) 78%, rgba(255,255,255,.24));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--cf-edge) 18%, transparent), rgba(255,255,255,.06));
+  color: #fff;
+  box-shadow: inset 0 1px rgba(255,255,255,.14), 0 0 18px var(--cf-glow-soft);
+}
+
+.blackPianoTheme .campfireSettingsBody > aside small {
+  margin-top: auto;
+  padding: 18px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.025);
+  color: #92a9c9;
+  font-style: italic;
+}
+
+.blackPianoTheme .campfireSettingsBody > main {
+  padding: 18px 20px 30px;
+  scroll-padding-bottom: 28px;
+}
+
+.campfireSettingsHero {
+  min-height: 126px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 14px;
+  padding: 22px 30px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cf-edge) 58%, rgba(255,255,255,.18));
+  border-radius: 16px;
+  background:
+    linear-gradient(90deg, rgba(5,11,20,.94) 0 30%, rgba(5,11,20,.30) 66%, rgba(5,11,20,.76)),
+    url("./assets/settings/cinema-room.webp") center 58% / cover no-repeat;
+  box-shadow: inset 0 1px rgba(255,255,255,.14), 0 0 18px var(--cf-glow-soft);
+}
+
+.campfireSettingsHero h3 {
+  margin: 0 0 5px !important;
+  color: #fff !important;
+  font-size: 28px !important;
+  letter-spacing: -.02em;
+}
+
+.campfireSettingsHero p {
+  color: #cbd9ef;
+  font-size: 14px;
+}
+
+.campfireSettingsHero blockquote {
+  max-width: 290px;
+  margin: 0;
+  color: #cbdcff;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.campfireSettingsVisualPanel {
+  display: grid;
+  gap: 14px;
+}
+
+.campfireSettingsPanelHeading,
+.campfireSettingsTextureHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.campfireSettingsPanelHeading > div,
+.campfireSettingsTextureHeading > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.campfireSettingsPanelHeading h3,
+.campfireSettingsTextureHeading h3 {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 22px !important;
+}
+
+.campfireSettingsPanelHeading p,
+.campfireSettingsTextureHeading p,
+.campfireSettingsPanelHeading small {
+  margin: 2px 0 0;
+  color: #afc0da;
+  font-size: 12px;
+}
+
+.campfireSettingsPanelIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: rgba(255,255,255,.055);
+  box-shadow: inset 0 1px rgba(255,255,255,.14), 0 0 14px var(--cf-glow-soft);
+  font-size: 20px;
+}
+
+.campfireSettingsFrameSelected {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+}
+
+.campfireSettingsFrameSelected strong { color: #fff; }
+.campfireSettingsFrameSelected span { color: #9fb0ca; font-size: 12px; }
+
+.campfireSettingsTextureGroup {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--cf-edge) 44%, rgba(255,255,255,.10));
+  border-radius: 16px;
+  background: rgba(8,15,27,.56);
+  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 0 16px color-mix(in srgb, var(--cf-glow-soft) 34%, transparent);
+  backdrop-filter: blur(22px) saturate(1.15);
+}
+
+.campfireSettingsTextureGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.campfireSettingsFrameCard {
+  position: relative;
+  min-width: 0;
+  min-height: 220px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 15px;
+  background: #111826;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 1px rgba(255,255,255,.12);
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.campfireSettingsFrameCard:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--cf-edge) 72%, rgba(255,255,255,.30));
+}
+
+.campfireSettingsFrameCard.selected {
+  border-color: var(--cf-edge-bright);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.30),
+    0 0 0 2px color-mix(in srgb, var(--cf-edge) 70%, transparent),
+    0 0 22px var(--cf-glow-soft);
+}
+
+.campfireSettingsFrameCard > img,
+.campfireSettingsFrameNone {
+  width: 100%;
+  height: 146px;
+  flex: 0 0 146px;
+  display: block;
+  object-fit: cover;
+}
+
+.campfireSettingsFrameNone {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 30%),
+    linear-gradient(135deg, rgba(58,91,129,.72), rgba(15,24,39,.88));
+  color: #d7e7ff;
+  font-weight: 700;
+}
+
+.campfireSettingsFrameCopy {
+  min-height: 70px;
+  display: grid;
+  gap: 3px;
+  align-content: center;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, rgba(12,18,28,.76), rgba(7,11,18,.96));
+}
+
+.campfireSettingsFrameCopy strong {
+  overflow: hidden;
+  color: #fff;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campfireSettingsFrameCopy small {
+  color: #a8bad5;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.campfireSettingsFrameCard > i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 50%;
+  background: rgba(5,10,18,.48);
+  color: #fff;
+  font-style: normal;
+  font-size: 13px;
+  box-shadow: 0 0 10px rgba(0,0,0,.28);
+}
+
+/* Make the existing 23 theme picker feel like the approved rich settings page. */
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-height: none;
+  overflow: visible;
+  gap: 12px;
+  padding: 4px 0 20px;
+}
+
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker button {
+  min-height: 78px;
+  padding: 10px 12px;
+  border-radius: 13px;
+  background: rgba(9,15,25,.66);
+  backdrop-filter: blur(18px);
+}
+
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker button i {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+}
+
+@media (max-width: 1250px) {
+  .campfireSettingsTextureGrid { grid-template-columns: repeat(3, minmax(150px,1fr)); }
+  .blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (max-width: 860px) {
+  .blackPianoTheme .campfireSettingsBody { grid-template-columns: 210px minmax(0,1fr); }
+  .campfireSettingsTextureGrid { grid-template-columns: repeat(2, minmax(140px,1fr)); }
+  .campfireSettingsHero blockquote { display: none; }
+  .blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+.blackPianoTheme .campfireSettingsBody > aside button.comingSoon:disabled {
+  opacity: .72;
+  color: #aab8cd;
+  cursor: default;
+}
+
+/* R6.6 — utility settings are interactive controls, not placeholder copy. */
+.campfireSettingsToggleRow {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 16px !important;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  background: rgba(7,12,19,.34);
+  backdrop-filter: blur(18px);
+}
+.campfireSettingsToggleRow > span { display: grid; gap: 4px; }
+.campfireSettingsToggleRow strong { color: var(--cf-text,#fff); font-size: 13px; }
+.campfireSettingsToggleRow small { color: var(--cf-muted,#9eacc0); font-size: 11px; line-height: 1.4; }
+.campfireSettingsToggleRow input[type="checkbox"] {
+  appearance: none;
+  width: 44px;
+  height: 24px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  cursor: pointer;
+  transition: .16s ease;
+}
+.campfireSettingsToggleRow input[type="checkbox"]::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 2px;
+  border-radius: 50%;
+  background: #d9e0ea;
+  box-shadow: 0 2px 7px rgba(0,0,0,.36);
+  transition: transform .16s ease;
+}
+.campfireSettingsToggleRow input[type="checkbox"]:checked {
+  border-color: var(--cf-edge-bright,var(--cf-accent));
+  background: color-mix(in srgb,var(--cf-accent) 58%,rgba(255,255,255,.10));
+  box-shadow: 0 0 16px var(--cf-glow-soft,var(--cf-glow));
+}
+.campfireSettingsToggleRow input[type="checkbox"]:checked::before { transform: translateX(20px); background: #fff; }
+.campfireSettingsActionGrid { display: flex; flex-wrap: wrap; gap: 10px; }
+.campfireSettingsActionButton {
+  min-height: 38px;
+  padding: 0 15px;
+  border: 1px solid color-mix(in srgb,var(--cf-accent) 34%,rgba(255,255,255,.12));
+  border-radius: 11px;
+  background: rgba(9,15,24,.46);
+  color: var(--cf-text,#fff);
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+.campfireSettingsActionButton:hover:not(:disabled) { border-color: var(--cf-accent); box-shadow: 0 0 18px var(--cf-glow-soft); }
+.campfireSettingsActionButton:disabled { opacity: .56; cursor: wait; }
+.campfireSettingsActionButton.danger { border-color: rgba(224,104,117,.38); }
+
+/* ============================================================
+   R6.6.5 — MATERIAL FIDELITY + VITREOUS SETTINGS
+   The selected theme remains visible through settings. Materials are shown as
+   large photographic previews rather than tiny generic swatches.
+   ============================================================ */
+.blackPianoTheme .campfireSettingsOverlay{
+  background:rgba(2,5,9,.055)!important;
+  backdrop-filter:blur(3px) saturate(1.18)!important;
+  -webkit-backdrop-filter:blur(3px) saturate(1.18)!important;
+}
+.blackPianoTheme .campfireSettingsModal{
+  border-color:color-mix(in srgb,var(--cf-edge) 44%,rgba(255,255,255,.20))!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgb(var(--cf-glass-rgb) / .11) 36%,rgb(3 7 12 / .085))!important;
+  color:var(--cf-text)!important;
+  backdrop-filter:blur(28px) saturate(1.65) brightness(1.08)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.65) brightness(1.08)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.24),inset 0 0 38px rgba(255,255,255,.025),0 28px 84px rgba(0,0,0,.28),0 0 30px var(--cf-glow-soft)!important;
+}
+.blackPianoTheme .campfireSettingsModal > header{
+  border-bottom-color:rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.025))!important;
+  backdrop-filter:blur(22px) saturate(1.5)!important;
+}
+.blackPianoTheme .campfireSettingsBody > aside{
+  border-right-color:rgba(255,255,255,.09)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgb(var(--cf-glass-rgb) / .095))!important;
+  backdrop-filter:blur(24px) saturate(1.5)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(1.5)!important;
+}
+.blackPianoTheme .campfireSettingsBody > main{
+  background:transparent!important;
+}
+.blackPianoTheme .campfireSettingsHero{
+  background:
+    linear-gradient(90deg,rgba(3,7,12,.44) 0 24%,rgba(3,7,12,.12) 58%,rgba(3,7,12,.36)),
+    var(--cf-theme-background-texture) center / cover no-repeat!important;
+  border-color:color-mix(in srgb,var(--cf-edge) 52%,rgba(255,255,255,.20))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 36px rgba(0,0,0,.16),0 0 20px var(--cf-glow-soft)!important;
+}
+.blackPianoTheme .campfireSettingsVisualPanel,
+.blackPianoTheme .campfireSettingsUtilityPanel{
+  background:transparent!important;
+}
+.blackPianoTheme .campfireSettingsTextureGroup{
+  background:rgba(8,15,27,.14)!important;
+  border-color:color-mix(in srgb,var(--cf-edge) 42%,rgba(255,255,255,.13))!important;
+  backdrop-filter:blur(24px) saturate(1.62) brightness(1.06)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(1.62) brightness(1.06)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 12px 34px rgba(0,0,0,.12),0 0 18px color-mix(in srgb,var(--cf-glow-soft) 42%,transparent)!important;
+}
+.blackPianoTheme .campfireSettingsFrameSelected,
+.blackPianoTheme .campfireScaleSetting,
+.blackPianoTheme .campfireSettingsInfo,
+.blackPianoTheme .campfireVoiceProSettings,
+.blackPianoTheme .campfireVoiceInputSettings,
+.blackPianoTheme .campfireMicTest,
+.blackPianoTheme .campfireSettingsMessage{
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgb(var(--cf-glass-rgb) / .105))!important;
+  border-color:rgba(255,255,255,.11)!important;
+  backdrop-filter:blur(18px) saturate(1.45)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.45)!important;
+}
+.blackPianoTheme .campfireSettingsFrameCard{
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgb(4 9 16 / .13))!important;
+  backdrop-filter:blur(18px) saturate(1.5)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.5)!important;
+}
+.blackPianoTheme .campfireSettingsFrameCopy{
+  background:linear-gradient(180deg,rgba(4,8,14,.10),rgba(3,7,12,.18))!important;
+}
+.blackPianoTheme .campfireSettingsFrameNone{
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgb(36 64 92 / .16))!important;
+  backdrop-filter:blur(20px) saturate(1.45)!important;
+}
+/* Theme cards: keep the large photographic material presentation even though
+   older settings CSS used compact 42px swatches. */
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  padding:4px 0 20px!important;
+}
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker button{
+  min-height:198px!important;
+  padding:0!important;
+  border-radius:15px!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgb(5 10 17 / .13))!important;
+  backdrop-filter:blur(20px) saturate(1.55) brightness(1.05)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.55) brightness(1.05)!important;
+}
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemeCardPreview{
+  width:100%!important;
+  height:118px!important;
+  flex:0 0 118px!important;
+  border-radius:0!important;
+}
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemeCardCheck{
+  width:25px!important;
+  height:25px!important;
+  flex:0 0 25px!important;
+}
+@media(max-width:1250px){.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:860px){.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* R6.6.6 simple dark settings */
+.blackPianoTheme .campfireSettingsOverlay{
+  background:rgba(2,5,8,.72)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.blackPianoTheme .campfireSettingsModal{
+  background:#0b1117!important;
+  color:#eef3f6!important;
+  border:1px solid #2a3540!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.55)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.blackPianoTheme .campfireSettingsModal>header{
+  background:#0e151c!important;
+  border-bottom-color:#25303a!important;
+}
+.blackPianoTheme .campfireSettingsModal h2,
+.blackPianoTheme .campfireSettingsModal h3,
+.blackPianoTheme .campfireSettingsModal strong{color:#eef3f6!important;}
+.blackPianoTheme .campfireSettingsModal p,
+.blackPianoTheme .campfireSettingsModal small,
+.blackPianoTheme .campfireSettingsModal label>span{color:#8d9aa5!important;}
+.blackPianoTheme .campfireSettingsBody>aside{
+  background:#091016!important;
+  border-right-color:#25303a!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.blackPianoTheme .campfireSettingsBody>aside button{
+  color:#9aa6b0!important;
+  background:transparent!important;
+}
+.blackPianoTheme .campfireSettingsBody>aside button:hover{
+  color:#eef3f6!important;
+  background:#101820!important;
+}
+.blackPianoTheme .campfireSettingsBody>aside button.active{
+  border-color:#34504f!important;
+  background:rgba(39,217,196,.08)!important;
+  color:#d9fff9!important;
+}
+.blackPianoTheme .campfireSettingsBody>main{background:#0b1117!important;}
+.blackPianoTheme .campfireSettingsInfo,
+.blackPianoTheme .campfireScaleSetting,
+.blackPianoTheme .campfireVoiceProSettings,
+.blackPianoTheme .campfireVoiceInputSettings,
+.blackPianoTheme .campfireMicTest,
+.blackPianoTheme .campfireSettingsToggleRow,
+.blackPianoTheme .campfireSettingsMessage{
+  background:#0f171f!important;
+  border-color:#28343e!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.blackPianoTheme .campfireSettingsBody select,
+.blackPianoTheme .campfireSettingsBody input,
+.blackPianoTheme .campfireSettingsBody textarea,
+.blackPianoTheme .campfireSettingsActionButton{
+  border-color:#2b3741!important;
+  background:#111922!important;
+  color:#e8edf1!important;
+}
+/* The user retired themes and textured frames; even stale internal states cannot surface them. */
+.blackPianoTheme .campfireSettingsVisualPanel .campfireThemePicker,
+.blackPianoTheme .campfireSettingsTextureGroup,
+.blackPianoTheme .campfireSettingsFrameSelected{display:none!important;}
+
+/* R6.6.6.7 — useful webcam preview instead of a short strip. */
+.campfireDeviceTest{
+  grid-template-columns:1fr!important;
+  align-items:start;
+}
+.campfireDevicePreview{
+  width:100%;
+  min-height:280px!important;
+  aspect-ratio:16 / 9;
+  border-radius:12px;
+}
+.campfireDevicePreview video{
+  width:100%;
+  min-height:280px!important;
+  height:100%!important;
+  aspect-ratio:16 / 9;
+  object-fit:cover;
+}
+.campfireMicTest{
+  min-height:150px;
+}
+@media(max-width:720px){
+  .campfireDevicePreview,
+  .campfireDevicePreview video{min-height:220px!important}
+}
+
+/* R6.6.6.10 — teste de microfone estilo Discord, local e sem publicar na call. */
+.campfireMicTestIntro {
+  display: block;
+  margin-top: -4px;
+  color: #9ba9b8;
+  line-height: 1.45;
+}
+
+.campfireMicTestModes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 12px;
+}
+
+.campfireMicTestModes button,
+.campfireMicModeActions button {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 9px;
+  background: rgba(255,255,255,.055);
+  color: #dce7f3;
+  cursor: pointer;
+}
+
+.campfireMicTestModes button.active,
+.campfireMicModeActions button.primary {
+  border-color: color-mix(in srgb, var(--cf-edge) 70%, #fff 12%);
+  background: color-mix(in srgb, var(--cf-glow-soft) 44%, rgba(255,255,255,.06));
+  box-shadow: 0 0 14px var(--cf-glow-soft);
+  color: #fff;
+}
+
+.campfireMicModeActions button.danger {
+  border-color: rgba(235, 93, 105, .48);
+  background: rgba(174, 47, 59, .2);
+}
+
+.campfireMicModeActions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.campfireMicVolumeControl,
+.campfireMicModePanel {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.campfireMicVolumeControl > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #c9d4df;
+  font-size: 12px;
+}
+
+.campfireMicVolumeControl input[type="range"] {
+  width: 100%;
+}
+
+.campfireMicModeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.campfireMicRecordingStatus {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #d9e2ec;
+  font-size: 12px;
+}
+
+.campfireMicRecordingStatus > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7e8a96;
+}
+
+.campfireMicRecordingStatus > span.recording {
+  background: #ff5f68;
+  box-shadow: 0 0 12px rgba(255,95,104,.68);
+  animation: campfireMicRecordPulse 1s ease-in-out infinite;
+}
+
+.campfireMicRecordingStatus b {
+  font-variant-numeric: tabular-nums;
+  color: #aebdca;
+}
+
+.campfireMicRecordingProgress {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+}
+
+.campfireMicRecordingProgress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255,255,255,.45), var(--cf-edge));
+  transition: width .08s linear;
+}
+
+.campfireMicModePanel audio {
+  width: 100%;
+  height: 34px;
+}
+
+@keyframes campfireMicRecordPulse {
+  50% { opacity: .45; transform: scale(.82); }
+}
+
+@media (max-width: 760px) {
+  .campfireMicTestModes { grid-template-columns: 1fr; }
 }

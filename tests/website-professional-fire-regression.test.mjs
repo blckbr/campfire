@@ -33,10 +33,10 @@ test('apex name is energy-driven and dissolves with the fire', () => {
   assert.match(css, /--name-level/);
 });
 
-test('professional hero contains real Campfire screenshots', () => {
-  assert.match(html, /floating-shot/);
-  assert.match(html, /site-01-home\.png/);
-  assert.match(html, /site-07-idioma-escala\.png/);
-  assert.match(html, /site-10-voz-video\.png/);
-  assert.match(html, /site-08-animes\.png/);
+test('professional site contains the current R6.6.6.15 Campfire screenshots', () => {
+  assert.match(html, /product-window-shot/);
+  assert.match(html, /current-home-r66615\.png/);
+  assert.match(html, /current-call-r66615\.png/);
+  assert.match(html, /current-countdown-r66615\.png/);
+  assert.doesNotMatch(html, /floating-shot|site-(?:0[1-9]|1[0-2])-/);
 });
