@@ -63,7 +63,7 @@ test("public site carries the current Simple Dark visual language without reintr
   assert.match(css, /--cf-site-panel\s*:/i);
   assert.match(css, /backdrop-filter\s*:\s*blur/i);
   assert.match(css, /#070c12|#05090e/i);
-  assert.match(html, /CAMPFIRE BLACK PIANO · 1\.1\.0/i);
+  assert.match(html, /CAMPFIRE · 1\.1\.0/i);
   assert.doesNotMatch(html, /Marshmallow Colorido|Escolher tema|Temas disponíveis/i);
   assert.doesNotMatch(css, /data-campfire-theme\s*=|marshmallow-colorido/i);
 });

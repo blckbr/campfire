@@ -1,6 +1,6 @@
-# Campfire Black Piano
+# Campfire
 
-**Campfire** é um aplicativo desktop de comunicação para Windows que reúne Campfires, amizades, chat, voz, webcam, compartilhamento de tela e Watch Together em uma interface própria chamada **Black Piano**.
+**Campfire** é um aplicativo de comunicação para Windows e Linux que reúne Campfires, amizades, chat, voz, webcam, compartilhamento de tela e Watch Together com a interface atual **Simple Dark**.
 
 ## Campfire Voice Pro
 
@@ -34,10 +34,13 @@ Gerar o instalador Windows em uma máquina Windows:
 BUILD_CAMPFIRE_RELEASE.bat
 ```
 
-O artefato esperado é:
+Os artefatos oficiais da versão 1.1.0 são:
 
 ```text
-release/Campfire-Black-Piano-Setup-1.0.0.exe
+release/Campfire-Setup-1.1.0-x64.exe
+release/Campfire-Portable-1.1.0-x64.exe
+release/Campfire-1.1.0-linux-x86_64.rpm
+release/Campfire-1.1.0-linux-x86_64.AppImage
 ```
 
 ## Site

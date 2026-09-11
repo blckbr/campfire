@@ -13,7 +13,7 @@ Cada binário é publicado acompanhado de um arquivo `.sha256.txt` para verifica
 
 ## Destaques da 1.1.0
 
-- Visual atual **Simple Dark / Black Piano** consolidado a partir da R6.6.6.15.
+- Visual atual **Simple Dark** consolidado a partir da R6.6.6.15.
 - CampfireWeb alinhado ao aplicativo atual e publicado em `campfireweb.pages.dev`.
 - Site público atualizado em `campfire-br.pages.dev` com downloads para Windows e Linux.
 - Fluxo Google/Supabase do CampfireWeb corrigido para PKCE e retorno OAuth sem loop para a tela de login.

@@ -51,7 +51,7 @@ test('media cleanup remains present and legacy P2P cleanup stays isolated behind
 });
 
 test('anime Watch Together releases direct frame capture on every startup failure', () => {
-  const anime = read('src/AnimeBrowser.tsx');
+  const anime = read('src/AnimeBrowser.tsx').replace(/\r\n/g, '\n');
   const noVideoStart = anime.indexOf('if (!videoTrack)');
   const noVideoEnd = anime.indexOf('/*\n       * A fonte já foi escolhida', noVideoStart);
   const noVideo = anime.slice(noVideoStart, noVideoEnd);
